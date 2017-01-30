@@ -6,6 +6,7 @@
 *.cls
 *.xlsx
 *.gz
+*.xxx
 
 #################
 ## Eclipse
