@@ -1,0 +1,38 @@
+
+\section{Overview}
+\label{sec:overview}
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=1\columnwidth]{./img/System_Arch.pdf}
+  \caption{The system architecture}
+  \label{fig:architecture}
+\end{figure}
+
+The framework of \sysname is shown as \figref{fig:architecture}, consisting of four major components. 
+The first one is the external factors collection.  
+The users are required to enter their basic information into application, including of the age, the gender, the diabetes type and the year of diagnosis.
+
+After a user measures his/her blood glucose by a CGM, the records of the blood glucose along with the outer contextual factors occurred during the measurement are uploaded to an individual database automatically. 
+Afterwards, a RNN model is trained based on the dataset to establish the relationships between the outer contextual factors and the corresponding blood glucose level. 
+It then is fed into the user's smartphone. 
+When the user does not wear the CGM, \sysname detects the outer contextual factors with embedded sensors in the smartphones, and infers the current blood glucose level based on the trained model.  
+Once \sysname detects the abnormal points of blood glucose ( \ie in a \emph{high} or \emph{low} blood glucose level ), it reminds the user to measure the blood glucose by a clinical CGM for a further control.
+
+The extraction mechanisms of outer contextual factors are detailed as follows.
+
+\emph{Physical activity}: 
+\sysname leverages the accelerometer to detect the user's activities by the approaches in \cite{bayat2014study}, as well as the corresponding time costs. 
+\sysname then measures the calorie of user's physical consumption.
+
+\emph{Food intake}: 
+\sysname measures the food's effect on a person's blood glucose level based on the glycemic index.
+
+\emph{Clinical drug intake}: 
+\sysname records the name and amount of the drug that user eat.
+
+\emph{Time}: 
+\sysname invokes the timer embedded in the smartphone to record the time.
+
+\emph{Sleep quality}: 
+\sysname measures the user's sleep by the approach in \cite{gu2014intelligent}.
