@@ -6,7 +6,6 @@
 *.cls
 *.xlsx
 *.gz
-*.xxx
 
 #################
 ## Eclipse
@@ -233,6 +232,6 @@ pip-log.txt
 *.log
 *.out
 *.bak
-UbiComp17/latex/paper.pdf
+ubiComp2017/latex/paper.pdf
 *.gz
 >>>>>>> 711c298f649e0eebd484d6dfb38a61c2801cd891
