@@ -6,13 +6,19 @@
 Sensing module is mainly designed for collected the external factors of users.
 
 \paragraph{Food intake}
+As the food intake is a main source of carbohydrate, \sysname provides the food menu for users to record their daily intakes based on the carbohydrate food list \cite{bib:carblist}.
+Five common food categories have been provided by \sysname, including grains ,vegetables, mike and egg,fruits and meats. The users are asked to enter their food items and the corresponding amounts. \sysname calculate the carbohydrate of a meal and measure its impact on blood glucose level.
 
 \paragraph{Activity factors}
-Since the carbohydrate in the body can be consumed by daily exercise, resulting to varying the blood glucose level, \sysname adopts an effective and power efficient approach \cite{bib:kwapisz2011activity} to recognize six common user's daily activities, and record the corresponding durations. The caloric expenditure can be easily consumed by the calorie burn calculator formulas in \cite{bib:zhan2012accurate}, which has been widely used by multiple mobile sport applications \cite{}
-calculates the total calories consumed based o
+Since the carbohydrate in the body can be consumed by daily exercise, resulting to varying the blood glucose level, \sysname adopts an effective and power efficient approach \cite{bib:kwapisz2011activity} to automatically recognize six common user's daily activities (i.e., walking, running, upstairs, downstairs, sitting and standing), and record the corresponding durations. The caloric expenditure can be easily consumed by the calorie burn calculator formulas as Eq.~\ref{calorie_burn}.
+\begin{equation}\label{calorie_burn}
+  Calorie Burn = (BMR/24)*MET*T,
+\end{equation}
+where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly \cite{}, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate\cite{}. The calculator formula has been widely used by multiple mobile sport applications \cite{}. 
+\sysname finally leverages the calories to measure the impact of exercise on the blood glucose.
 
-
-
+\paragraph{Sleep quality}
+Sleep quality has a long influence on blood glucose level. To measure the sleep quality of users, \sysname applies an effective method in \cite{} to measure the 
 
 \subsection{Feature Engineering}
 
