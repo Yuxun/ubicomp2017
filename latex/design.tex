@@ -9,16 +9,24 @@ Sensing module is mainly designed for collected the external factors of users.
 As the food intake is a main source of carbohydrate, \sysname provides the food menu for users to record their daily intakes based on the carbohydrate food list \cite{bib:carblist}.
 Five common food categories have been provided by \sysname, including grains ,vegetables, mike and egg,fruits and meats. The users are asked to enter their food items and the corresponding amounts. \sysname calculate the carbohydrate of a meal and measure its impact on blood glucose level.
 
+\paragraph{Drug intake}
+The oral diabetes medications enhance secretion of insulin into the blood by the pancreas or decrease amount of glucose released from liver, keeping the blood glucose in a low level for type II diabetes.
+In \sysname, a drug menu of 11 oral diabetes is report for users to input their drug intake. After eating the diabetes drugs, users select their pills name and report the drug dosage. The drug list is provided based on \cite{bib:druglist}.
+\sysname transfers the drug dose as the blood glucose efforts according to their work functions \cite{bib:druglist, bib:bolen2007systematic, bib:bennett2011oral}.
+
+\paragraph{Insulin intake}
+
+
 \paragraph{Activity factors}
 Since the carbohydrate in the body can be consumed by daily exercise, resulting to varying the blood glucose level, \sysname adopts an effective and power efficient approach \cite{bib:kwapisz2011activity} to automatically recognize six common user's daily activities (i.e., walking, running, upstairs, downstairs, sitting and standing), and record the corresponding durations. The caloric expenditure can be easily consumed by the calorie burn calculator formulas as Eq.~\ref{calorie_burn}.
 \begin{equation}\label{calorie_burn}
   Calorie Burn = (BMR/24)*MET*T,
 \end{equation}
-where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly \cite{}, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate\cite{}. The calculator formula has been widely used by multiple mobile sport applications \cite{}. 
-\sysname finally leverages the calories to measure the impact of exercise on the blood glucose.
+where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly \cite{}, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate\cite{}. The calculator formula has been widely used by multiple mobile sport applications \cite{}.
+\sysname finally leverages the calories to measure the effects of exercise on the blood glucose.
 
 \paragraph{Sleep quality}
-Sleep quality has a long influence on blood glucose level. To measure the sleep quality of users, \sysname applies an effective method in \cite{} to measure the 
+Sleep quality has a long influence on blood glucose level. To measure the sleep quality of users, \sysname applies an effective method in \cite{bib:gu2014intelligent} to measure the sleep quality, and leverages the sleep quality score as an index to evaluate the sleeping impact on blood glucose level.
 
 \subsection{Feature Engineering}
 
