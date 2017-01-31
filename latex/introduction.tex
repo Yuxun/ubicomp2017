@@ -2,17 +2,37 @@
 
 \section{Introduction}
 \label{sec:intro}
-Blood glucose level plays a significant role in personal health.
-Hyperglycemia results in diabetes, leading to the health risks such as pancreatic function failure, immunity reduce and ocular fundus disease, etc \cite{klein1995hyperglycemia}.
+Blood glucose concentration plays an important role in personal health.
+Hyperglycemia (high blood glucose level) results in diabetes, leading to health risks such as pancreatic function failure, immunity reduce and ocular fundus diseases~\cite{bib:DC95:Klein}.
+Meanwhile, hypoglycemia (low blood glucose level) also brings complications such as confusion, shakiness, anxiety, and if not treated in time, coma or death~\cite{bib:AJM91:DCCT}.
 According to the World Health Organization, there are approximately 171 million people in the word suffering from diabetic patients.
 The number of diabetic patients is expected to increase by more than 100\% by the year 2030 \cite{worldhealth}.
-Meanwhile, hypoglycemia also brings lots of clinical symptoms (\ie confusion, shakiness, anxiety, nervousness, and even loss of consciousness) \cite{dcct1991epidemiology}.
-Therefore, tracking and predicting the blood glucose variance is of great importance.
 
-Current continuous glucose monitors (CGM) either rely on the electrochemistry \cite{wang2008electrochemical, chen2013recent}  or light reflection \cite{van1987blood} to track the variance of blood glucose.
+
+
+%Hypoglycemia characterizes a state of low glucose level in the bloodstream.
+%While for non-diabetic people this state is relatively rare due to adequate regulation of the glucose level, it can lead to life threatening effects for diabetic patients, ranging from headaches to judgment impairment and loss of consciousness
+%
+%To help diabetic users regulate their glucose level, the standard method consists in collecting a drop of blood from the finger and analyze its glucose level using a glucometer.
+%While this method is reliable as it is performed through a direct measurement, it is not very convenient as it requires the user to pinch
+%her finger for each new observation.
+%Furthermore, this method does not allow for a continuous monitoring, but rather a sporadic sampling of the glucose level.
+%Alternatively, continuous glucose monitoring can be achieved using an underthe-skin sensor which relays glucose information to an electronic receiver.
+%This method has a granularity of a sample every few minutes.
+%However, the position of the sensor makes it cumbersome for an extended usage, limiting its applicability.
+%
+%In their research, Zecchin et al. [40] gathered data on control patients (N=20) and T1DM patients (N =19) over four days.
+%For control and diabetic patients, the authors showed that moderate physical activity, corresponding to a daily activity, was associated with changes in glucose level, estimated by the first-and second-order glucose concentration time derivatives.
+%
+%Physical activity was also found to significantly reduce postprandial glucose excursions in T1DM and healthy participants [24].
+
+%However, there is not currently a consensus about how to include physical activity and other intra-patient variability sources in the glucose kinetics models.
+
+Current continuous glucose monitors (CGM) either rely on the electrochemistry \cite{wang2008electrochemical, chen2013recent} or light reflection \cite{van1987blood} to track the variance of blood glucose.
 Both of them, however, are usually limited to clinical uses.
 Complicated operations and physical intrusive requirement make them hard to be accepted by the public.
 Accordingly, it is not convenient for people to wear this kind of products at all times.
+
 
 To this end, we propose \sysname, a non-intrusive and pervasive mobile service for abnormal blood glucose track in daily use.
 The key insights of \sysname are based on the following aspects.
@@ -32,12 +52,12 @@ Moreover, most of the users are not willing to wear CGM devices again within a s
 The limited mount of data makes the ad-hoc personal blood glucose analysis hard.
 Second, the high or low blood glucose level is relative less than the normal level, resulting in the weak ability of \sysname to recognize these two levels. However, monitoring the high and low blood levels is of significant importance,  how to promise their detection accuracy is great essential.
 Third, the traditional physiological model of tracking the blood glucose variance \cite{bib:phy} cannot be applied to \sysname directly. It assumes that the impact of external factors (\eg food intake, calories cost of exercises, drug and insulin intake) are same to all the people, but ignores the individual differences. Meanwhile, the prediction intervals of \sysname is inconsistent with that of the traditional physiological model.
-The unified parameters of physiological, therefore, cannot well handle with the blood glucose variance of different individuals and different predict time. 
+The unified parameters of physiological, therefore, cannot well handle with the blood glucose variance of different individuals and different predict time.
 
-To address the aforementioned issues, we track the blood glucose of a person  through a data-driven perspective, by  building up a multi-task deep RNN model to merge the blood glucose data of persons but still guarantee its characteristics of each single person. 
+To address the aforementioned issues, we track the blood glucose of a person  through a data-driven perspective, by  building up a multi-task deep RNN model to merge the blood glucose data of persons but still guarantee its characteristics of each single person.
 
 %Those who share the similar diabetes conditions are clustered according to the basic information (\emph{e.g.} age, gender, weight, diabetes types and the year of diagnose).  We conduct feature representation learning on each group in the first layer of the multi-task model. Considering the temporal dynamics are
-  
+
 The key contributions of our work are listed as follows:
 
 \begin{itemize}
@@ -48,7 +68,7 @@ The key contributions of our work are listed as follows:
   \item¡¡
   Two dimensional types of blood glucose features (\emph{e.g.},  physiological factors  and  temporal factors) are well considered to infer the blood glucose levels. In particular, the physiological factors described in the physiological model are encoded in the Multi-task deep RNN model, using for quantifying the impact of physiological factors on the blood glucose levels. We also translate the historical data to infer the current blood glucose level. By measuring the influence of these factors on the blood glucose, \sysname can well infer the variance of the blood glucose.
   \item
-  By sharing the blood glucose data in the information representation layer and temporal dynamic deep learning layer, \sysname can well copy with the limited data of single user, but enables to keep the individual blood glucose characteristics in the personality learning layer. 
+  By sharing the blood glucose data in the information representation layer and temporal dynamic deep learning layer, \sysname can well copy with the limited data of single user, but enables to keep the individual blood glucose characteristics in the personality learning layer.
   Meanwhile, the deep Recurrent Neural Networks (RNN) adopted in \sysname, is able to encode the temporal relationships between the sensed outer contextual factors and blood glucose level.
   With the assistance of the multi-task deep RNN model, \sysname can infer the blood glucose trend with high accuracy.
 \end{itemize}
