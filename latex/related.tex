@@ -12,17 +12,15 @@ While physiological models and the underlying glucose metabolism dominate the dy
 Variations of food intake, exercises, sleep quality, heart rates, \etc, can also lead to blood glucose dynamics, which are not captured by a universal physiological model~\cite{bib:DRCP15:Iwasaki}.
 Consequently, it is essential to monitor external lifestyle factors such as food, exercise, sleep quality as input to improve the accuracy of blood glucose concentration modeling.
 METABO~\cite{bib:EMBC09:Georga} is a client-server architecture based system that records dietary, physical activity, medication and medical information for hypoglycaemic and hyperglycaemic event prediction.
-%Stenerson~\etal~\cite{bib:JDST14:Stenerson} integrate acceleration with CGM data to improve the accuracy of blood glucose level estimation.
 Marling~\etal~\cite{bib:KDHealth16:Marling} improve hypoglycemia detection by combining CGM data with heart rate, galvanic skin response and skin temperature collected from a fitness band.
-However, these works all require CGM data as input, making them invasive and inconvenient for both patients and healthy people.
+However, these works all require CGM data as input, making them invasive and inconvenient for both patients and non-diabetic people.
 
-Alternatively, there has been attempt at non-invasive blood glucose monitoring.
-Nguyen~\etal~\cite{bib:EMBC12:Nguyen} observe distinct patterns in ECG signals during hypoglycemia and hyperglycemia in type 1 diabetic patients. 
+Alternatively, there has been attempt at non-invasive blood glucose monitoring with pervasive wearable and mobile devices.
+Nguyen~\etal~\cite{bib:EMBC12:Nguyen} observe distinct patterns in ECG signals during hypoglycemia and hyperglycemia in type 1 diabetic patients.
 Sobel~\etal~\cite{bib:JDST14:Sobel} integrate five types of sensory data from two accelerometers, a heat-flux sensor, a thermistor, two ECG electrodes and a galvanic skin response sensor to predict blood glucose concentration.
 Ranvier~\etal~\cite{bib:SEMPER16:Ranvier} leverage ECG signals, and energy expenditure (estimated by an accelerometer and a breathing sensor) to detect hypoglycemic events.
 Our work is inspired by this category of research, and propose a smartphone-based non-invasive blood glucose monitoring system that jointly considers mean and insulin intake, physical activity and sleep quality without CGM data as input.
 Practically, we automatically record physical activity level and sleep quality without manual input, which notably improves the useability of our system.
-
 
 
 Personalized blood glucose models are also important because models with generic parameters may not reflect user-specific factors such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
