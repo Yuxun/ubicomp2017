@@ -196,17 +196,17 @@ Fig.~\ref{fig:pre_gt} compares the predictive results of \sysname and true blood
 
 We compare \modelname of \sysname over following baselines:
 
-1) Gradient Boosting (GB):
+1) Gradient Boosting (GB): GB generates a prediction model by combining many weak classifiers into a stronger classification committee. We use AdaBoost procedure implemented in the fastAdaboost package to combine basic tree classifiers for ensemble learning. We vary the maximum tree depth from 10 to 50 by factors of ten. The number of boosting iterations is varied from 100 to 500 by a step size of 50.
 
-2) Support Vehicle Machine (SVM):
+2) Support Vehicle Machine (SVM): SVM bases on the idea of “optimal separating hyperplane” that maximizes the separation margin of two data groups (classes). Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels. We train the Gaussian kernel SVM classifier with the kernlab package, which implements the sequential minimal optimization algorithm. We vary the kernel width from $2^{-5}$ to $2^4$ with a factor of 2. We pick the penalty parameter from the set $\{10^i | i = -3, 0.5, 2\}$. To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
-3) Hidden Markov model (HMM):
+3) Hidden Markov model (HMM): 
 
-4) Linear Regression (LR):
+4) Logistic Regression (LR): LR models the posterior distribution of the class labels as a sigmoidal function of linear combinations of features. We use the glmnet package to train LR models with elastic net (combined L1 and L2) regularization. We vary the penalty parameter from 10$^{-3}$ to 10$^2$ with a factor 5. The mixing parameter is varied from 0 (Ridge) to 1 (Lasso) by a step size of 0.1. 
 
-5) Random Forest (RF):
+5) Random Forest (RF): As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction. To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree. For implementation, we adopt the conditional inference tree algorithm in the Party package. The total number of trees is tuned from 100 to 1000, and the maximum tree depth from 10 to 50. The splitting threshold is also varied from 0.1 to 0.9 with 0.1 intervals for cross validation.
 
-6) Gaussian Processes (GP):
+6) Gaussian Processes (GP): Instead of directly parameterizing a latent function for classification, GP models it with a generic Gaussian process. The posterior of the process is updated with training data set, and is “squashed” through a logistic function for classification. We implement GP with the kernlab package, which includes several approximation algorithms for acceleration. We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
 
 
 
