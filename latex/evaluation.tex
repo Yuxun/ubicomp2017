@@ -93,6 +93,16 @@ To evaluate the \sysname performance, we provide CGM for each new user for one t
 \label{fig:cmp_model}
 \end{figure}
 
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.9\columnwidth]{./img/group_multi_task.pdf}
+\caption{The comparison of multi-task learning and group general learning.}
+\label{fig:pre_gt}
+\end{figure}
+
+
 \paragraph{Evaluation with various training data}
 
 Since the users may wear CGM continuously, we evaluate the performance of \sysname with increasement of training dataset by five days. Under each system evaluation, we trained all the data of the users with before the testing date, and measured the system by calculating the average performance of those who have longer testing days.
@@ -168,6 +178,8 @@ $F_{p}$+$F_{t1}$+$F_{t2}$+$F_{t3}$ & 73.62$\%$   & 83.13$\%$                    
 \subsubsection{Blood glucose level predictions}
 
 Fig.~\ref{fig:pre_gt} compares the predictive results of \sysname and true blood glucose level of a user over one day.
+
+
 
 
 
