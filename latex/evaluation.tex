@@ -1,38 +1,54 @@
-% !TEX root = paper.tex
-
 \section{Evaluation}
 \label{sec:eval}
 \subsection{Experimental Settings}
 \subsubsection{Datasets}
+We built our blood glucose dataset from July 2016 to January 2017. A total of 112 users joined in our experiments. Table~\ref{dataset} illustrates the details of the dataset.
+\begin{itemize}
+  \item Blood Glucose Data: During the experiments, each user wears a CGM device to collect the blood glucose sample every 3 minutes. \sysname divides the blood glucose value into four levels by preset thresholds. The numbers of blood glucose samples in each level are shown in Table~\ref{dataset}. In our experiments, all the users are promise to wear CGM for at least 5 days. The distribution of experimental durations are listed in Table~\ref{dataset}.
+  \item External Factors Data: In the duration of wearing the CGM, each user installs \sysname on smartphone to sense the daily activities and sleep quality automatically. Meanwhile, users also leverage \sysname to record their daily meals, drug and insulin input. \sysname transfers the external factors as variables of physiological model at corresponding time.
+  \item User Basic Information Data: The users are required to record the basic personal data relevant to blood glucose (e.g., age, weight, gender and health status) into \sysname, which are listed in Table~\ref{dataset}. \sysname classifies the users into three groups based on their health status.
 
-We collected the blood glucose dataset from July 2016 to January 2017. A total of 112 users joined in our experiments. During the experiments, each user wears a CGM device to collect the blood glucose sample every 3 minutes. Meanwhile, \sysname is installed in smartphones to sense the external factors.  Table.~\ref{dateset} details the experimental dataset. As is shown, the data of blood level shows the number of users in the four levels. The testing days date shows the user number at different testing days. The data of health status illustrates the health status of participants. The age, weight and gender shows the corresponding basic information of volunteers.
+\end{itemize}
+
+
+
+
+
+\begin{table}[]
+\centering
+\caption{The Details of Dataset}
+\label{dataset}
+\begin{tabular}{clccclcccccl}
+\hline\hline
+\multicolumn{12}{c}{\textbf{Blood Glucose}}                                                                                                                                                                                               \\ \hline
+\multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Blood Level}} & \multicolumn{2}{r}{\textbf{\cellcolor[gray]{0.8}Level 1}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Level 2}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Level 3}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Level 4}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Total}} \\
+\multicolumn{2}{l}{Number of Sample}     & \multicolumn{2}{c}{75369}            & \multicolumn{2}{c}{293530}           & \multicolumn{2}{c}{235686}           & \multicolumn{2}{c}{158054}           & \multicolumn{2}{c}{762639}         \\ \hline\hline
+\multicolumn{12}{c}{\textbf{Experimental Duration}}                                                                                                                                                                                          \\ \hline
+\multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Days}}        & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}6-10}}    & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}11-15}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}16-20}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}21-25}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}26-30}} \\
+\multicolumn{2}{l}{Number of Users}      & \multicolumn{2}{c}{48}               & \multicolumn{2}{c}{24}               & \multicolumn{2}{c}{20}               & \multicolumn{2}{c}{13}               & \multicolumn{2}{c}{7}              \\ \hline\hline
+\multicolumn{12}{c}{\textbf{User Basic Information}}                                                                                                                                                                                      \\ \hline
+\multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Age}}         & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}15-24}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}25-34}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}35-44}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}45-54}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}55-70}} \\
+\multicolumn{2}{l}{Number of Users}      & \multicolumn{2}{c}{8}                & \multicolumn{2}{c}{17}               & \multicolumn{2}{c}{24}               & \multicolumn{2}{c}{29}               & \multicolumn{2}{c}{34}             \\
+\multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Weight}}      & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}30-44}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}45-54}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}55-64}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}65-74}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}75-90}} \\
+\multicolumn{2}{l}{Number of Users}      & \multicolumn{2}{c}{18}               & \multicolumn{2}{c}{21}               & \multicolumn{2}{c}{32}               & \multicolumn{2}{c}{22}               & \multicolumn{2}{c}{19}             \\
+\multicolumn{4}{l}{\textbf{\cellcolor[gray]{0.8}Gender}}      & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Male}}                                                               & \multicolumn{5}{c}{\textbf{\cellcolor[gray]{0.8}Female}}                                                          \\
+\multicolumn{4}{l}{Number of Users}      & \multicolumn{3}{c}{57}                                                                          & \multicolumn{5}{c}{55}                                                                       \\ \hline\hline
+\multicolumn{12}{c}{\textbf{User Health Status}}                                                                                                                                                                                          \\ \hline
+\multicolumn{3}{l}{\textbf{\cellcolor[gray]{0.8}Health Status}}                   & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Health}}                     & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Type I}}                      & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Type II}}                  \\
+\multicolumn{3}{l}{Number of Users}                          & \multicolumn{3}{c}{35}                                  & \multicolumn{3}{c}{38}                                   & \multicolumn{3}{c}{39}                                \\ \hline
+\end{tabular}
+\end{table}
+
+
 
 \subsubsection{Ground Truth and Metrics}
 
 The blood glucose samples collected by the CGM are regarded as groundtruth. We compare the prediction results of \sysname with the groundtruth, and the performance is measured in terms of the precision \cite{}, recall\cite{} and accuracy\cite{}.
 
-\begin{table}[]
-\small
-\centering
-\caption{Details of the datasets
-}
-\label{dateset}
-\begin{tabular}{|l|c|c|c|c|c|l|}
-\hline
-\textbf{Blood Level}                  & \textbf{Level 1}        & \textbf{Level 2}                      & \textbf{level 3}                       & \textbf{Level 4}                       & \multicolumn{2}{c|}{\textbf{Total}}             \\ \hline
-\multicolumn{1}{|c|}{Number}          & 75369                   & 293530                                & 235686                                 & 158054                                 & \multicolumn{2}{c|}{762639}                     \\ \hline
-\textbf{Testing days}                 & \textbf{5 $\sim$ 10 days}   & \textbf{10 $\sim$15 days}            & \textbf{15 $\sim$20 days}             & \textbf{20 $\sim$25 days}             & \multicolumn{2}{c|}{\textbf{25 $\sim$30 days}} \\ \hline
-User number                           & 48                      & 24                                    & 20                                     & 13                                     & \multicolumn{2}{c|}{7}                          \\ \hline
-\textbf{Health Status}                & \multicolumn{2}{c|}{\textbf{Health}}                            & \multicolumn{2}{c|}{\textbf{Type I}}                                            & \multicolumn{2}{c|}{\textbf{Type II}}           \\ \hline
-User number                           & \multicolumn{2}{c|}{35}                                         & \multicolumn{2}{c|}{38}                                                         & \multicolumn{2}{c|}{39}                         \\ \hline
-\multicolumn{1}{|c|}{\textbf{Age}}    & \textbf{15 $\sim$25}       & \textbf{25 $\sim$35}                     & \multicolumn{1}{l|}{\textbf{35 $\sim$45}} & \multicolumn{1}{l|}{\textbf{45 $\sim$55}} & \multicolumn{2}{l|}{\textbf{55 $\sim$70}}          \\ \hline
-\multicolumn{1}{|c|}{User number}     & 8                       & 17                                    & 24                                     & 29                                     & \multicolumn{2}{c|}{34}                         \\ \hline
-\textbf{Weight}                       & \textbf{30$\sim$45}        & \multicolumn{1}{l|}{\textbf{45$\sim$55}} & \multicolumn{1}{l|}{\textbf{55$\sim$65}}  & \multicolumn{1}{l|}{\textbf{65$\sim$75}}  & \multicolumn{2}{l|}{\textbf{75$\sim$90}}           \\ \hline
-\multicolumn{1}{|c|}{User number}     & \multicolumn{1}{l|}{18} & \multicolumn{1}{l|}{21}               & \multicolumn{1}{l|}{32}                & \multicolumn{1}{l|}{22}                & \multicolumn{2}{l|}{19}                         \\ \hline
-\multicolumn{1}{|c|}{\textbf{Gender}} & \multicolumn{2}{c|}{\textbf{Male}}                              & \multicolumn{4}{c|}{\textbf{Female}}                                                                                              \\ \hline
-\multicolumn{1}{|c|}{User number}     & \multicolumn{2}{c|}{57}                                         & \multicolumn{4}{c|}{55}                                                                                                           \\ \hline
-\end{tabular}
-\end{table}
+
+
+
+
 
 %
 %
@@ -85,6 +101,21 @@ Level 4                                                                         
 To evaluate the \sysname performance, we provide CGM for each new user for one time usage, supporting more than 5 days. We take the former 4 days as the training data, and left days as the testing data. If the left days of one users are longer than 2 days, we calculate the user's average performance. Table~\ref{tab:confusion_matrix} shows the results of testing dataset. As we can see,  the recalls of four blood glucose levels are above 79\%, and all the precisions of four blood glucose levels keep above 73\%. In particular, the recalls of level 1 and level 3 are 83.13\% and 85.23\%, demonstrating the high sensitivity of \sysname towards these two levels. The 82.14\% accuracy states the outstanding prediction performance of \sysname.
 
 
+\subsubsection{Evaluation on Multi-task Model structure}
+To demonstrate the effectiveness of \modelname structure, we compared our model over the following combinations.
+
+\begin{itemize}
+
+  \item \emph{General Learning}:
+  All the users shared a same information representation, dynamic and personality layers, which assumes the blood glucose trends of all users can be tracked by a same model.
+
+
+  \item \emph{Single Learning }:
+  Each user is trained for a specific model.
+
+  Fig.~\ref{fig:cmp_model} shows the results.
+\end{itemize}
+
 
 \begin{figure}[!t]
 \centering
@@ -94,16 +125,20 @@ To evaluate the \sysname performance, we provide CGM for each new user for one t
 \end{figure}
 
 
+\subsubsection{Multi-task Model and General Model Comparison in Group}
+We also apply general learning approach on the users in same group, and compare the prediction performance of \modelname. Fig.~\ref{fig:cmp_groups}
+shows the results. As is shown, \modelname outperforms the general learning methods in each group, especially the performance of level 1 and level 4. It mainly results by two reasons. On the one hand, the limitation of blood glucose data in each group weakens the capability of temporal dynamic characteristics. On the other hand, the imbalanced distribution of blood glucose data of one group also low the performance down. For example, much more data of level 4 and much less data of level 1 in group 3 (type II diabetes) low down the recall of level 1 and the precision of level 4. It is even hard to be solved by the cost sensitive approach. 
+
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.9\columnwidth]{./img/group_multi_task.pdf}
 \caption{The comparison of multi-task learning and group general learning.}
-\label{fig:pre_gt}
+\label{fig:cmp_groups}
 \end{figure}
 
 
-\paragraph{Evaluation with various training data}
+\subsubsection{Evaluation with various training data}
 
 Since the users may wear CGM continuously, we evaluate the performance of \sysname with increasement of training dataset by five days. Under each system evaluation, we trained all the data of the users with before the testing date, and measured the system by calculating the average performance of those who have longer testing days.
 
@@ -135,21 +170,6 @@ longer.pdf}
 \end{figure}
 
 
-
-\subsubsection{Evaluation on Multi-task Model structure}
-To demonstrate the effectiveness of \modelname structure, we compared our model over the following combinations.
-
-\begin{itemize}
-
-  \item \emph{General Learning}:
-  All the users shared a same information representation, dynamic and personality layers, which assumes the blood glucose trends of all users can be tracked by a same model.
-
-
-  \item \emph{Single Learning }:
-  Each user is trained for a specific model.
-
-  Fig.~\ref{fig:cmp_model} shows the results.
-\end{itemize}
 
 \subsubsection{Evaluation on Features}
 
@@ -200,9 +220,9 @@ We compare \modelname of \sysname over following baselines:
 
 2) Support Vehicle Machine (SVM): SVM bases on the idea of “optimal separating hyperplane” that maximizes the separation margin of two data groups (classes). Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels. We train the Gaussian kernel SVM classifier with the kernlab package, which implements the sequential minimal optimization algorithm. We vary the kernel width from $2^{-5}$ to $2^4$ with a factor of 2. We pick the penalty parameter from the set $\{10^i | i = -3, 0.5, 2\}$. To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
-3) Hidden Markov model (HMM): 
+3) Hidden Markov model (HMM):
 
-4) Logistic Regression (LR): LR models the posterior distribution of the class labels as a sigmoidal function of linear combinations of features. We use the glmnet package to train LR models with elastic net (combined L1 and L2) regularization. We vary the penalty parameter from 10$^{-3}$ to 10$^2$ with a factor 5. The mixing parameter is varied from 0 (Ridge) to 1 (Lasso) by a step size of 0.1. 
+4) Logistic Regression (LR): LR models the posterior distribution of the class labels as a sigmoidal function of linear combinations of features. We use the glmnet package to train LR models with elastic net (combined L1 and L2) regularization. We vary the penalty parameter from 10$^{-3}$ to 10$^2$ with a factor 5. The mixing parameter is varied from 0 (Ridge) to 1 (Lasso) by a step size of 0.1.
 
 5) Random Forest (RF): As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction. To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree. For implementation, we adopt the conditional inference tree algorithm in the Party package. The total number of trees is tuned from 100 to 1000, and the maximum tree depth from 10 to 50. The splitting threshold is also varied from 0.1 to 0.9 with 0.1 intervals for cross validation.
 
