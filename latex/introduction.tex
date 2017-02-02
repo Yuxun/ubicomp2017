@@ -9,31 +9,31 @@ The International Diabetes Federation (IDF) reports that there were 415 million 
 People with diabetes need tight control of their blood glucose concentration to avoid both short-term and long-term physiological complications.
 While non-diabetic people normally have adequate self-regulation of blood glucose concentration, they can still risk hypoglycemia when taking prolonged exercises, drinking excess amounts of alcohol, having eating disorders, taking certain medicines (\eg certain painkiller and antibiotic), or having pre-diabetes~\cite{bib:JCEM13:Eckert, bib:NEJM82:Felig}.
 
-While continuous or regular blood glucose monitoring is essential for blood glucose management and beneficial for hyper- and hypoglycemia warning, it can be invasive and inconvenient to track blood glucose, especially during daily life. 
+While continuous or regular blood glucose monitoring is essential for blood glucose management and beneficial for hyper- and hypoglycemia warning, it can be invasive and inconvenient to track blood glucose, especially during daily life.
 A standard and direct blood glucose measurement is to collect and analyze a drop of blood by finger pricking, which requires a new prick on the finger for every new observation.
 Alternatively, non-invasive (without penetrating the skin) continuous glucose monitoring (CGM) has attracted extensive research leveraging techniques such as thermal infrared spectroscopy, Raman spectroscopy and impedance spectroscopy~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}.
-However, most CGM devices are expensive, cumbersome to wear for extended time, requires complicated operation and are usually limited to clinical uses, making them unattractive for both diabetic patients and non-diabetic people.  
+However, most CGM devices are expensive, cumbersome to wear for extended time, requires complicated operation and are usually limited to clinical uses, making them unattractive for both diabetic patients and non-diabetic people.
 
 Towards more ubiquitous blood glucose monitoring when traditional CGM devices are unavailable or inconvenient to wear, researchers propose to explore the increasingly rich sensors embedded in commercial fitness wearables and smartphones as a complement.
 In addition to the glucose metabolism that is difficult to measure directly, blood glucose also correlates to easily measurable physiological activities such as food and drug intake, energy expenditure, sleep quality and emotional states~\cite{bib:DRCP15:Iwasaki}.
-Pioneer works~\cite{bib:EMBC12:Nguyen, bib:SEMPER16:Ranvier, bib:JDST14:Sobel} have proposed preliminary systems leveraging commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose events.  
+Pioneer works~\cite{bib:EMBC12:Nguyen, bib:SEMPER16:Ranvier, bib:JDST14:Sobel} have proposed preliminary systems leveraging commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose events.
 Nevertheless, they are validated with limited numbers of dialectic patients~\cite{bib:SEMPER16:Ranvier, bib:JDST14:Sobel} or still require complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen, bib:JDST14:Sobel}.
 
 In this work, we design \sysname, the first personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking mean and insulin intake, physical activity and sleep quality.
-When \sysname detects an abnormal blood glucose event, it reminds the user to double-check using clinical CGM devices.
-\sysname exploits recent advances in smartphone-based automatic human activity recognition \TODO{cite works that you use in \sysname} to acquire external factors as input for abnormal blood glucose event detection, making it widely applicable in daily use.
+When \sysname detects an abnormal blood glucose event, it reminds the user to double-check by finger pricking or using clinical CGM devices.
+\sysname exploits recent advances in smartphone-based automatic human activity recognition \cite{bib:kwapisz2011activity} and sleep quality measurement \cite{bib:gu2014intelligent} to acquire external factors as input for abnormal blood glucose event detection, making it widely applicable in daily use.
 In addition, \sysname considers both \emph{generic} and \emph{user-specific} correlations between blood glucose levels and the measurable external factors, which is largely overlooked in previous works.
 
 However, it is challenging to learn effective, accurate and personalized blood glucose models in practice.
 While there have been general blood glucose models that characterizing universal trends between blood glucose concentration and various external factors~\cite{bib:IJNMBE16:Oviedo}, they have to be adjusted based on user-specific data to account for inter-user differences~\cite{bib:ICMLA13:Bunescu}.
 Yet it is often difficult to collect sufficient data to directly build up personalized models~\cite{bib:KDHealth16:Marling}.
 \emph{(i)}
-Most professional CGM devices are only capable of operating for several days \TODO{add reference}, and most users are unwilling to wear CGM devices frequently due to discomfort.
+A disposable glucose sensor embedded in the CGM device is only capable of a few days \cite{bib:CGM_wiki}, and most users are unwilling to wear CGM devices frequently due to discomfort.
 \emph{(ii)}
 Despite their importance, measurements of hyper- and hypoglycemia events are rare compared with normal blood glucose concentrations, making it difficult to accurately detection abnormal blood glucose events.
 
 To take full advantages of the \emph{sparse}, \emph{imbalanced} measurements to build \emph{personalized} blood glucose level models, we propose \modelname, a multi-task deep Recurrent Neural Network (RNN) framework to efficiently extract general blood glucose level relevant features and preserve user-specific characteristics.
-Evaluations on \TODO{XXX dataset} show that our novel \modelname framework outperforms both generic learning (\ie ignoring inter-user differences) and personalized learning (due to lack of measurements).
+Evaluations on the blood glucose dataset composed of 112 users lasting  7 months show that our novel \modelname framework outperforms both generic learning (\ie ignoring inter-user differences) and personalized learning (due to lack of measurements).
 
 The key contributions of this work are summarized as follows.
 \begin{itemize}
@@ -44,8 +44,8 @@ The key contributions of this work are summarized as follows.
   We design \modelname, a multi-task deep RNN framework able to share sensory measurements in an information representation layer and a temporal dynamic deep learning layer, but preserve individual blood glucose characteristics in a personality learning layer.
   It tackles the typical sparsity and imbalance problems in datasets for blood glucose modeling and offers an opportunity to build personalized blood glucose models for the general public based on limited personal measurements.
   \item
-  We conduct extensive evaluations on both diabetic patients (type 1 and type 2) non-diabetic people. 
-  Experimental results from a dataset covering \TODO{how many people, for how long} demonstrate that \sysname yields \TODO{accuracy}, and outperforms general learning and personalized learning by \TODO{XXX\%, XXX\%}, respectively.
+  We conduct extensive evaluations on both diabetic patients (type 1 and type 2) non-diabetic people.
+  Experimental results from a dataset covering 35 healthy people, 38 Type I and 39 Type II patients during more than a half of a year demonstrate that \sysname yields the accuracy of 82.14\%, and outperforms than general learning method and personalized learning method in precision and recall respectively
 \end{itemize}
 
 In the rest of this paper, we...
