@@ -31,7 +31,18 @@ Sleep quality has a long influence on blood glucose level. To measure the sleep 
 
 \subsection{Feature Engineering of Physiological-Temporal Views }
 \subsubsection{Physiological View}
-The feature engineering of physiological view is used to describe the variance of inner body physiological factors. The principal physiological impact factors are composed of carbohydrate
+The feature engineering of physiological view is to leverage a physiological model to quantify the dynamics of physiological factors in the body. The physiological model has been widely studied in previous works \cite{bib:briegel2002nonlinear,bib:duke2010intelligent, bib:plis2014machine}.It primarily measures the real-time values of carbohydrate, insulin and glucose influenced by the external factors. We constructed our physiological model based on the work \cite{bib:duke2010intelligent}, 
+with an extension of sleep factor.  
+
+\paragraph{Temporal Graph of Physiological Model}
+Assuming the state vectors $X(t)={C_{g1}(t), C_{g2}(t), I_{s}(t),I_{m}(t), I_{t}, G_{m}(t), G(t)}$. 
+The mean of each element in the vector is illustrated in Table~\ref{} 
+The temporal graph of physiological model in Fig.~\ref{} represents a state transition from $X(t)$ to $X(t+1)$. 
+
+1) Positive factors:
+Positive factors indicates the  
+
+However, the parameters of this model are different to individuals and also hard to be tuned.
 
 \subsection{Blood glucose level prediction}
 
