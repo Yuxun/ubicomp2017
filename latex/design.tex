@@ -43,18 +43,22 @@ physiological model, based on the physiology mechanism of blood glucose in Secti
 with an extension of sleeping fact according to its physiological impact discussed in Section~\ref{sec:preliminary}.
 
 \paragraph{Temporal Graph of Physiological Model}
-Given the hidden physiological vectors $X_{t}=\{C_{g1}(t), C_{g2}(t),\\ I_{s}(t),I_{m}(t), I_{t}, G_{m}(t), G(t), E(t)\}$, where the elements of this vector represent
-the hidden physiological factors at time point $t$, and the observable input vector $U_{t}=\{U_{c}(t), U_{e}(t), U_{s}(t), U_{i}(t)\}$ , in which $U_{c}$ stands for the
-carbohydrate proportion of meals, $U_{e}$ indicates the calories cost by exercise,  $U_{s}$ is the sleep score and $U_{i}$ states for the amount of insulin injected or simulated
-by the diabetes drugs  at time point $t$. In particular, the sleep quality $U(s)$ is a constant during a whole day.
-The station transition functions can be represented as $X_{t+1}=f(X_t, U_t)$, and its corresponding
-temporal transition graph is shown as \figref{fig:phymodel}.  %\tabref{phy_tab} details the transformation functions of the carbohydrate $C_{g1}$ and $C_{g2}$, and insulin
-
+The physiological model of \sysname describes the physiological factors from five aspects: carbohydrate dynamics, insulin dynamics, exercise dynamics,
+sleep dynamics and blood glucose dynamics.
+%Given the hidden physiological vectors $X_{t}=\{C_{g1}(t), C_{g2}(t),\\ I_{s}(t),I_{m}(t), I_{t}, G_{m}(t), G(t), E(t)\}$, where the elements of this vector represent
+%the hidden physiological factors at time point $t$, and the observable input vector $U_{t}=\{U_{c}(t), U_{e}(t), U_{s}(t), U_{i}(t)\}$ , in which $U_{c}$ stands for the
+%carbohydrate proportion of meals, $U_{e}$ indicates the calories cost by exercise,  $U_{s}$ is the sleep score and $U_{i}$ states for the amount of insulin injected or simulated
+%by the diabetes drugs  at time point $t$. In particular, the sleep quality $U(s)$ is a constant during a whole day.
+%The station transition functions can be represented as $X_{t+1}=f(X_t, U_t)$, and its corresponding
+%temporal transition graph is shown as \figref{fig:phymodel}.  %\tabref{phy_tab} details the transformation functions of the carbohydrate $C_{g1}$ and $C_{g2}$, and insulin
 %As \figref{fig:phymodel} shown, the equations of $C_{g1}$ (Equation~\ref{Eq:Cg1}) and $C_{g2}$ (Equation~\ref{Eq:Cg2}) indicating the temporal transitions of carbohydrate consumption and the carbohydrate digestion respectively.
 
-In detail, $C_{g1}$  and $C_{g2}$ indicate the carbohydrate consumption and the carbohydrate digestion respectively, and their transition equations are shown
-in Equation~\ref{Eq:Cg1} and Equation~\ref{Eq:Cg2}.
+%Positive factors of physiological model indicate the carbohydrate absorption and the hepatic glucose production, which will increase the blood glucose level.
+%Negative factors of  physiological model describe the insulin independent uptake, insulin dependent uptake and the renal clearance. We will detail these factors as follows:
 
+
+\emph{Carbohydrate dynamics}: Carbohydrate dynamics refers to the transitions of carbohydrate consumption  $C_{g1}$ and the carbohydrate digestion $C_{g2}$. 
+Equation~\ref{Eq:Cg1}  and Equation~\ref{Eq:Cg2} show their transition equations respectively, where $U_{c}$ stands for the carbohydrate proportion of meals.
 \begin{equation}\label{Eq:Cg1}
 C_{g1}(t+1)=C_{g1}(t)-\alpha_{1}^c*C_{g1}(t)+U_{c}(t)
 \end{equation}
@@ -63,9 +67,11 @@ C_{g1}(t+1)=C_{g1}(t)-\alpha_{1}^c*C_{g1}(t)+U_{c}(t)
 C_{g2}(t+1)=C_{g2}(t)+\alpha_{1}^c*C_{g1}(t)-\alpha_{2}^c*C_{g1}(t)
 \end{equation}
 
-The equations of $I_{s}$ (Equation~\ref{Eq:Is}) and $I_{m}$ (Equation~\ref{Eq:Im}) showing the temporal transitions of  the subcutaneous insulin
-and the insulin mass respectively. $I$, the level of active plasma insulin, can be achieved by Equation~\ref{Eq:I}, where $S^I$ and $bm$ refer to the
-insulin sensitive and body mass respectively.
+\emph{Insulin dynamics}: Insulin dynamics indicates the transitions of subcutaneous insulin $I_{s}$ (Equation~\ref{Eq:Is}), 
+the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}),  and the level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$ 
+states for the amount of insulin injected or simulated by the diabetes drugs. $S^I$ and $bm$ refer to the insulin sensitive 
+and body mass respectively.
+
 \begin{equation}\label{Eq:Is}
 I_{s}(t+1)=I_{s}(t)-\alpha_{f}^I*I_{s}(t)+U_{I}(t)
 \end{equation}
@@ -79,28 +85,50 @@ I_{m}(t+1)=I_{m}(t)-\alpha_{f}^I*I_{s}(t)-\alpha_c^I*I_{m}(t)
 I(t)=\frac{I_{m}(t)*S^I}{142*bm}
 \end{equation}
 
-$E$ denotes the exercise effect on insulin over the past time window. This long-term influence can be
-expressed by a cumulative moving average as Equation~\ref{Eq:E} in the physiological model.
+\emph{Exercise dynamics}: Exercise dynamics $E$ denotes the exercise effect on insulin over the past time window. This 
+long-term influence can be expressed by a cumulative moving average \cite{bib:lowry1992multivariate, bib:cma} as Equation~\ref{Eq:E} in the physiological model.
 
 \begin{equation}\label{Eq:E}
 E(t-t_0+1)=(t-t_0)*E(t-t_0)+U_{e}(t-t_0)
-\end{equation},
+\end{equation}
 
 where $t$ and $t_0$ are the current and beginning time point in the past time window. In \sysname,
 the window size of exercise is set to 24 hours, which optimizes the experimental results and matches the conclusion
 of clinical studies.
 
-$S$ represents the sleeping quality effect on insulin. In physiological model, sleeping
-effect also maintains a long-term influence on the insulin as the exercise effects,
-and is shown as Equation~\ref{Eq:S}.
+\emph{Sleep dynamics}: Sleep dynamics $S$ represents the sleeping quality effect on insulin. In physiological model, sleeping
+effect also has a long-term influence on the insulin as the exercise effects. Specifically, it maintains a constant effect on 
+blood glucose for each day. Equation~\ref{Eq:S} shows its transition equation.
 
 \begin{equation}\label{Eq:S}
 S(t-t_0+1)=(t-t_0)*S(t-t_0)+U_{s}(t-t_0)
 \end{equation},
 
-where $t$ and $t_0$ are the current and beginning time point in the past time window. In \sysname,
-the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion
+where $t$ and $t_0$ are the current and beginning time point in the past time window. 
+In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion
 of clinical studies.
+
+
+Insulin dynamics indicates the transitions of subcutaneous insulin $I_{s}$ (Equation~\ref{Eq:Is}),
+the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}),  and the level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$
+states for the amount of insulin injected or simulated by the diabetes drugs. $S^I$ and $bm$ refer to the insulin sensitive
+and body mass respectively.
+
+
+The impacted results $\delta_{abs}$ of carbohydrate absorption increase the blood glucose concentration can be described as 
+$\delta_{abs}=\frac{\alpha_3^c*\alpha_2^c}{1+25/C_{g2}}$
+
+Hepatic glucose production refers to the glucose released by the liver. It depends on the current blood glucose concentration G(t) 
+and level of plasma insulin I(t).
+
+
+The equations of $I_{s}$ (Equation~\ref{Eq:Is}) and $I_{m}$ (Equation~\ref{Eq:Im}) showing the temporal transitions of  the subcutaneous insulin
+and the insulin mass respectively. $I$, the level of active plasma insulin, can be achieved by Equation~\ref{Eq:I}, where $S^I$ and $bm$ refer to the
+insulin sensitive and body mass respectively.
+
+
+
+
 
 Based on the positive factors and the negative factors, the blood glucose mass of individual body
 $G_m$ can be calculated as Equation~\ref{Eq:Gm}
