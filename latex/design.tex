@@ -31,16 +31,92 @@ Sleep quality has a long influence on blood glucose level. To measure the sleep 
 
 \subsection{Feature Engineering of Physiological-Temporal Views }
 \subsubsection{Physiological View}
-The feature engineering of physiological view is to leverage a physiological model to quantify the dynamics of physiological factors in the body. The physiological model has been widely studied in previous works \cite{bib:briegel2002nonlinear,bib:duke2010intelligent, bib:plis2014machine}.It primarily measures the real-time values of carbohydrate, insulin and glucose influenced by the external factors. We constructed our physiological model based on the work \cite{bib:duke2010intelligent}, 
-with an extension of sleep factor.  
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{./img/Physiological_correlation1.pdf}
+  \caption{Temporal graph of the physiological model.}
+  \label{fig:phymodel}
+\end{figure}
+The feature engineering of physiological view is to leverage a physiological model to quantify the dynamics of physiological factors in the body. The 
+physiological model, based on the physiology mechanism of blood glucose in Section~\ref{sec:preliminary}, has been widely studied in previous works \cite{bib:briegel2002nonlinear,bib:duke2010intelligent, bib:plis2014machine}.It primarily measures the real-time values of carbohydrate, insulin and glucose influenced by the external factors. We constructed our physiological model based on the work \cite{bib:duke2010intelligent},
+with an extension of sleeping fact according to its physiological impact discussed in Section~\ref{sec:preliminary}.
 
 \paragraph{Temporal Graph of Physiological Model}
-Assuming the state vectors $X(t)={C_{g1}(t), C_{g2}(t), I_{s}(t),I_{m}(t), I_{t}, G_{m}(t), G(t)}$. 
-The mean of each element in the vector is illustrated in Table~\ref{} 
-The temporal graph of physiological model in Fig.~\ref{} represents a state transition from $X(t)$ to $X(t+1)$. 
+Given the hidden physiological vectors $X_{t}=\{C_{g1}(t), C_{g2}(t),\\ I_{s}(t),I_{m}(t), I_{t}, G_{m}(t), G(t), E(t)\}$, where the elements of this vector represent
+the hidden physiological factors at time point $t$, and the observable input vector $U_{t}=\{U_{c}(t), U_{e}(t), U_{s}(t), U_{i}(t)\}$ , in which $U_{c}$ stands for the 
+carbohydrate proportion of meals, $U_{e}$ indicates the calories cost by exercise,  $U_{s}$ is the sleep score and $U_{i}$ states for the amount of insulin injected or simulated 
+by the diabetes drugs  at time point $t$. In particular, the sleep quality $U(s)$ is a constant during a whole day.
+The station transition functions can be represented as $X_{t+1}=f(X_t, U_t)$, and its corresponding
+temporal transition graph is shown as \figref{fig:phymodel}.  %\tabref{phy_tab} details the transformation functions of the carbohydrate $C_{g1}$ and $C_{g2}$, and insulin
 
+%As \figref{fig:phymodel} shown, the equations of $C_{g1}$ (Equation~\ref{Eq:Cg1}) and $C_{g2}$ (Equation~\ref{Eq:Cg2}) indicating the temporal transitions of carbohydrate consumption and the carbohydrate digestion respectively.   
+
+In detail, $C_{g1}$  and $C_{g2}$ indicate the carbohydrate consumption and the carbohydrate digestion respectively, and their transition equations are shown 
+in Equation~\ref{Eq:Cg1} and Equation~\ref{Eq:Cg2}.
+
+\begin{equation}\label{Eq:Cg1}
+C_{g1}(t+1)=C_{g1}(t)-\alpha_{1}^c*C_{g1}(t)+U_{c}(t)
+\end{equation}
+
+\begin{equation}\label{Eq:Cg2}
+C_{g2}(t+1)=C_{g2}(t)+\alpha_{1}^c*C_{g1}(t)-\alpha_{2}^c*C_{g1}(t)
+\end{equation}
+
+The equations of $I_{s}$ (Equation~\ref{Eq:Is}) and $I_{m}$ (Equation~\ref{Eq:Im}) showing the temporal transitions of  the subcutaneous insulin
+and the insulin mass respectively. $I$, the level of active plasma insulin, can be achieved by Equation~\ref{Eq:I}, where $S^I$ and $bm$ refer to the 
+insulin sensitive and body mass respectively. 
+\begin{equation}\label{Eq:Is}
+I_{s}(t+1)=I_{s}(t)-\alpha_{f}^I*I_{s}(t)+U_{I}(t)
+\end{equation}
+
+
+\begin{equation}\label{Eq:Im}
+I_{m}(t+1)=I_{m}(t)-\alpha_{f}^I*I_{s}(t)-\alpha_c^I*I_{m}(t)
+\end{equation}
+
+\begin{equation}\label{Eq:I}
+I(t)=\frac{I_{m}(t)*S^I}{142*bm}
+\end{equation}
+
+$E$ denotes the exercise effect on insulin over the past time window. This long-term influence can be 
+expressed by a cumulative moving average as Equation~\ref{Eq:E} in the physiological model. 
+
+\begin{equation}\label{Eq:E}
+E(t-t_0+1)=(t-t_0)*E(t-t_0)+U_{e}(t-t_0)
+\end{equation},
+
+where $t$ and $t_0$ are the current and beginning time point in the past time window. In \sysname, 
+the window size of exercise is set to 24 hours, which optimizes the experimental results and matches the conclusion
+of clinical studies. 
+
+$S$ represents the sleeping quality effect on insulin. In physiological model, sleeping 
+effect also maintains a long-term influence on the insulin as the exercise effects,
+and is shown as Equation~\ref{Eq:S}.
+
+\begin{equation}\label{Eq:S}
+S(t-t_0+1)=(t-t_0)*S(t-t_0)+U_{s}(t-t_0)
+\end{equation},
+
+where $t$ and $t_0$ are the current and beginning time point in the past time window. In \sysname,
+the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion
+of clinical studies.
+
+Based on the positive factors and the negative factors, the blood glucose mass of individual body 
+$G_m$ can be calculated as Equation~\ref{Eq:Gm}
+\begin{equation}\label{Eq:Gm}
+G_m(t+1)=G_m(t)+\delta_{abs}-\delta_{ind}-\delta_{dep}-\delta_{clr}+\delta_{egp}
+\end{equation},
+where $\delta_{abs}=\frac{\alpha_3^c*\alpha_2^c}{1+25/C_{g2}}$
+
+and the blood glucose concentration $G$ can be computed in Equation~\ref{Eq:G}.
+\begin{equation}\label{Eq:G}
+G_m(t+1)=G_m(t)+\delta_{abs}-\delta_{ind}-\delta_{dep}-\delta_{clr}+\delta_{egp}
+\end{equation},
+
+ 
 1) Positive factors:
-Positive factors indicates the  
+Positive factors indicates the
 
 However, the parameters of this model are different to individuals and also hard to be tuned.
 
