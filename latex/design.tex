@@ -30,7 +30,7 @@ where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit
 Sleep quality has a long influence on blood glucose level. To measure the sleep quality of users, \sysname applies an effective method in \cite{bib:gu2014intelligent} to measure the sleep quality, and leverages the sleep quality score as an index to evaluate the sleeping impact on blood glucose level.
 
 \subsection{Feature Engineering of Physiological-Temporal Views }
-\subsubsection{Physiological View}
+\subsubsection{Physiological View: $F_p$}
 
 \begin{figure}[t]
   \centering
@@ -64,22 +64,31 @@ C_{g1}(t+1)=C_{g1}(t)-\alpha_{1}^c*C_{g1}(t)+U_{c}(t)
 \end{equation}
 
 \begin{equation}\label{Eq:Cg2}
-C_{g2}(t+1)=C_{g2}(t)+\alpha_{1}^c*C_{g1}(t)-\alpha_{2}^c*C_{g1}(t)
+C_{g2}(t+1)=C_{g2}(t)+\alpha_{1}^c*C_{g1}(t)-\alpha_{2}^c*C_{g2}(t)
 \end{equation}
 
-\emph{Insulin dynamics}: Insulin dynamics indicates the transitions of subcutaneous insulin $I_{s}$ (Equation~\ref{Eq:Is}), 
-the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}),  and the level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$ 
+\emph{Insulin dynamics}: Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$ (Equation~\ref{Eq:Is}), 
+the insulin secretion by pancreas $I_{s}$ and  the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}). The level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$ 
 states for the amount of insulin injected or simulated by the diabetes drugs. $S^I$ and $bm$ refer to the insulin sensitive 
 and body mass respectively.
 
 \begin{equation}\label{Eq:Is}
-I_{s}(t+1)=I_{s}(t)-\alpha_{f}^I*I_{s}(t)+U_{I}(t)
+I_{a}(t+1)=I_{a}(t)-\alpha_{f,r,m}^I*I_{a}(t)+U_{i}(t)
 \end{equation}
 
+
+\begin{equation}\label{Eq:Isec}
+    I_{s}(t+1)=
+   \begin{cases}
+    I_{s}(t)+min[\alpha_1^I(\alpha_2^I(G_t-G_0))+\alpha_3^I*G_0, \triangle I_{max}^{s}] &\mbox{Type II}\\
+    I_{s}(t)+0 &\mbox{Type I}
+   \end{cases}
+  \end{equation}
 
 \begin{equation}\label{Eq:Im}
-I_{m}(t+1)=I_{m}(t)-\alpha_{f}^I*I_{s}(t)-\alpha_c^I*I_{m}(t)
+I_{m}(t+1)=I_{m}(t)+\alpha_{f,r,m}^I*I_{a}(t)+\alpha_{a}^I*I_{a}(t)-\alpha_c^I*I_{m}(t)
 \end{equation}
+
 
 \begin{equation}\label{Eq:I}
 I(t)=\frac{I_{m}(t)*S^I}{142*bm}
@@ -109,44 +118,90 @@ In \sysname, the window size of sleep lasts for 7 days, which optimizes the expe
 of clinical studies.
 
 
-Insulin dynamics indicates the transitions of subcutaneous insulin $I_{s}$ (Equation~\ref{Eq:Is}),
-the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}),  and the level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$
-states for the amount of insulin injected or simulated by the diabetes drugs. $S^I$ and $bm$ refer to the insulin sensitive
-and body mass respectively.
-
-
-The impacted results $\delta_{abs}$ of carbohydrate absorption increase the blood glucose concentration can be described as 
-$\delta_{abs}=\frac{\alpha_3^c*\alpha_2^c}{1+25/C_{g2}}$
-
-Hepatic glucose production refers to the glucose released by the liver. It depends on the current blood glucose concentration G(t) 
-and level of plasma insulin I(t).
-
-
-The equations of $I_{s}$ (Equation~\ref{Eq:Is}) and $I_{m}$ (Equation~\ref{Eq:Im}) showing the temporal transitions of  the subcutaneous insulin
-and the insulin mass respectively. $I$, the level of active plasma insulin, can be achieved by Equation~\ref{Eq:I}, where $S^I$ and $bm$ refer to the
-insulin sensitive and body mass respectively.
-
-
-
-
-
-Based on the positive factors and the negative factors, the blood glucose mass of individual body
-$G_m$ can be calculated as Equation~\ref{Eq:Gm}
+\emph{Blood glucose dynamics}: Blood glucose dynamic points to the fluctuation of glucose mass $G_m$  in Equation~\ref{Eq:Gm},
+and glucose concentration $G(t)$ in Equation~\ref{Eq:G}.
 \begin{equation}\label{Eq:Gm}
-G_m(t+1)=G_m(t)+\delta_{abs}-\delta_{ind}-\delta_{dep}-\delta_{clr}+\delta_{egp}
-\end{equation},
-where $\delta_{abs}=\frac{\alpha_3^c*\alpha_2^c}{1+25/C_{g2}}$
-
-and the blood glucose concentration $G$ can be computed in Equation~\ref{Eq:G}.
+G_m(t+1)=G_m(t)+\delta_{abs}+\delta_{egp}-\delta_{ind}-\delta_{dep}-\delta_{clr}
+\end{equation}
 \begin{equation}\label{Eq:G}
-G_m(t+1)=G_m(t)+\delta_{abs}-\delta_{ind}-\delta_{dep}-\delta_{clr}+\delta_{egp}
-\end{equation},
+G(t)=G_m(t)/(2.2*bm)
+\end{equation}
 
+Specifically, $\delta_{abs}$ in Equation~\ref{Eq:abs} refers to the impact results of carbohydrate absorption, and
+$\delta_{egp}$ in Equation~\ref{Eq:egp} indicates to the hepatic glucose production from 
+the liver. These two factors improve the blood glucose concentration of body.
+\begin{equation}\label{Eq:abs}
+  \delta_{abs}=\alpha_3^c*\alpha_2^c*C_{g2}
+\end{equation}
 
-1) Positive factors:
-Positive factors indicates the
+\begin{equation}\label{Eq:egp}
+  \delta_{egp}=\alpha_2^{egp}*exp(-I(t)/\alpha_3^{egp})-\alpha_1^{egp}*G(t)
+\end{equation}
 
-However, the parameters of this model are different to individuals and also hard to be tuned.
+$\delta_{ind}$ (Equation~\ref{Eq:ind}) describes results of insulin independent uptake, which is consumed by the central nervous 
+system and the red blood cells. 
+$\delta_{dep}$ (Equation~\ref{Eq:dep}) indicates the impact results of insulin dependent uptake. It reflects the effects 
+of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
+$\delta_{clr}$ (Equation~\ref{Eq:clr}) stands for the influence of renal clearance on blood glucose. Once blood glucose 
+concentrations exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
+The three factors decrease the blood glucose level. 
+
+\begin{equation}\label{Eq:ind}
+  \delta_{ind}=\alpha_1^{ind}/\sqrt{G(t)}
+\end{equation}
+
+\begin{equation}\label{Eq:dep}
+  \delta_{dep}=\alpha_1^{dep}* E(t)*S(t)*I(t)/(G(t)+\alpha_2^{dep})
+\end{equation}
+
+\begin{equation}\label{Eq:clr}
+  \delta_{clr}=\alpha_1^{clr}*(G(t)-\tau)  
+\end{equation}
+
+The default values of parameters in the physiological model are set 
+based on \cite{bib:duke2010intelligent}. They are further tuned for each person 
+by the classifier on the training dataset by 10-cross validations, which optimize
+the experimental results. 
+
+In \sysname, we use smartphone to collect the external factors $U_t=\{U_c(t),U_e(t),U_s(t), U_i(t)\}$, and 
+apply the physiological model to generate real-time observed vector 
+$X_{t}=\{C_{g1}(t), C_{g2}(t),I_{s}(t),I_{m}(t), I_{a}(t), I(t),\\
+ E(t), S(t),  G_{m}(t), G(t)\}$ for every blood glucose sample at the corresponding time $t$.  
+The hidden physiological factors at $t+1$ can be calculated by
+$X_{t+1}=f(X_t, U_t)$, where $f$ is the station transition functions.
+\sysname computes $X$ at each time step and treats it as 10-dimensional
+features.  
+
+\subsection{Temporal View: $F_t$}
+The blood glucose dynamic holds a natural temporal ordering, \sysname mines its timing characteristics 
+to predict the blood glucose level.
+
+Three dimensional features of temporal view have been considered.
+
+\paragraph{Historical Blood glucose trend: $F_{t1}$} 
+Since the trend of blood glucose of a single person hardly occurs significant alteration 
+within a short period, \sysname calculates the historical blood glucose trend $G_{Trend}$ by average the true blood glucose
+concentrations at each corresponding time stamp $t$ over recent $D$ days in the past by Equation~\ref{Eq:his_trend}. 
+
+\begin{equation}\label{Eq:his_trend}
+  G_{Trend}=\frac{1}{D}\sum_{d=1}^{D}G(f_t(d)),  t=1,2,...,N
+\end{equation}
+
+where $N=480$ refers to the number of time stamps in a day, and $D$ reflects the days of measurement. $G(f_t(d))$ indicates the true blood glucose value measured by the CGM
+at the time stamp $t$ of the $d$th day. In \sysname, we select $D=5$ based on the optimal experimental results
+
+\sysname treats it as a temporal feature to reflect the historical blood glucose trend
+over the same period.
+
+\paragraph{Blood glucose value with similar physiological features: $F_{t2}$}
+As the blood glucose concentrate is determined by the factors of carbohydrate, insulin, exercise intensity and sleep quality, the similar blood 
+glucose values should maintain similar values of these physiological factors. Accordingly, \sysname applies the k-Nearest Neighbors algorithm \cite{bib:KNN} 
+to search for 5 blood glucose values with the most similar physiological features, and average them as one dimensional feature.
+
+\paragraph{Recent physiological features: $F_{t3}$}
+Considering the physiological features may generate the temporal delay effects on the blood glucose, \sysname also takes the physiological factor vectors
+in the past 15 minutes as recent physiological features to measure their impacts on the current blood glucose concentration.    
+
 
 \subsection{Blood glucose level prediction}
 
