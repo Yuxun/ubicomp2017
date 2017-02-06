@@ -1,50 +1,70 @@
 
 \section{Design}
 \label{sec:design}
+This section presents the detailed design of \sysname.
 
-\subsection{External factor collection}
+\subsection{External Factor Sensing}
 \label{subsec:external}
-Sensing module is mainly designed for collected the external factors of users.
+It is infeasible to record a complete list of impacting factors on blood glucose concentration.
+In \sysname, we measure five major external factors including food, drug and insulin intake, as well as physical activities and sleep quality.
 
-\paragraph{Food intake}
-As the food intake is a main source of carbohydrate, \sysname provides the food menu for users to record their daily intakes based on the carbohydrate food list \cite{bib:carblist}.
-Five common food categories have been provided by \sysname, including grains ,vegetables, mike and egg,fruits and meats. The users are asked to enter their food items and the corresponding amounts. \sysname calculate the carbohydrate of a meal and measure its impact on blood glucose level.
+\fakeparagraph{Food Intake}
+As food intake is a main source of carbohydrate, \sysname provides a food menu for users to input their meals.
+We categorize meals into five types based on the carbohydrate food list~\cite{bib:carblist}, including grains, vegetables, milk and egg, fruits and meats.
+Users are asked to enter the food types and amounts of their meals and \sysname calculates the carbohydrate of a meal based on this information.
 
-\paragraph{Drug intake}
-The oral diabetes medications enhance secretion of insulin into the blood by the pancreas or decrease amount of glucose released from liver, keeping the blood glucose in a low level for type II diabetes.
-In \sysname, a drug menu of 11 oral diabetes is report for users to input their drug intake. After eating the diabetes drugs, users select their pills name and report the drug dosage. The drug list is provided based on \cite{bib:druglist}.
-\sysname transfers the drug dose as the blood glucose efforts according to their work functions \cite{bib:druglist, bib:bolen2007systematic, bib:bennett2011oral}  by physiological model.
+\fakeparagraph{Drug Intake}
+Oral diabetic drugs enhance the secretion of insulin into the blood and are usually used for type II diabetic patients.
+In \sysname, a drug menu of common 11 oral diabetes is presented for users to input their drug intake based on \cite{bib:druglist}.
+Users are required to select the drug name and record the drug dosage into \sysname.
+Then \sysname transforms the drug intake into quantitative effects on blood glucose based on physiological models~\cite{bib:AIM07:Bolen}.
 
-\paragraph{Insulin injection}
-Insulin injection is to control blood glucose concentration of those who have type I diabetes, and the patients of type II, whose blood sugar is too high for their bodies to control. \sysname provides a insulin type list based on \cite{bib:insulinlist} for user with diabetes to enter their usage and insulin dosage, and then transfer it into physiological model to compute the blood glucose level.
+\fakeparagraph{Insulin Injection}
+Inulin injection is widely used for blood glucose control for type I and type II patients. 
+\sysname provides an insulin type list based on~\cite{bib:insulinlist} for users to record the usage and dosage of their insulin injection.
+We transform insulin injection into insulin dynamics in the physiological model (detailed later).
+ 
 
-\paragraph{Activity factors}
-Since the carbohydrate in the body can be consumed by daily exercise, resulting to varying the blood glucose level, \sysname adopts an effective and power efficient approach \cite{bib:kwapisz2011activity} to automatically recognize six common user's daily activities (i.e., walking, running, upstairs, downstairs, sitting and standing), and record the corresponding durations. The caloric expenditure can be easily consumed by the calorie burn calculator formulas as Equation ~\ref{calorie_burn}.
-\begin{equation}\label{calorie_burn}
+\fakeparagraph{Physical Activity}
+Daily activities \eg exercises consume the carbohydrate and affect blood glucose levels.
+In \sysname, we adopt an efficient activity recognition scheme~\cite{bib:KDDEN11:Kwapisz} to automatically record six common physical activities (walking, running, going upstairs, going downstairs, sitting and standing) along with the corresponding durations.
+\sysname then calculates the caloric expenditure based on the widely used calorie calculator~\cite{bib:HealthStatus, bib:CalorieCounter}.
+\begin{equation}\label{eq:calorie_burn}
   Calorie Burn = (BMR/24)*MET*T,
 \end{equation}
-where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly \cite{bib:mcnab1997utility}, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate\cite{bib:ainsworth2000compendium}. The calculator formula has been widely used by multiple sport applications \cite{bib:shapesense, bib:HealthStatus, bib:CalorieCounter}.
-\sysname finally leverages the calories to measure the effects of exercise on the blood glucose.
+where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate.
+\sysname finally leverages the calories as input for our blood glucose level model.
 
-\paragraph{Sleep quality}
-Sleep quality has a long influence on blood glucose level. To measure the sleep quality of users, \sysname applies an effective method in \cite{bib:gu2014intelligent} to measure the sleep quality, and leverages the sleep quality score as an index to evaluate the sleeping impact on blood glucose level.
+\fakeparagraph{Sleep Quality}
+Sleep quality has a long-term influence on the blood glucose level~\cite{bib:DRCP15:Iwasaki}.
+\sysname automatically measures sleep quality using smartphones as in~\cite{bib:UbiComp14:Gu}.
+The output sleep quality score is then used in our blood glucose level model.
 
-\subsection{Feature Engineering of Physiological-Temporal Views }
-\subsubsection{Physiological View: $F_p$}
+\subsection{Feature Engineering}
+\label{subsec:features}
+We extract features from both the physiological view and the temporal view to infer blood glucose levels.
 
-\begin{figure}[t]
+\subsubsection{Features from Physiological View: $F_p$}
+\label{subsubsec:physiological}
+
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{./img/Physiological_correlation1.pdf}
   \caption{Temporal graph of the physiological model.}
   \label{fig:phymodel}
 \end{figure}
-The feature engineering of physiological view is to leverage a physiological model to quantify the dynamics of physiological factors in the body. The
-physiological model, based on the physiology mechanism of blood glucose in Section~\ref{sec:preliminary}, has been widely studied in previous works \cite{bib:briegel2002nonlinear,bib:duke2010intelligent, bib:plis2014machine}.It primarily measures the real-time values of carbohydrate, insulin and glucose influenced by the external factors. We constructed our physiological model based on the work \cite{bib:duke2010intelligent},
-with an extension of sleeping fact according to its physiological impact discussed in Section~\ref{sec:preliminary}.
+
+In \sysname, we use smartphone to collect the external factors $U_t=\{U_c(t),U_e(t),U_s(t), U_i(t)\}$, and apply the physiological model to generate real-time observed vector $X_{t}=\{C_{g1}(t), C_{g2}(t),I_{s}(t),I_{m}(t), I_{a}(t), I(t),\\ E(t), S(t),  G_{m}(t), G(t)\}$ for every blood glucose sample at the corresponding time $t$.
+The hidden physiological factors at $t+1$ can be calculated by $X_{t+1}=f(X_t, U_t)$, where $f$ is the station transition functions.
+\sysname computes $X$ at each time step and treats it as 10-dimensional features.
+
+The feature engineering of physiological view is to leverage a physiological model to quantify the dynamics of physiological factors in the body. 
+The physiological model, based on the physiology mechanism of blood glucose in Section~\ref{sec:preliminary}, has been widely studied in previous works \cite{bib:briegel2002nonlinear,bib:duke2010intelligent, bib:plis2014machine}.
+It primarily measures the real-time values of carbohydrate, insulin and glucose influenced by the external factors. 
+We constructed our physiological model based on the work \cite{bib:duke2010intelligent}, with an extension of sleeping fact according to its physiological impact discussed in Section~\ref{sec:preliminary}.
 
 \paragraph{Temporal Graph of Physiological Model}
-The physiological model of \sysname describes the physiological factors from five aspects: carbohydrate dynamics, insulin dynamics, exercise dynamics,
-sleep dynamics and blood glucose dynamics.
+The physiological model of \sysname describes the physiological factors from five aspects: carbohydrate dynamics, insulin dynamics, exercise dynamics, sleep dynamics and blood glucose dynamics.
 %Given the hidden physiological vectors $X_{t}=\{C_{g1}(t), C_{g2}(t),\\ I_{s}(t),I_{m}(t), I_{t}, G_{m}(t), G(t), E(t)\}$, where the elements of this vector represent
 %the hidden physiological factors at time point $t$, and the observable input vector $U_{t}=\{U_{c}(t), U_{e}(t), U_{s}(t), U_{i}(t)\}$ , in which $U_{c}$ stands for the
 %carbohydrate proportion of meals, $U_{e}$ indicates the calories cost by exercise,  $U_{s}$ is the sleep score and $U_{i}$ states for the amount of insulin injected or simulated
@@ -57,8 +77,9 @@ sleep dynamics and blood glucose dynamics.
 %Negative factors of  physiological model describe the insulin independent uptake, insulin dependent uptake and the renal clearance. We will detail these factors as follows:
 
 
-\emph{Carbohydrate dynamics}: Carbohydrate dynamics refers to the transitions of carbohydrate consumption  $C_{g1}$ and the carbohydrate digestion $C_{g2}$. 
-Equation~\ref{Eq:Cg1}  and Equation~\ref{Eq:Cg2} show their transition equations respectively, where $U_{c}$ stands for the carbohydrate proportion of meals.
+\emph{Carbohydrate dynamics}: 
+Carbohydrate dynamics refer to the transitions of carbohydrate consumption $C_{g1}$ and the carbohydrate digestion $C_{g2}$.
+Equation~\ref{Eq:Cg1} and Equation~\ref{Eq:Cg2} show their transition equations respectively, where $U_{c}$ stands for the carbohydrate proportion of meals.
 \begin{equation}\label{Eq:Cg1}
 C_{g1}(t+1)=C_{g1}(t)-\alpha_{1}^c*C_{g1}(t)+U_{c}(t)
 \end{equation}
@@ -67,9 +88,9 @@ C_{g1}(t+1)=C_{g1}(t)-\alpha_{1}^c*C_{g1}(t)+U_{c}(t)
 C_{g2}(t+1)=C_{g2}(t)+\alpha_{1}^c*C_{g1}(t)-\alpha_{2}^c*C_{g2}(t)
 \end{equation}
 
-\emph{Insulin dynamics}: Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$ (Equation~\ref{Eq:Is}), 
-the insulin secretion by pancreas $I_{s}$ and  the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}). The level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$ 
-states for the amount of insulin injected or simulated by the diabetes drugs. $S^I$ and $bm$ refer to the insulin sensitive 
+\emph{Insulin dynamics}: Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$ (Equation~\ref{Eq:Is}),
+the insulin secretion by pancreas $I_{s}$ and  the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}). The level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$
+states for the amount of insulin injected or simulated by the diabetes drugs. $S^I$ and $bm$ refer to the insulin sensitive
 and body mass respectively.
 
 \begin{equation}\label{Eq:Is}
@@ -94,7 +115,7 @@ I_{m}(t+1)=I_{m}(t)+\alpha_{f,r,m}^I*I_{a}(t)+\alpha_{a}^I*I_{a}(t)-\alpha_c^I*I
 I(t)=\frac{I_{m}(t)*S^I}{142*bm}
 \end{equation}
 
-\emph{Exercise dynamics}: Exercise dynamics $E$ denotes the exercise effect on insulin over the past time window. This 
+\emph{Exercise dynamics}: Exercise dynamics $E$ denotes the exercise effect on insulin over the past time window. This
 long-term influence can be expressed by a cumulative moving average \cite{bib:lowry1992multivariate, bib:cma} as Equation~\ref{Eq:E} in the physiological model.
 
 \begin{equation}\label{Eq:E}
@@ -106,14 +127,14 @@ the window size of exercise is set to 24 hours, which optimizes the experimental
 of clinical studies.
 
 \emph{Sleep dynamics}: Sleep dynamics $S$ represents the sleeping quality effect on insulin. In physiological model, sleeping
-effect also has a long-term influence on the insulin as the exercise effects. Specifically, it maintains a constant effect on 
+effect also has a long-term influence on the insulin as the exercise effects. Specifically, it maintains a constant effect on
 blood glucose for each day. Equation~\ref{Eq:S} shows its transition equation.
 
 \begin{equation}\label{Eq:S}
 S(t-t_0+1)=(t-t_0)*S(t-t_0)+U_{s}(t-t_0)
 \end{equation},
 
-where $t$ and $t_0$ are the current and beginning time point in the past time window. 
+where $t$ and $t_0$ are the current and beginning time point in the past time window.
 In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion
 of clinical studies.
 
@@ -128,7 +149,7 @@ G(t)=G_m(t)/(2.2*bm)
 \end{equation}
 
 Specifically, $\delta_{abs}$ in Equation~\ref{Eq:abs} refers to the impact results of carbohydrate absorption, and
-$\delta_{egp}$ in Equation~\ref{Eq:egp} indicates to the hepatic glucose production from 
+$\delta_{egp}$ in Equation~\ref{Eq:egp} indicates to the hepatic glucose production from
 the liver. These two factors improve the blood glucose concentration of body.
 \begin{equation}\label{Eq:abs}
   \delta_{abs}=\alpha_3^c*\alpha_2^c*C_{g2}
@@ -138,13 +159,13 @@ the liver. These two factors improve the blood glucose concentration of body.
   \delta_{egp}=\alpha_2^{egp}*exp(-I(t)/\alpha_3^{egp})-\alpha_1^{egp}*G(t)
 \end{equation}
 
-$\delta_{ind}$ (Equation~\ref{Eq:ind}) describes results of insulin independent uptake, which is consumed by the central nervous 
-system and the red blood cells. 
-$\delta_{dep}$ (Equation~\ref{Eq:dep}) indicates the impact results of insulin dependent uptake. It reflects the effects 
+$\delta_{ind}$ (Equation~\ref{Eq:ind}) describes results of insulin independent uptake, which is consumed by the central nervous
+system and the red blood cells.
+$\delta_{dep}$ (Equation~\ref{Eq:dep}) indicates the impact results of insulin dependent uptake. It reflects the effects
 of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
-$\delta_{clr}$ (Equation~\ref{Eq:clr}) stands for the influence of renal clearance on blood glucose. Once blood glucose 
+$\delta_{clr}$ (Equation~\ref{Eq:clr}) stands for the influence of renal clearance on blood glucose. Once blood glucose
 concentrations exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
-The three factors decrease the blood glucose level. 
+The three factors decrease the blood glucose level.
 
 \begin{equation}\label{Eq:ind}
   \delta_{ind}=\alpha_1^{ind}/\sqrt{G(t)}
@@ -155,33 +176,33 @@ The three factors decrease the blood glucose level.
 \end{equation}
 
 \begin{equation}\label{Eq:clr}
-  \delta_{clr}=\alpha_1^{clr}*(G(t)-\tau)  
+  \delta_{clr}=\alpha_1^{clr}*(G(t)-\tau)
 \end{equation}
 
-The default values of parameters in the physiological model are set 
-based on \cite{bib:duke2010intelligent}. They are further tuned for each person 
+The default values of parameters in the physiological model are set
+based on \cite{bib:duke2010intelligent}. They are further tuned for each person
 by the classifier on the training dataset by 10-cross validations, which optimize
-the experimental results. 
+the experimental results.
 
-In \sysname, we use smartphone to collect the external factors $U_t=\{U_c(t),U_e(t),U_s(t), U_i(t)\}$, and 
-apply the physiological model to generate real-time observed vector 
+In \sysname, we use smartphone to collect the external factors $U_t=\{U_c(t),U_e(t),U_s(t), U_i(t)\}$, and
+apply the physiological model to generate real-time observed vector
 $X_{t}=\{C_{g1}(t), C_{g2}(t),I_{s}(t),I_{m}(t), I_{a}(t), I(t),\\
- E(t), S(t),  G_{m}(t), G(t)\}$ for every blood glucose sample at the corresponding time $t$.  
+ E(t), S(t),  G_{m}(t), G(t)\}$ for every blood glucose sample at the corresponding time $t$.
 The hidden physiological factors at $t+1$ can be calculated by
 $X_{t+1}=f(X_t, U_t)$, where $f$ is the station transition functions.
 \sysname computes $X$ at each time step and treats it as 10-dimensional
-features.  
+features.
 
-\subsection{Temporal View: $F_t$}
-The blood glucose dynamic holds a natural temporal ordering, \sysname mines its timing characteristics 
+\subsection{Features from Temporal View: $F_t$}
+The blood glucose dynamic holds a natural temporal ordering, \sysname mines its timing characteristics
 to predict the blood glucose level.
 
 Three dimensional features of temporal view have been considered.
 
-\paragraph{Historical Blood glucose trend: $F_{t1}$} 
-Since the trend of blood glucose of a single person hardly occurs significant alteration 
+\paragraph{Historical Blood glucose trend: $F_{t1}$}
+Since the trend of blood glucose of a single person hardly occurs significant alteration
 within a short period, \sysname calculates the historical blood glucose trend $G_{Trend}$ by average the true blood glucose
-concentrations at each corresponding time stamp $t$ over recent $D$ days in the past by Equation~\ref{Eq:his_trend}. 
+concentrations at each corresponding time stamp $t$ over recent $D$ days in the past by Equation~\ref{Eq:his_trend}.
 
 \begin{equation}\label{Eq:his_trend}
   G_{Trend}=\frac{1}{D}\sum_{d=1}^{D}G(f_t(d)),  t=1,2,...,N
@@ -194,15 +215,15 @@ at the time stamp $t$ of the $d$th day. In \sysname, we select $D=5$ based on th
 over the same period.
 
 \paragraph{Blood glucose value with similar physiological features: $F_{t2}$}
-As the blood glucose concentrate is determined by the factors of carbohydrate, insulin, exercise intensity and sleep quality, the similar blood 
-glucose values should maintain similar values of these physiological factors. Accordingly, \sysname applies the k-Nearest Neighbors algorithm \cite{bib:KNN} 
+As the blood glucose concentrate is determined by the factors of carbohydrate, insulin, exercise intensity and sleep quality, the similar blood
+glucose values should maintain similar values of these physiological factors. Accordingly, \sysname applies the k-Nearest Neighbors algorithm \cite{bib:KNN}
 to search for 5 blood glucose values with the most similar physiological features, and average them as one dimensional feature.
 
 \paragraph{Recent physiological features: $F_{t3}$}
 Considering the physiological features may generate the temporal delay effects on the blood glucose, \sysname also takes the physiological factor vectors
-in the past 15 minutes as recent physiological features to measure their impacts on the current blood glucose concentration. 
+in the past 15 minutes as recent physiological features to measure their impacts on the current blood glucose concentration.
 
-\sysname takes the physiological-temporal features as input, and predict the blood glucose level by \modelname. 
+\sysname takes the physiological-temporal features as input, and predict the blood glucose level by \modelname.
 
 
 \subsection{Blood glucose level prediction}
