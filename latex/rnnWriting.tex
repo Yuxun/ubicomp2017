@@ -21,17 +21,28 @@ In the context of blood glucose prediction, available inputs are naturally divid
 \begin{align}
 \tilde{x}_t^{I_j} = \sigma \left( W^Ix_t^{I_j} \right)
 \end{align}     
-where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a feature of all $1$s.}, $\sigma$ is some activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample. Similar operations are conducted for data samples from group $H$ and $II$, but with different transformation coefficients. Intuitively, the shared transformation within groups would improve the learning of parameters (vs. single task learning), as information from all data in a homogeneous group is used.  
+where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a feature of all $1$s.}, $\sigma$ is some activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample. Similar operations are conducted for data samples from group $H$ and $II$, but with different transformation coefficients. Intuitively, the shared transformation within groups would improve the learning of parameters (vs. single task learning), as information from all data in a homogeneous group is used. Also, the transformation can be stacked into several (say $P$) layers, for better information representation.   
 
 \subsubsection{Deep Dynamic Layer}
-A common hidden layer is designated to capture the dynamics of the blood glucose evolution process. The underlying assumption is that, the biological and chemical reactions governing blood glucose variation are similar for all people, despite of grouped behaviors in the representation of physiological indexes (input layer), or individual characteristics in exhibited glucose level. This assumption could be justified by a series of medical research[][]. Moreover, since all users share the same hidden layer, all collected data samples are eventually helping the estimation of its parameters. The availability of rich information for the hidden layer makes the learning of a deep structure possible. In Md$^3$RNN, a number of Long Short Term Memory (LSTM) networks are stacked together (middle of Fig.\ref{fig:rnn}), to increase the overall model flexibility. In particular, it has been justified in both theory and practice that stacked LSTMs are able to capture dynamics occurring at different time scales, which in the current application would enable the modeling of both slow and rapid biological/chemical reactions. Mathematically, given the output from the grouped input layer, the deep dynamic layer performs
-\begin{align}
-h^0_t=
-\end{align}
-
-
+A common hidden layer is designated to capture the dynamics of the blood glucose evolution process. The underlying assumption is that, the biological and chemical reactions governing blood glucose variation are similar for all people, despite of grouped behaviors in the representation of physiological indexes (input layer), or individual characteristics in exhibited glucose level. This assumption could be justified by a series of medical research[][]. Moreover, since all users share the same hidden layer, all collected data samples are eventually helping the estimation of its parameters. The availability of rich information for the hidden layer makes the learning of a deep structure possible. In Md$^3$RNN, a number of Long Short Term Memory (LSTM) networks are stacked together (middle of Fig.\ref{fig:rnn}), to increase the overall model flexibility. In particular, it has been justified in both theory and practice that stacked LSTMs are able to capture dynamics occurring at different time scales, which in the current application would enable the modeling of both slow and rapid biological/chemical reactions. Although a wide variety of LSTM configuration exist in literature, in this work we adopt the one recently proposed by [], which combines the forget/input gate and merges cell/hidden state for simplicity and better generalization performance. Mathematically, given the output from the grouped input layer, the deep dynamic layer performs
+\begin{equation}
+\begin{aligned}
+&z^d_t = \sigma\left( W^d_z [h_{t-1}^d,h_t^{d-1}] \right) \\
+&r^d_t = \sigma\left( W^d_r [h_{t-1}^d,h_t^{d-1}] \right) \\
+&\tilde{h}_t^d = tanh\left( W^d_h [r_t^d*h_{t-1}^d,h_t^{d-1}] \right) \\
+&h^d_t = (1-z_t^d)*h_{t-1}^d + z_t^d*\tilde{h}_t^d
+\end{aligned}
+\end{equation}
+for hidden layer numbered $d = 1,2,\cdots,D$. At the first dynamic layer with $d=1$, the input $h_t^{d-1}$ is set to be the output from the grouped input layer, and the output of the last dynamic layer, $h^D_t$, will be used as the input of the last component of Md$^3$RNN. 
 
 \subsubsection{Personalized Output Layer}
-
+Finally, each user is assigned a personalized output layer, parameterized by $W_o^j, j=1,\cdots,l$, which performs a single linear and sigmoid transformation on the results of the deep dynamic layer. The particular configuration of the output layer compensates for the individual characteristics in the exhibited blood glucose (i.e., measured blood glucose level). Because only data generated by a specific participant $j$ will have an effect on the its parameters $W_o^j$, the personalized output layer is set to have a ``shallow structure'', i.e., it only performs the transformation once. More specifically, given $h^D_t$ from user $j$, it computes
+\begin{equation}
+\hat{y}_t^j = \sigma \left( W_o^j h^D_t \right)
+\end{equation}
 
 \subsection{Cost Sensitive Learning and Hyperparamter selection}
+
+
+
+
