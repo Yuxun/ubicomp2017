@@ -3,9 +3,10 @@
 \subsection{Experimental Settings}
 \textbf{Datasets.}
 We validate \sysname on a dataset of $112$ participants ($35$ non-diabetes, $38$ type I diabetic patients, $39$ type II diabetic patients) collected during July 2016 to January 2017.
-Each participant is equipped with a \TODO{concrete brand, type} CGM device to record blood glucose concentration every $3$ minutes and a smartphone with \sysname installed to collect external factor information either automatically (activities and sleep quality) or manually (food, drug, and insulin intake).
-All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $5$ days.
-In total we obtain \TODO{XXX} samples of blood glucose concentration and the corresponding external factors covering \TODO{XXX} hours.
+Each participant is equipped with a\textcolor[rgb]{1.00,0.00,0.00}{ \emph{U-Tang}
+CGM device produced by WAVEGUIDER \cite{bib:CGM_wave}} to record blood glucose concentration every $3$ minutes and a smartphone with \sysname installed to collect external factor information either automatically (activities and sleep quality) or manually (food, drug, and insulin intake).
+All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, \textcolor[rgb]{1.00,0.00,0.00}{a disposable usage duration of enzyme of the CGM}.
+In total we obtain 762639 samples of blood glucose concentration and the corresponding external factors covering around 38132 hours.
 In brief, we collect the following categories of data:
 \begin{itemize}
   \item
@@ -14,8 +15,8 @@ In brief, we collect the following categories of data:
   \tabref{tab:parcitipant} summarizes the basic information of the participants.
   \item
   \textbf{Blood glucose measurements.}
-  Since we mainly aim to detect abnormal blood glucose events, we divide the blood glucose concentration into 4 levels: \TODO{the concrete range of each level}.
-  The duration of blood glucose measurements varies from 5 to 30 days.
+  Since we mainly aim to detect abnormal blood glucose events, we divide the blood glucose concentration into 4 levels shown in Table~\ref{tab:blood_glucose_levels}.
+  The duration of blood glucose measurements varies from 6 to 30 days.
   \tabref{tab:bgdata} summarizes amount of blood glucose measurements.
   \item
   \textbf{External factor measurements.}
@@ -37,20 +38,19 @@ In brief, we collect the following categories of data:
   25-34 & 17 \\
   35-44 & 24 \\
   45-54 & 29 \\
-  55-70 & 34 \\
+  55-64 & 34 \\
   \bottomrule
   \end{tabular}}%
   \quad% --- set horizontal distance between tables here
   \subfloat[]{%
-  \begin{tabular}{cc}
+  \begin{tabular}{ccc}
   \toprule
-  \textbf{Weight (kg)} & \textbf{\# User} \\
+  \textbf{Weight (kg)} &\textbf{BMI ($kg/m^2$)}\cite{bib:world2013bmi} &\textbf{\# User} \\
   \midrule
-  30-44 & 18 \\
-  45-54 & 21 \\
-  55-64 & 32 \\
-  65-74 & 22 \\
-  75-90 & 19 \\
+  Underweight & (0,  18.5) & 18 \\
+  Normal weight & [18.5,  25) & 31 \\
+  Overweight &  [25,  30) &41 \\
+  Obese &  [30, +$\infty$) & 22 \\
   \bottomrule
   \end{tabular}}%
   \quad%
@@ -137,7 +137,7 @@ In brief, we collect the following categories of data:
 We use the blood glucose concentrations collected by the CGM device as ground truth.
 
 \textbf{Metrics.}
-We mainly adopt three metrics to evaluate the performance of \sysname, including precision~\cite{}, recall~\cite{} and accuracy~\cite{}.
+We mainly adopt three metrics to evaluate the performance of \sysname, including precision~, recall and accuracy~\cite{prf1}.
 
 %
 %
@@ -153,11 +153,12 @@ We mainly adopt three metrics to evaluate the performance of \sysname, including
 %\end{table}
 
 \subsection{Overall Accuracy}
-Since all participants collected both measurements of CGM and external factors for at least 5 days, we use measurements during the former 4 days for training and the rest for testing.
+Since all participants collected both measurements of CGM and external factors for at least 6 days, \textcolor[rgb]{1.00,0.00,0.00}{a normal usage duration of enzyme in the CGM},
+we use measurements during the former 5 days for training and the rest for testing.
 \tabref{tab:confusion_matrix} shows the overall performance of \sysname.
 All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
-In particular, the recalls for Level 1 (\TODO{low/high blood glucose?}) and Level 4 \TODO{low/high blood glucose?} are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only account for \TODO{XXX\%} and \TODO{XXX\%} of the entire training set.
+In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only account for 9.88\% and 20.72\% of the entire training set.
 Overall, \sysname yields an accuracy of 82.14\%.
 
 \begin{table}[ht]
@@ -179,9 +180,9 @@ Level 4                                                                         
 
 \subsubsection{Effectiveness of Features}
 \tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
-By combining physiological features ($F_{p}$) with temporal features ($F_{t}$), the overall precisions and recalls improve by \TODO{XXX\% to XXX\%}.
-\TODO{XXX feature brings in the most notable improvement in detecting abnormal blood glucose events (Level XXX and Level XXX).
-This is because XXX.}
+By combining physiological features ($F_{p}$) with temporal features ($F_{t}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively. \textcolor[rgb]{1.00,0.00,0.00}{Specifically,
+the physiological features ($F_{p}$) and the historical blood glucose trend ($F_{t1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
+This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.}
 
 \begin{table}[h]
   \small
@@ -193,9 +194,9 @@ This is because XXX.}
                                    & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
   \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
   $F_{p}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
-  $F_{p}$+$F_{t1}$                   & 51.97$\%$               & 58.11$\%$                                 & 60.42$\%$                & 58.90$\%$            & 63.35$\%$               & 53.59$\%$                                 & 69.82$\%$               & 55.16$\%$                                 \\ \hline
+  $F_{p}$+$F_{t1}$                   & 51.97$\%$               & 58.11$\%$                                 & 60.42$\%$                & 58.90$\%$            & 63.35$\%$               & 53.59$\%$                                 & 69.82$\%$               & 65.16$\%$                                 \\ \hline
   $F_{p}$+$F_{t1}$+$F_{t2}$          & 64.60$\%$               & 73.08$\%$                                 & 69.87$\%$                & 61.23$\%$            & 74.33$\%$               & 67.81$\%$                                 & 76.64$\%$               & 72.32$\%$                                 \\ \hline
-  $F_{p}$+$F_{t1}$+$F_{t2}$+$F_{t3}$ & 73.62$\%$   & 83.13$\%$                                 & 83.13$\%$               & 83.13$\%$            & 80.55$\%$   & 79.97$\%$
+  $F_{p}$+$F_{t1}$+$F_{t2}$+$F_{t3}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
   & 83.72$\%$               & 85.23$\%$                                  \\ \hline
   \end{tabular}
 \end{table}
