@@ -298,9 +298,9 @@ Therefore we envision the training dataset will grow gradually after multiple ti
 The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
 Since \sysname does not rely on the previous blood glucose level as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated).
 \figref{fig:per_under_various_pred_days} plots the overall performance by training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
-As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of \TODO{XXX\%} and \TODO{XXX\%} in precision and recall after XXX days.
-From the results, we recommend \sysname users to put on the CGM device to \TODO{retrain the model?} at least every three weeks (?).
-
+As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, \textcolor[rgb]{1.00,0.00,0.00}{with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.}
+\textcolor[rgb]{1.00,0.00,0.00}{From the results, we recommend \sysname users to put on the CGM device to monitor the blood glucose at least every three weeks.
+The data sampled by the CGM will automatically feed into \sysname for a model retraining.}
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{./img/Performance_gap1.pdf}
