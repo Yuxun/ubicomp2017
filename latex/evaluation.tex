@@ -213,7 +213,11 @@ To demonstrate the effectiveness of the multi-task framework in making full use 
   Single learning results in a \emph{personalized} model without sharing data and learning knowledge from measurements of other participants.
 \end{itemize}
 \figref{fig:cmp_model} shows the overall precisions and recalls of our multi-task learning framework as well as general learning and single learning.
-As shown, our multi-task learning framework outperforms both general learning and single learning by \TODO{XXX\%} in precision and \TODO{XXX\%} in recall, respectively.
+\textcolor[rgb]{1.00,0.00,0.00}{As shown, our multi-task learning framework outperforms general learning by
+19.00\%  in average precision and 19.25\%, and advanced in single learning by 18.32\% in average precision and 16.57\% in average recall, respectively.}
+
+
+
 General learning performs slightly better than single learning for Level 2 and 3 (normal blood glucose levels), partly because the correlations between the inputs and normal blood glucose levels are relatively consistent for most people, while single learning suffers from lack of training data as it only uses user-specific data.
 Conversely, single learning achieves higher precision and recall than general learning for Level 1 and 4 (abnormal blood glucose levels), partly because there are notable inter-person differences in the correlations between the inputs and abnormal blood glucose levels.
 That is, the reasons for abnormal blood glucose levels can vary from person to person.
@@ -275,7 +279,7 @@ In this section we evaluate the performance of \sysname for different participan
 
 \subsubsection{Impact of amount of training samples}
 In this experiment, we evaluate the performance of \sysname with increasing numbers of training samples.
-Since our dataset consists of measurements of durations from 5 to 30 days (see \tabref{tab:bgdata}), we use measurements of 5 to 25 days for training and the remaining 5 days for testing.
+\textcolor[rgb]{0.00,0.59,0.00}{Since our dataset consists of personal measurements of durations from 6 to 30 days (see \tabref{tab:bgdata}), for each user, we increase the training samples from 5 to 25 days by every 5 days and take the testing samples from remaining days. } \TODO{Confuse}
 The results are averaged over all testing samples as in previous evaluations.
 \figref{fig:per_under_train_days} illustrates the results for all the 4 blood glucose levels.
 As expected, the precisions and recalls for all the 4 blood glucose levels improve smoothly with the increase of training samples.
@@ -285,21 +289,21 @@ Therefore we envision the training dataset will grow gradually after multiple ti
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/performance_under_days.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/performance_under_days1.pdf}
   \caption{Impact of increasing amount of training samples.}
   \label{fig:per_under_train_days}
 \end{figure}
 
 \subsubsection{Impact of Temporal Gaps}
-The blood glucose concentration is correlated with the previous blood glucose concentration because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
+The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
 Since \sysname does not rely on the previous blood glucose level as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated).
-\figref{fig:per_under_various_pred_days} plots the overall performance by training using the same 4 days of measurements, and testing on measurements collected on the 5-9th, 10-14th, 15-19th, 20-24th, and 25-29th days, respectively.
+\figref{fig:per_under_various_pred_days} plots the overall performance by training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of \TODO{XXX\%} and \TODO{XXX\%} in precision and recall after XXX days.
 From the results, we recommend \sysname users to put on the CGM device to \TODO{retrain the model?} at least every three weeks (?).
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/Performance_gap.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/Performance_gap1.pdf}
   \caption{Impact of temporal gaps between the training and testing datasets.}
   \label{fig:per_under_various_pred_days}
 \end{figure}
