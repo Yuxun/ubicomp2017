@@ -238,35 +238,35 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
 \begin{itemize}
   \item
   \textbf{Gradient Boosting (GB).}
-  GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
+  GB \cite{bib:friedman2002stochastic} generates a prediction model by combining many weak classifiers into a stronger classification committee.
   We use AdaBoost procedure implemented in the fastAdaboost package to combine basic tree classifiers for ensemble learning.
   We vary the maximum tree depth from 10 to 50 by factors of ten.
   The number of boosting iterations is varied from 100 to 500 by a step size of 50.
   \item
-  \textbf{Support Vehicle Machine (SVM).}
-  SVM bases on the idea of ¡°optimal separating hyperplane¡± that maximizes the separation margin of two data groups (classes).
+  \textbf{Support Vector Machine (SVM).}
+  SVM \cite{bib:wang2005support} bases on the idea of ¡°optimal separating hyperplane¡± that maximizes the separation margin of two data groups (classes).
   Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
   We train the Gaussian kernel SVM classifier with the kernlab package, which implements the sequential minimal optimization algorithm.
   We vary the kernel width from $2^{-5}$ to $2^4$ with a factor of 2.
   We pick the penalty parameter from the set $\{10^i | i = -3, 0.5, 2\}$.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
   \item
-  \textbf{Hidden Markov model (HMM).}
+  \textbf{Hidden Markov model (HMM).} \cite{bib:rabiner1986introduction}
   \item
-  \textbf{Logistic Regression (LR).}
+  \textbf{Logistic Regression (LR).}\cite{bib:hilbe2009logistic}
   LR models the posterior distribution of the class labels as a sigmoidal function of linear combinations of features.
   We use the glmnet package to train LR models with elastic net (combined L1 and L2) regularization.
   We vary the penalty parameter from 10$^{-3}$ to 10$^2$ with a factor 5.
   The mixing parameter is varied from 0 (Ridge) to 1 (Lasso) by a step size of 0.1.
   \item
-  \textbf{Random Forest (RF).}
+  \textbf{Random Forest (RF).}\cite{bib:liaw2002classification}
   As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
   To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
   For implementation, we adopt the conditional inference tree algorithm in the Party package.
   The total number of trees is tuned from 100 to 1000, and the maximum tree depth from 10 to 50.
   The splitting threshold is also varied from 0.1 to 0.9 with 0.1 intervals for cross validation.
   \item
-  \textbf{Gaussian Processes (GP).}
+  \textbf{Gaussian Processes (GP).}\cite{bib:rasmussen2006gaussian}
   Instead of directly parameterizing a latent function for classification, GP models it with a generic Gaussian process.
   The posterior of the process is updated with training data set, and is ¡°squashed¡± through a logistic function for classification.
   We implement GP with the kernlab package, which includes several approximation algorithms for acceleration.
@@ -312,18 +312,20 @@ The data sampled by the CGM will automatically feed into \sysname for a model re
 
 \subsubsection{Detection Accuracy throughout a Day}
 
-\figref{fig:pre_gt} compares the predictive results of \sysname and true blood glucose level of a user over one day.
+\figref{fig:pre_gt} compares the predictive results of \sysname and true blood glucose level of three users from non-diabetic group, Type I diabetic group and Type II diabetic group over one day, respectively. 
 \TODO{redraw similar figures for a non-diabetic user, a type I user and a type II user}.
 \TODO{better to include a trace where the accuracy when taking exercises, taking drugs and foods, is high. Also need to explain what the user is doing when the prediction is wrong.}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.5\columnwidth]{./img/pred_vs_gt.pdf}
+  \includegraphics[width=1\columnwidth]{./img/pred_vs_gt1.pdf}
   \caption{The comparison of prediction and the ground truths of one user.}
   \label{fig:pre_gt}
 \end{figure}
 
 \subsubsection{Detection Accuracy for Different Groups}
+Fig.~\ref{fig:cmp_groups} illustrates the results of each groups.  
+
 
 \TODO{redraw the figures, no need to include general and personal learning here. show the performance for different health status, gender, age groups, weight groups, \etc, explain why \sysname works better for certain groups, or works well for all groups}.
 
@@ -333,8 +335,9 @@ shows the results. As is shown, \modelname outperforms the general learning meth
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.9\columnwidth]{./img/group_multi_task.pdf}
+\includegraphics[width=0.9\columnwidth]{./img/group_multi_task2.pdf}
 \caption{The comparison of multi-task learning and group general learning.}
 \label{fig:cmp_groups}
 \end{figure}
 
+\subsubsection{Detection Accuracy for Different Groups}
