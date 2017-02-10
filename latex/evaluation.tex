@@ -3,7 +3,7 @@
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/experiment_case1.pdf}
+  \includegraphics[width=0.8\columnwidth]{./img/experiment_case2.pdf}
   \caption{Experimental case.}
   \label{fig:experiment_case}
 \end{figure}
@@ -166,8 +166,8 @@ we use measurements during the former 5 days for training and the rest for testi
 \tabref{tab:confusion_matrix} shows the overall performance of \sysname.
 All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
-In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only account for 9.88\% and 20.72\% of the entire training set.
-Overall, \sysname yields an accuracy of 82.14\%.
+In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only account for 9.88\% and 20.72\% of the entire training set.\textcolor[rgb]{1.00,0.00,0.00}{ It demonstrates \sysname can still be sensitive to the low/high blood levels under the limited data.
+Overall, \sysname yields an accuracy of 82.14\%, showing the outstanding performance to track the blood glucose.}
 
 \begin{table}[ht]
   \centering
@@ -175,7 +175,7 @@ Overall, \sysname yields an accuracy of 82.14\%.
   \label{tab:confusion_matrix}
   \begin{tabular}{|c|c|c|c|c|l|l|}
   \hline
-  \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Ground\\ Truth\end{tabular}}} & \multicolumn{4}{c|}{\textbf{Predictions}}                                                                                 & \multicolumn{2}{l|}{\multirow{2}{*}{}}                                                            \\ \cline{2-5}
+  \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Ground\\ Truth\end{tabular}}} & \multicolumn{4}{c|}{\textbf{Inference}}                                                                                 & \multicolumn{2}{l|}{\multirow{2}{*}{}}                                                            \\ \cline{2-5}
                                                                                  & Level 1                      & Level 2                      & Level 3                      & Level 4                      & \multicolumn{2}{l|}{}                                                                             \\ \hline
 Level 1                                                                          & \cellcolor[gray]{0.8}62657                        & 5521                         & 3672                         & 3519                         & 83.13\%                             & \multirow{4}{*}{\rotatebox{90}{\textbf{Recall}} }                           \\ \cline{1-6}
 Level 2                                                                          & 16346                        &  \cellcolor[gray]{0.8}240584                       & 27563                        & 9037                         & 81.96\%                             &                                                             \\ \cline{1-6}
@@ -186,28 +186,52 @@ Level 4                                                                         
 \end{tabular}
 \end{table}
 
-\subsubsection{Effectiveness of Features}
-\tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
-By combining physiological features ($F_{p}$) with temporal features ($F_{t}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively. \textcolor[rgb]{1.00,0.00,0.00}{Specifically,
-the physiological features ($F_{p}$) and the historical blood glucose trend ($F_{t1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
-This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.}
 
-\begin{table}[h]
-  \small
-  \centering
-  \caption{Effectiveness of features.}
-  \label{tab:features}
-  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
-  \hline
-                                   & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
-  \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
-  $F_{p}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
-  $F_{p}$+$F_{t1}$                   & 51.97$\%$               & 58.11$\%$                                 & 60.42$\%$                & 58.90$\%$            & 63.35$\%$               & 53.59$\%$                                 & 69.82$\%$               & 65.16$\%$                                 \\ \hline
-  $F_{p}$+$F_{t1}$+$F_{t2}$          & 64.60$\%$               & 73.08$\%$                                 & 69.87$\%$                & 61.23$\%$            & 74.33$\%$               & 67.81$\%$                                 & 76.64$\%$               & 72.32$\%$                                 \\ \hline
-  $F_{p}$+$F_{t1}$+$F_{t2}$+$F_{t3}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
-  & 83.72$\%$               & 85.23$\%$                                  \\ \hline
-  \end{tabular}
+\subsubsection{ Result of Inference Analysis}
+\label{subsec:predict_result_analysis}
+We detail the inference result based on the Clarke Error Grid Analysis (CEGA) \cite{bib:clarke2005original}.  The inference result are classified into four types from best to worst as shown in \tabref{predict_results}. Apparently, the percentages of result type decrease with from Type A (82.14\%) to Type E (0.91\%). In particular, the percentage of predicted errors (Type D and Type E), which probably leads to the serious troubles, are less than 5\%. The outstanding performance makes \sysname suitable for daily use.
+
+\small
+\begin{table}[]
+\centering
+\caption{Inference Result Analysis}
+\label{predict_results}
+\begin{tabular}{|c|l|c|}
+\hline
+\textbf{Type of Result} & \multicolumn{1}{c|}{\textbf{Explanation of Result}}                                                                                                                                                                                                & \textbf{Percentage} \\ \hline
+Type A                  & \begin{tabular}[c]{@{}l@{}}The inference value is consistent with the true value.\\ (\emph{i.e.}, the inference blood glucose level is correct.)\end{tabular}                                                                                             & 82.14\%             \\ \hline
+Type B                  & \begin{tabular}[c]{@{}l@{}}The inference result would not lead to inappropriate treatment. \\ (\emph{i.e.}, Level 2 is predicted as Level 3, or vice-versa.)\end{tabular}                                                                                 & 7.67\%              \\ \hline
+Type C                  & \begin{tabular}[c]{@{}l@{}}Predicted result leading to unnecessary treatment. \\ (\emph{i.e.}, Level 2 is predicted as Level 1/4,or Level 3 is predicted as Level 1/4.)\end{tabular}                                                                       & 5.47\%              \\ \hline
+Type D                  & \begin{tabular}[c]{@{}l@{}}True blood glucose level indicating a potentially dangerous failure to detect\\  the hypoglycemia or the hyperglycemia.\\ (\emph{i.e.}, Level 1/4 are predicted as Level 2/3.)\end{tabular} & 3.81\%              \\ \hline
+Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that would confuse treatment or hypoglycemia\\ for hyperglycemia or vice-versa.\\ (\emph{i.e.}, Level 1 is predicted as Level 4, and vice-versa.)\end{tabular}                                           & 0.91\%              \\ \hline
+\end{tabular}
 \end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\columnwidth]{./img/pred_vs_gt.pdf}
+  \caption{The comparison of prediction and the ground truths of one user.}
+  \label{fig:pre_gt}
+\end{figure}
+
+
+\subsubsection{Detection Accuracy throughout a Day}
+
+\textcolor[rgb]{1.00,0.00,0.00}{\figref{fig:pre_gt} compares the predictive results of \sysname and true blood glucose level of three users from non-diabetic group, Type I diabetic group and Type II diabetic group over one day, respectively. And we also use the absolute difference of ground truth level and predicted level to measure the divergence of results, and show them at the bottom figures.
+Although the predicted errors sometimes occur, most of the predict results is consistent with the true blood glucose levels. Specifically,  the dynamics of true blood glucose resulted by the external factors \eg food intake (Non-diabetic user at 6:00 and 11:30; Type I diabetic user at 6:10 and 16:50; Type II diabetic user at 6:00, 12:50 and 17:40), insulin injection ( Type I diabetic user at 8:30) and exercises (Type II diabetic user at 15:20) are well matched by the predicted results.
+To  detail the predicted errors, we found most divergences of predicted value and the groundtruth are 1, with only few 2s. It demonstrates the predicted results is still close to the true value even if it makes error.
+Besides, most errors occur either in the period of alternation between two levels (\eg Type II diabetic user from 6:00 to 6:30) or at the time stamps where a sudden blood glucose fluctuation happens (\eg non-diabetic user at 2:30 or Type I user at 0:30). For the former one, it is mainly due to the external factors tracked by \modelname have just changed for a short time, resulting in a little temporal delay to follow the true values. This type of error, however, can be revised quickly.
+For the latter one, the period of sudden blood glucose occurrence lasts too short for \sysname to the dynamics of external factors. Nevertheless, the duration of this kind of error is too short, which hardly harm the users.}
+
+\textcolor[rgb]{1.00,0.00,0.00}{Moreover, we can also learn most of errors belongs to the Type B/C  rather than Type D/E (serious error) in the \tabref{predict_results}, which are also accordant with the conclusion in \secref{subsec:predict_result_analysis}.}
+
+
+
+\TODO{redraw similar figures for a non-diabetic user, a type I user and a type II user}.
+\TODO{better to include a trace where the accuracy when taking exercises, taking drugs and foods, is high. Also need to explain what the user is doing when the prediction is wrong.}
+
+
+
 
 
 \subsubsection{Effectiveness of Multi-task Framework}
@@ -232,7 +256,7 @@ That is, the reasons for abnormal blood glucose levels can vary from person to p
 The multi-task framework combines the advantages of both general learning and single learning, which makes better use of the limited training data by sharing measurements among users, while preserving user-specific characteristics via the personal learning layer.
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/CMP_Models.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/CMP_Models1.pdf}
   \caption{Effectiveness of our multi-task learning framework in making full use of the training dataset.}
   \label{fig:cmp_model}
 \end{figure}
@@ -282,35 +306,40 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
 \end{itemize}
 \TODO{results}
 
-\subsubsection{Prediction Result  Analysis}
-\label{subsec:predict_result_analysis}
-We detail the prediction result based on the Clarke Error Grid Analysis (CEGA) \cite{bib:clarke2005original}.  The prediction result are classified into four types from best to worst as shown in \tabref{predict_results}. Apparently, the percentages of result type decrease with from Type A (82.14\%) to Type E (0.91\%). In particular, the percentage of predicted errors (Type D and Type E), which probably leads to the serious troubles, are less than 5\%. The outstanding performance makes \sysname suitable for daily use.
 
-\small
-\begin{table}[]
-\centering
-\caption{Predicted Result Analysis}
-\label{predict_results}
-\begin{tabular}{|c|l|c|}
-\hline
-\textbf{Type of Result} & \multicolumn{1}{c|}{\textbf{Explanation of Result}}                                                                                                                                                                                                & \textbf{Percentage} \\ \hline
-Type A                  & \begin{tabular}[c]{@{}l@{}}The predicted value is consistent with the true value.\\ (\emph{i.e.}, the predicted blood glucose level is correct.)\end{tabular}                                                                                             & 82.14\%             \\ \hline
-Type B                  & \begin{tabular}[c]{@{}l@{}}The predicted result would not lead to inappropriate treatment. \\ (\emph{i.e.}, Level 2 is predicted as Level 3, or vice-versa.)\end{tabular}                                                                                 & 7.67\%              \\ \hline
-Type C                  & \begin{tabular}[c]{@{}l@{}}Predicted result leading to unnecessary treatment. \\ (\emph{i.e.}, Level 2 is predicted as Level 1/4,or Level 3 is predicted as Level 1/4.)\end{tabular}                                                                       & 5.47\%              \\ \hline
-Type D                  & \begin{tabular}[c]{@{}l@{}}True blood glucose level indicating a potentially dangerous failure to detect\\  the hypoglycemia or the hyperglycemia.\\ (\emph{i.e.}, Level 1/4 are predicted as Level 2/3.)\end{tabular} & 3.81\%              \\ \hline
-Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that would confuse treatment or hypoglycemia\\ for hyperglycemia or vice-versa.\\ (\emph{i.e.}, Level 1 is predicted as Level 4, and vice-versa.)\end{tabular}                                           & 0.91\%              \\ \hline
-\end{tabular}
-\end{table}
 
 
 %It was then used to quantify the clinical accuracy of blood glucose estimates generated by meters as compared to a reference value.
 
 \subsection{Micro-benchmarks}
 In this section we evaluate the performance of \sysname for different participant groups as well as its temporal performance.
+\subsubsection{Effectiveness of Features}
+\tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
+By combining physiological features ($F_{p}$) with temporal features ($F_{t}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively. \textcolor[rgb]{1.00,0.00,0.00}{Specifically,
+the physiological features ($F_{p}$) and the historical blood glucose trend ($F_{t1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
+This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.}
+
+\begin{table}[h]
+  \small
+  \centering
+  \caption{Effectiveness of features.}
+  \label{tab:features}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+  \hline
+                                   & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
+  \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
+  $F_{p}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
+  $F_{p}$+$F_{t1}$                   & 51.97$\%$               & 58.11$\%$                                 & 60.42$\%$                & 58.90$\%$            & 63.35$\%$               & 53.59$\%$                                 & 69.82$\%$               & 65.16$\%$                                 \\ \hline
+  $F_{p}$+$F_{t1}$+$F_{t2}$          & 64.60$\%$               & 73.08$\%$                                 & 69.87$\%$                & 61.23$\%$            & 74.33$\%$               & 67.81$\%$                                 & 76.64$\%$               & 72.32$\%$                                 \\ \hline
+  $F_{p}$+$F_{t1}$+$F_{t2}$+$F_{t3}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
+  & 83.72$\%$               & 85.23$\%$                                  \\ \hline
+  \end{tabular}
+\end{table}
+
 
 \subsubsection{Impact of amount of training samples}
 In this experiment, we evaluate the performance of \sysname with increasing numbers of training samples.
-\textcolor[rgb]{0.00,0.59,0.00}{Since our dataset consists of personal measurements of durations from 6 to 30 days (see \tabref{tab:bgdata}), for each user, we increase the training samples from 5 to 25 days by every 5 days and take the testing samples from remaining days. } \TODO{Confuse}
+\textcolor[rgb]{0.00,0.59,0.00}{Since our dataset consists of personal measurements from 6 to 30 days (see \tabref{tab:bgdata}), we increase the individual training samples from 5 to 25 days by every 5 days and take the testing by the samples from remaining days. When the samples of a user are exhausted for training, we ignores this user for testing. For example, if the measurements of the CGM last for 7 days, and the requirement of the training data is 5 days. We take the data of the former 5 days for training and take the left for testing. However, while the requirement of training days increases to 10 days, we use all the user's data for training and ignore him/her for testing.}
 The results are averaged over all testing samples as in previous evaluations.
 \figref{fig:per_under_train_days} illustrates the results for all the 4 blood glucose levels.
 As expected, the precisions and recalls for all the 4 blood glucose levels improve smoothly with the increase of training samples.
@@ -341,43 +370,13 @@ The data sampled by the CGM will automatically feed into \sysname for a model re
 
 
 
-\subsubsection{Detection Accuracy throughout a Day}
-
-\textcolor[rgb]{1.00,0.00,0.00}{\figref{fig:pre_gt} compares the predictive results of \sysname and true blood glucose level of three users from non-diabetic group, Type I diabetic group and Type II diabetic group over one day, respectively. And we also use the absolute difference of ground truth level and predicted level to measure the divergence of results, and show them at the bottom figures.
-Although the predicted errors sometimes occur, most of the predict results is consistent with the true blood glucose levels. Specifically,  the dynamics of true blood glucose resulted by the external factors \eg food intake (Non-diabetic user at 6:00 and 11:30; Type I diabetic user at 6:10 and 16:50; Type II diabetic user at 6:00, 12:50 and 17:40), insulin injection ( Type I diabetic user at 8:30) and exercises (Type II diabetic user at 15:20) are well matched by the predicted results.
-To  detail the predicted errors, we found most divergences of predicted value and the groundtruth are 1, with only few 2s. It demonstrates the predicted results is still close to the true value even if it makes error.
-Besides, most errors occur either in the period of alternation between two levels (\eg Type II diabetic user from 6:00 to 6:30) or at the time stamps where a sudden blood glucose fluctuation happens (\eg non-diabetic user at 2:30 or Type I user at 0:30). For the former one, it is mainly due to the external factors tracked by \modelname have just changed for a short time, resulting in a little temporal delay to follow the true values. This type of error, however, can be revised quickly.
-For the latter one, the period of sudden blood glucose occurrence lasts too short for \sysname to the dynamics of external factors. Nevertheless, the duration of this kind of error is too short, which hardly harm the users.}
-
-\textcolor[rgb]{1.00,0.00,0.00}{Moreover, we can also learn most of errors belongs to the Type B/C  rather than Type D/E (serious error) in the \tabref{predict_results}, which are also accordant with the conclusion in \secref{subsec:predict_result_analysis}.}
 
 
+%\subsubsection{Detection Accuracy for Different Groups}
+%Fig.~\ref{fig:cmp_groups} illustrates the results of each groups.
+%
+%\TODO{redraw the figures, no need to include general and personal learning here. show the performance for different health status, gender, age groups, weight groups, \etc, explain why \sysname works better for certain groups, or works well for all groups}.
+%
+%We also apply general learning approach on the users in same group, and compare the prediction performance of \modelname. Fig.~\ref{fig:cmp_groups}
+%shows the results. As is shown, \modelname outperforms the general learning methods in each group, especially the performance of level 1 and level 4. It mainly results by two reasons. On the one hand, the limitation of blood glucose data in each group weakens the capability of temporal dynamic characteristics. On the other hand, the imbalanced distribution of blood glucose data of one group also low the performance down. For example, much more data of level 4 and much less data of level 1 in group 3 (type II diabetes) low down the recall of level 1 and the precision of level 4. It is even hard to be solved by the cost sensitive approach.
 
-\TODO{redraw similar figures for a non-diabetic user, a type I user and a type II user}.
-\TODO{better to include a trace where the accuracy when taking exercises, taking drugs and foods, is high. Also need to explain what the user is doing when the prediction is wrong.}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=1\columnwidth]{./img/pred_vs_gt.pdf}
-  \caption{The comparison of prediction and the ground truths of one user.}
-  \label{fig:pre_gt}
-\end{figure}
-
-\subsubsection{Detection Accuracy for Different Groups}
-Fig.~\ref{fig:cmp_groups} illustrates the results of each groups.
-
-
-\TODO{redraw the figures, no need to include general and personal learning here. show the performance for different health status, gender, age groups, weight groups, \etc, explain why \sysname works better for certain groups, or works well for all groups}.
-
-We also apply general learning approach on the users in same group, and compare the prediction performance of \modelname. Fig.~\ref{fig:cmp_groups}
-shows the results. As is shown, \modelname outperforms the general learning methods in each group, especially the performance of level 1 and level 4. It mainly results by two reasons. On the one hand, the limitation of blood glucose data in each group weakens the capability of temporal dynamic characteristics. On the other hand, the imbalanced distribution of blood glucose data of one group also low the performance down. For example, much more data of level 4 and much less data of level 1 in group 3 (type II diabetes) low down the recall of level 1 and the precision of level 4. It is even hard to be solved by the cost sensitive approach.
-
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=0.9\columnwidth]{./img/group_multi_task2.pdf}
-\caption{The comparison of multi-task learning and group general learning.}
-\label{fig:cmp_groups}
-\end{figure}
-
-\subsubsection{Detection Accuracy for Different Groups}
