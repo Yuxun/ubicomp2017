@@ -210,8 +210,8 @@ Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that 
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=1\columnwidth]{./img/pred_vs_gt2.pdf}
-  \caption{The comparison of prediction and the ground truths of one user.}
+  \includegraphics[width=0.8\columnwidth]{./img/pred_vs_gt2.pdf}
+  \caption{The comparison of prediction and the ground truths of users.}
   \label{fig:pre_gt}
 \end{figure}
 
@@ -236,43 +236,50 @@ For the latter one, the period of sudden blood glucose fluctuation lasts too sho
 \subsection{Model Comparison}
 
 \subsubsection{Effectiveness of Multi-task Framework}
-To demonstrate the effectiveness of the multi-task framework in making full use of the training dataset, we evaluation \modelname as follows.
-
-\paragraph{Evaluation on the layers of framework}
-To justify the effectiveness of the framework of \modelname, we study the results of inference by combining the grouped-input layer and the output layer on the Deep Dynamic RNN model(the middel layer). \figref{fig:cmp_model} shows the results. As we can see, the precision and recall of inference are growing up by adding each layer, with the increasements by 21.13\% in average precision and 18.57\% in average recall, respectively.
-
+To demonstrate the effectiveness of the multi-task framework in making full use of the training dataset, we evaluation \modelname from two views.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{./img/CMP_Models1.pdf}
-  \caption{Effectiveness of Multi-task Framework.}
+  \caption{Performance of layer combinations.}
   \label{fig:cmp_model}
 \end{figure}
+\paragraph{Evaluation on the layer combination}
+\textcolor[rgb]{1.00,0.00,0.00}{To justify the effectiveness of the framework of \modelname, we study the results of inference by combining the grouped-input layer and the output layer on the Deep Dynamic RNN model(the middel layer). \figref{fig:cmp_model} shows the results. As we can see, the precision and recall of inference are growing up by adding each layer, with the increasements by 21.13\% in average precision and 18.57\% in average recall, respectively. Moreover, the standard deviations narrow down gradually from 17.25\% to 10.25\%  of average precision, and from 20.75\% to 10.75\% of average recall. It demonstrates that the combination of three layers can well model the similarities of users in a same group as well as the distinct personality of every user.}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{./img/performance_of_multi_division.pdf}
+  \caption{Performance of multi-division learning.}
+  \label{fig:cmp_multi_division}
+\end{figure}
+
+
 
 \paragraph{Evaluation on the multi-division learning}
 To evaluate the effectiveness of the multi-division learning, which shares data and knowledge between groups and users, we compare the performance of \modelname with the results of following models.
 
 \begin{itemize}
   \item \emph{General Learning.}
-  All the training data are directly fed into the model for training indifferently.
+  All the training data are directly fed into the model (\ie RNN) for training indifferently.
   General learning results in a \emph{generic} model that assumes universal correlations between all inputs and the blood glucose levels.
   \item \emph{Group Learning.}
-  The data of users belonging to a same group are trained together, and three different models are trained for the three groups (\ie healthy, Type I and Type II) respectively. The result of inference enables to model the similarities among a group but ignoring the individual personalities.
+\textcolor[rgb]{1.00,0.00,0.00}{ The data of users belonging to a same group are fed into a model (\ie RNN) for training together. Three models of three groups (\ie healthy, Type I and Type II) are obtained finally. The group learning results in a \emph{group} model that sharing the general characteristics of users in a same group but not the users of other groups.}
   
   \item \emph{Single Learning.}
-  We train a different model for each individual participant by feeding his/her own measurements into the model.
+  We train a different model (\ie RNN) for each individual participant by feeding his/her own measurements into the model.
   Single learning results in a \emph{personalized} model without sharing data and learning knowledge from measurements of other participants.
 \end{itemize}
 
-\figref{fig:cmp_model} shows the overall precisions and recalls of our multi-task learning framework as well as general learning and single learning.
-\textcolor[rgb]{1.00,0.00,0.00}{As shown, our multi-task learning framework outperforms general learning by
-19.00\%  in average precision and 19.25\%, and advanced in single learning by 18.32\% in average precision and 16.57\% in average recall, respectively.}
+\figref{fig:cmp_multi_division} shows the overall precisions and recalls of our \modelname as well as \emph{General learning}, \emph{Group learning} and \emph{Single learning}.
+\textcolor[rgb]{1.00,0.00,0.00}{As shown, our multi-divisional learning framework (\sysname) outperforms best among the four learning approaches with 80.75\% of average precision and 82.57\% of average recall, and its standard deviations (17.18\% of average precision and 17\% of average recall) of four levels are also lowest, which well demonstrates the effectiveness and  stability of our multi-division learning. }
 
+\textcolor[rgb]{1.00,0.00,0.00}{Compared to \modelname, although general learning method makes full use of the training data equally, it ignores the personal difference of blood glucose and thus leads to low inference results. Conversely, single learning approach encodes the individual characteristics but suffers from lacking of user-specific training dataset. Even though the similarities of users can be learnt by the group learning model, the inter-person physiological differences and data limitation still drop down the performance.}
 
-
-General learning performs slightly better than single learning for Level 2 and 3 (normal blood glucose levels), partly because the correlations between the inputs and normal blood glucose levels are relatively consistent for most people, while single learning suffers from lack of training data as it only uses user-specific data.
-Conversely, single learning achieves higher precision and recall than general learning for Level 1 and 4 (abnormal blood glucose levels), partly because there are notable inter-person differences in the correlations between the inputs and abnormal blood glucose levels.
-That is, the reasons for abnormal blood glucose levels can vary from person to person.
-The multi-task framework combines the advantages of both general learning and single learning, which makes better use of the limited training data by sharing measurements among users, while preserving user-specific characteristics via the personal learning layer.
+%General learning performs slightly better than single learning for Level 2 and 3 (normal blood glucose levels), partly because the correlations between the inputs and normal blood glucose levels are relatively consistent for most people, while single learning suffers from lack of training data as it only uses user-specific data.
+%Conversely, single learning achieves higher precision and recall than general learning for Level 1 and 4 (abnormal blood glucose levels), partly because there are notable inter-person differences in the correlations between the inputs and abnormal blood glucose levels.
+%That is, the reasons for abnormal blood glucose levels can vary from person to person.
+\textcolor[rgb]{1.00,0.00,0.00}{\modelname combines the advantages of these three learning approaches, which  makes better use of the limited training data by sharing measurements among users and,  while preserving user-specific characteristics via the personal learning layer.}
 
 
 
@@ -299,11 +306,8 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   \item
   \textbf{Hidden Markov model (HMM).} \cite{bib:rabiner1986introduction}
   \item
-  \textbf{Logistic Regression (LR).}\cite{bib:hilbe2009logistic}
-  LR models the posterior distribution of the class labels as a sigmoidal function of linear combinations of features.
-  We use the glmnet package to train LR models with elastic net (combined L1 and L2) regularization.
-  We vary the penalty parameter from 10$^{-3}$ to 10$^2$ with a factor 5.
-  The mixing parameter is varied from 0 (Ridge) to 1 (Lasso) by a step size of 0.1.
+  \textbf{Artificial neural network (ANN).}\cite{bib:wang2003artificial}
+  
   \item
   \textbf{Random Forest (RF).}\cite{bib:liaw2002classification}
   As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
@@ -318,7 +322,14 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   We implement GP with the kernlab package, which includes several approximation algorithms for acceleration.
   We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
 \end{itemize}
-\TODO{results}
+
+\figref{fig:cmp_models} illustrates the results. Apparently, \modelname achieves best performance on both precisions and recalls. 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{./img/Model_CMP.pdf}
+  \caption{Comparison with classic models.}
+  \label{fig:cmp_models}
+\end{figure}
 
 
 
