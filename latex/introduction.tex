@@ -19,21 +19,25 @@ In addition to the glucose metabolism that is difficult to measure directly, blo
 Pioneer works~\cite{bib:EMBC12:Nguyen, bib:SEMPER16:Ranvier, bib:JDST14:Sobel} have proposed preliminary systems leveraging commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose events.
 Nevertheless, they are validated with limited numbers of dialectic patients~\cite{bib:SEMPER16:Ranvier, bib:JDST14:Sobel} or still require complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen, bib:JDST14:Sobel}.
 
-In this work, we design \sysname, the first personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking mean and insulin intake, physical activity and sleep quality.
-When \sysname detects an abnormal blood glucose event, it reminds the user to double-check by finger pricking or using clinical CGM devices.
-\sysname exploits recent advances in smartphone-based automatic human activity recognition \cite{bib:kwapisz2011activity} and sleep quality measurement \cite{bib:gu2014intelligent} to acquire external factors as input for abnormal blood glucose event detection, making it widely applicable in daily use.
+In this work, we design \sysname, the first personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking meal, drug and insulin intake, physical activity and sleep quality.
+When \sysname detects an abnormal blood glucose event, it reminds the user to double-check by finger pricking or using CGM devices.
+\sysname exploits recent advances in smartphone-based automatic human activity recognition~\cite{bib:KDDEN11:Kwapisz} and sleep quality measurement~\cite{bib:UbiComp14:Gu} to acquire external factors as input for abnormal blood glucose event detection, making it widely applicable in daily use.
 In addition, \sysname considers both \emph{generic} and \emph{user-specific} correlations between blood glucose levels and the measurable external factors, which is largely overlooked in previous works.
 
 However, it is challenging to learn effective, accurate and personalized blood glucose models in practice.
 While there have been general blood glucose models that characterizing universal trends between blood glucose concentration and various external factors~\cite{bib:IJNMBE16:Oviedo}, they have to be adjusted based on user-specific data to account for inter-user differences~\cite{bib:ICMLA13:Bunescu}.
 Yet it is often difficult to collect sufficient data to directly build up personalized models~\cite{bib:KDHealth16:Marling}.
 \emph{(i)}
-A disposable glucose sensor embedded in the CGM device is only capable of a few days \cite{bib:CGM_wiki}, and most users are unwilling to wear CGM devices frequently due to discomfort.
+A disposable glucose sensor embedded in the CGM device is only capable of a few days \cite{bib:CGM_wiki, bib:CGM_wave}, and most users are unwilling to wear CGM devices frequently due to discomfort.
 \emph{(ii)}
 Despite their importance, measurements of hyper- and hypoglycemia events are rare compared with normal blood glucose concentrations, making it difficult to accurately detection abnormal blood glucose events.
 
-To take full advantages of the \emph{sparse}, \emph{imbalanced} measurements to build \emph{personalized} blood glucose level models, we propose \modelname, a multi-task deep Recurrent Neural Network (RNN) framework to efficiently extract general blood glucose level relevant features and preserve user-specific characteristics.
-Evaluations on the blood glucose dataset composed of 112 users lasting  7 months show that our novel \modelname framework outperforms both generic learning (\ie ignoring inter-user differences) and personalized learning (due to lack of measurements).
+To take full advantages of the \emph{sparse}, \emph{imbalanced} measurements to build \emph{personalized} blood glucose level models, we propose \modelname (multi-division deep dynamic recurrent neural network), a novel learning paradigm that efficiently extracts general blood glucose level relevant features and preserve user-specific characteristics.
+Our \modelname advances previous recurrent neural network (RNN) structures in two perspectives.
+On the one hand, it replaces the single hidden layer with multiple deep stacked layers to describe complex, multi-scale dynamics in blood glucose metabolism.
+On the other hand, it leverages a group-shared input layer to extract distinctive feature representations within the same group (\ie non-diabetic, type I and type II diabetic), and adds a personalized output layer to capture individual differences.
+In short, \modelname can be regarded as both a deep extension of RNN and a combination of single-task and multi-task learning.
+Evaluations on the blood glucose dataset composed of 112 users lasting 7 months show that our novel \modelname framework outperforms both generic learning (\ie ignoring inter-user differences) and personalized learning (due to lack of measurements), and also achieves notably higher inference accuracy than conventional shallow learning algorithms.
 
 The key contributions of this work are summarized as follows.
 \begin{itemize}
@@ -41,14 +45,15 @@ The key contributions of this work are summarized as follows.
   To the best of our knowledge, \sysname is the first smartphone-based personalized abnormal blood glucose event detection system that works without CGM data as input.
   It automatically collects exercise levels and sleep quality, together with manual records of food and drug intake, and infers the current blood glucose level of users.
   \item¡¡
-  We design \modelname, a multi-task deep RNN framework able to share sensory measurements in an information representation layer and a temporal dynamic deep learning layer, but preserve individual blood glucose characteristics in a personality learning layer.
+  We propose \modelname, a novel multi-division deep RNN framework able to \emph{(i)} depict complex dynamics via deep dynamic layers, \emph{(i)} extract group-distinct feature representations via grouped input layers, and \emph{(iii)} preserve user-specific characteristics via the personalized output layer.
   It tackles the typical sparsity and imbalance problems in datasets for blood glucose modeling and offers an opportunity to build personalized blood glucose models for the general public based on limited personal measurements.
   \item
-  We conduct extensive evaluations on both diabetic patients (type 1 and type 2) non-diabetic people.
-  Experimental results from a dataset covering 35 healthy people, 38 Type I and 39 Type II patients during more than a half of a year demonstrate that \sysname yields the accuracy of 82.14\%, and outperforms than general learning method and personalized learning method in precision and recall respectively
+  We conduct extensive evaluations on both diabetic patients and non-diabetic people.
+  Experimental results from a dataset covering 35 non-diabetic people, 38 type I and 39 type II diabetic patients in six months demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, personalized learning and shallow learning algorithms in precision and recall.
 \end{itemize}
 
-In the rest of this paper, we...
+In the rest of this paper, we review related works in \secref{sec:relwork}, present an overview of \sysname in \secref{sec:overview}, and elaborate on the detailed design and evaluation in \secref{sec:design} and \secref{sec:eval}, respectively.
+Finally we conclude this paper in \secref{sec:conclusion}.
 %\begin{itemize}
 %  \item
 %  A non-intrusive and ubiquitous approach is proposed to monitor the blood glucose variance with smartphones.

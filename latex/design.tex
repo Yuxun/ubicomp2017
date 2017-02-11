@@ -262,17 +262,17 @@ Consequently, we exploit the glucose concentration $G$ derived from the physiolo
 As blood glucose level naturally varies over time, we extract two temporal features for blood glucose level inference.
 \begin{itemize}
   \item
-  History blood glucose concentration at time $k$: 
+  History blood glucose concentration $X_{T_1}$ at time $k$:
   Since people usually tend to lead a regular lifestyle, \eg having meals in the morning, at noon and in the evening and sleep at night, the blood glucose concentration also exhibits rough daily cycles.
   \figref{fig:XXX} plots the daily blood glucose traces of a volunteer for six successive days measured by a CGM device.
   \TODO{explain the figure, \eg always peak at XXX, XXX, XXX time, due to \eg meals, and...}
   This motivates us to adopt the history blood glucose concentrations at time stamp $k$ (averaged over $D$ days) as one temporal feature to infer the blood glucose level at time $k$.
   In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3min, which is accord with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
   \item
-  Most recent physiological features $X_R$:
+  Most recent physiological features $X_{T_2}$:
   As shown in the physiological models, the current blood glucose concentration is relevant to the recent blood glucose concentration and physiological features.
-  However, in the physiological features $X_P$, only the physiological features at the last time stamp are considered. 
-  To account for more short-term temporal dependencies, we propose to include the $l$ most recent physiological features $X_R(k) = \{X_P(k), X_P(k-1), \ldots, X_P(k-l+1)\}$, where $l=5$ in our implementation.
+  However, in the physiological features $X_P$, only the physiological features at the last time stamp are considered.
+  To account for more short-term temporal dependencies, we propose to include the $l$ most recent physiological features $X_{T_2}(k) = \{X_P(k), X_P(k-1), \ldots, X_P(k-l+1)\}$, where $l=5$ in our implementation.
   That is, instead of considering the physiological features in the last 3min, we infer the current blood glucose level leveraging features in the last 15min.
 \end{itemize}
 In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $X_T$ for blood glucose level inference.
