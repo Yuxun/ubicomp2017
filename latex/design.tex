@@ -42,7 +42,8 @@ In summary, the five external factors are transformed into four categories of me
 
 \subsection{Feature Engineering}
 \label{subsec:features}
-We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U_E, U_S\}$ from both the physiological view ($X_P$, 10-dimension) and the temporal view ($X_T$, 51-dimension) to infer blood glucose levels, detailed as follows:
+We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U_E, U_S\}$ from both the physiological view ($X_P$, 10-dimension) and the temporal view ($X_T$, 51-dimension) to infer blood glucose levels. 
+%detailed as follows:
 
 \subsubsection{Features from Physiological View $X_P$}
 \label{subsubsec:physiological}
@@ -127,6 +128,8 @@ Note that it is generally difficult to determine the parameters in the transitio
 Therefore, the glucose concentration $G$ derived from the physiological model usually deviates from the actual blood glucose level.
 It can be viewed as a ``nominal'' blood glucose indicator averaged out from the overall population.
 Consequently, we exploit the glucose concentration $G$ derived from the physiological model as one dimension of the physiological features, which are fed into our \modelname framework to learn the complex, personalized dynamics of blood glucose.
+
+In summary, we extract a 10-dimension physiological feature vector $X_P$ for blood glucose level inference.
 
 %\emph{Carbohydrate dynamics}:
 %Carbohydrate dynamics refer to the transitions of carbohydrate consumption $C_{g_1}$ and the carbohydrate digestion $C_{g_2}$.
@@ -276,6 +279,7 @@ As blood glucose level naturally varies over time, we extract two temporal featu
   To account for more short-term temporal dependencies, we propose to include the $l$ most recent physiological features $X_{T_2}(k) = \{X_P(k), X_P(k-1), \ldots, X_P(k-l+1)\}$, where $l=5$ in our implementation.
   That is, instead of considering the physiological features in the last 3min, we infer the current blood glucose level leveraging features in the last 15min.
 \end{itemize}
+
 In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $X_T$ for blood glucose level inference.
 %Considering the physiological features may generate the temporal delay effects on the blood glucose, \sysname also takes the physiological factor vectors in the past 15 minutes as recent physiological features to measure their impacts on the current blood glucose concentration.
 
@@ -315,7 +319,7 @@ The deep structure in the new model is able to describe complex, multi-scale dyn
 Secondly, the correlations among users, being quite significant within user groups (divisions), are encoded by group-shared input layer and common hidden layers, whereas the distinct characteristics of individual users are modeled with different output layers for personalized prediction.
 Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancement of deep learning and multi-task learning, to model group-interacted time series data having complex temporal dynamics.
 It can be viewed as both a deep extension of RNN, and an intermediate between single-task learning and multi-task learning, hence the name.
-Although we develop \modelname for the specific use case of \sysname, it is worth pointing out that it can be readily applied to many other applications dealing with grouped dynamic data. 
+Although we develop \modelname for the specific use case of \sysname, it is worth pointing out that it can be readily applied to many other applications dealing with grouped dynamic data.
 The overall configuration of the proposed model is summarized in \figref{fig:rnn}.
 Detailed construction of each component is given in the sequel.
 

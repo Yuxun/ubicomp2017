@@ -1,10 +1,19 @@
 
 \section{Conclusion}
 \label{sec:conclusion}
+Inferring blood glucose levels is important to avoid health risks incurred by hyperglycemia and hypoglycemia.
+Commercial continuous blood glucose monitoring devices can be invasive and inconvenient to wear, which degrades the quality of life for diabetic patients and makes them inaccessible to non-diabetic people.
+We present \sysname, a ubiquitous blood glucose level inference system using commodity smartphones.
+It measures important external factors that affect blood glucose concentration and adopts machine learning to infer blood glucose levels at a fine-grained time resolution.
+The core of \sysname is a novel learning paradigm, \modelname, which depicts complex glucose dynamics via a deep model, extracts generic feature representations with a grouped multi-task framework, and preserves individual differences using personalized outputs.
+It tackles the sparsity and imbalance problem, which is the main hurdle in accurate, personalized blood glucose level tracking.
+We deploy \sysname to 112 users and collect measurements for over 7 months. 
+Evaluations show that \sysname outperforms the state-of-the-arts in blood glucose level inference accuracy.
+With fully automatic recording of external factors in the future, we envision \sysname as a user-friendly and reliable complement for continuous blood glucose monitoring in daily life. 
 
-Designing a pervasive and real-time blood glucose tracking system is crucial yet challenging. Existing devices either limited by the discontinuous usage (\eg finger pricking) or life interference (\ie continuous blood glucose monitor), preventing users measuring their blood glucose value regularly.
-The traditional inference models, however, suffer from the sparse data, resulting in the issue of low accuracy.
-In this paper, we implemented \sysname, a mobile framework tracking personal blood glucose level in real time.
-By adopting a novel statistical model \modelname, \sysname gets rid
-of the sparsity of individual blood glucose data, and then encodes the relationships between external factors and blood glucose levels comprehensively. The inference results could benefit users in learning their
-blood glucose alternation without interference, and further guiding their healthy behaviors (\eg the amount of food, drug and insulin intake, the sleep duration). We implemented \sysname on iOS platform and examined its performance on 112 participants over 7 months. The results show that \modelname outperforms the traditional statistical models, and achieves desirable monitor accuracy, making \sysname satisfy in daily use.
+%Designing a pervasive and real-time blood glucose tracking system is crucial yet challenging. Existing devices either limited by the discontinuous usage (\eg finger pricking) or life interference (\ie continuous blood glucose monitor), preventing users measuring their blood glucose value regularly.
+%The traditional inference models, however, suffer from the sparse data, resulting in the issue of low accuracy.
+%In this paper, we implemented \sysname, a mobile framework tracking personal blood glucose level in real time.
+%By adopting a novel statistical model \modelname, \sysname gets rid
+%of the sparsity of individual blood glucose data, and then encodes the relationships between external factors and blood glucose levels comprehensively. The inference results could benefit users in learning their
+%blood glucose alternation without interference, and further guiding their healthy behaviors (\eg the amount of food, drug and insulin intake, the sleep duration). We implemented \sysname on iOS platform and examined its performance on 112 participants over 7 months. The results show that \modelname outperforms the traditional statistical models, and achieves desirable monitor accuracy, making \sysname satisfy in daily use. 

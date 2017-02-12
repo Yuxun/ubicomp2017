@@ -199,10 +199,10 @@ In fewer than 5\% of the cases, \sysname will miss an abnormal blood glucose eve
 Therefore, \sysname is suitable as an temporal alternative for CGM devices.
 However, we do not recommend \sysname for extended duration of usage for patients serious diabetics, who need regular blood glucose management.
 
-\small
 \begin{table}[h]
 \centering
-\caption{Inference Result Analysis}
+\small
+\caption{Inference result analysis.}
 \label{predict_results}
 \begin{tabular}{|c|l|c|}
 \hline
@@ -308,7 +308,7 @@ Conversely, single learning approach encodes the individual characteristics but 
 
 
 \subsubsection{Effectiveness of Deep, Multi-division Learning}
-To demonstrate the effectiveness of adopting deep learning algorithms over conventional shallow learning algorithms, we compare our \modelname with the following algorithms.
+To demonstrate the effectiveness of adopting deep learning algorithms over conventional shallow learning algorithms, we compare \modelname with the following algorithms.
 \begin{itemize}
   \item
   \textbf{Gradient Boosting (GB).}
@@ -326,10 +326,10 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
   \item
   \textbf{Hidden Markov model (HMM).} \cite{bib:rabiner1986introduction}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process. Simple as it is, HMM is widely used in signal processing and time series analysis due to its flexibility and tractability. In addition, it has close tights with optimal filtering and state estimation. In our implementation, HMM is learned with the classic Viterbi algorithm. 
+  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process. Simple as it is, HMM is widely used in signal processing and time series analysis due to its flexibility and tractability. In addition, it has close tights with optimal filtering and state estimation. In our implementation, HMM is learned with the classic Viterbi algorithm.
   \item
   \textbf{Artificial neural network (ANN).}\cite{bib:wang2003artificial}
-  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow.  
+  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow.
   \item
   \textbf{Random Forest (RF).}
   As another ensemble method, RF~\cite{bib:liaw2002classification} combines many simple decision trees together and output the mode of classes for prediction.
@@ -347,7 +347,7 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
 
 \figref{fig:cmp_models} illustrates the results.
 Apparently, \modelname achieves best performance on both precisions and recalls.
-More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4. Among those baselines, it appears that no method could dominate the others, except that HMM performs slightly better in terms of recall score. This is mainly because HMM is the only method among baselines that incorporates temporal dependence. However compared to \modelname which is able to describe multi-scale dynamics, overall HMM is still much worse.  The overwhelming performance of \modelname is somewhat expected, as those classical baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users. The above observation further justifies the effort of adopting valuable knowledge about the application, for the design of new machine learning paradigms. 
+More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4. Among those baselines, it appears that no method could dominate the others, except that HMM performs slightly better in terms of recall score. This is mainly because HMM is the only method among baselines that incorporates temporal dependence. However compared to \modelname which is able to describe multi-scale dynamics, overall HMM is still much worse.  The overwhelming performance of \modelname is somewhat expected, as those classical baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users. The above observation further justifies the effort of adopting valuable knowledge about the application, for the design of new machine learning paradigms.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{./img/Model_CMP.pdf}
@@ -365,7 +365,7 @@ More specifically, it outperforms the runner-up by at least 20\% in terms of pre
 \tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
 By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively.
 Specifically, the physiological features ($X_{P}$) and the historical blood glucose trend ($X_{T_1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
-This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time. 
+This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.
 
 \begin{table}[h]
   \small
