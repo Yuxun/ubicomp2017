@@ -4,15 +4,15 @@
 \subsection{Experimental Settings}
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\columnwidth]{./img/experiment_case2.pdf}
-  \caption{An illustration of the equipments for data collection. Each participant wears a CGM device to record blood glucose concentration and uses a smartphone to input external factors. \TODO{do you also have UIs to input drug, meal and insulin intake?}}
+  \includegraphics[width=0.7\columnwidth]{./img/UI.pdf}
+  \caption{An illustration of the equipments for data collection. Each participant wears a CGM device to record blood glucose concentration and uses a smartphone to collect external factors. }
   \label{fig:experiment_case}
 \end{figure}
 
 \textbf{Datasets.}
 We validate \sysname on a dataset of $112$ participants ($35$ non-diabetes, $38$ type I diabetic patients and $39$ type II diabetic patients) collected during July 2016 to January 2017.
 Each participant is equipped with (1) a WAVEGUIDER \emph{U-Tang} CGM device~\cite{bib:CGM_wave} to record blood glucose concentration every $3$ minutes and (2) a smartphone with \sysname installed to collect external factors either automatically (activities and sleep quality) or manually (food, drug, and insulin intake).
-All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, which is a disposable usage duration of enzyme of the CGM. 
+All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, which is a disposable usage duration of enzyme of the CGM.
 \figref{fig:experiment_case} illustrates an example of data collection from a user.
 In total we obtain 762639 samples of blood glucose concentration and the corresponding external factors covering around 38132 hours.
 In brief, we collect the following categories of data:
@@ -166,7 +166,7 @@ Since all participants collected both measurements of CGM and external factors f
 All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
 In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up 9.88\% and 20.72\% of the entire training set.
-This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset. 
+This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
 Overall, \sysname yields an accuracy of 82.14\%, showing the outstanding performance to track blood glucose levels.
 
 \begin{table}[h]
@@ -189,16 +189,17 @@ Level 4                                                                         
 
 \subsubsection{Inference Result Analysis}
 \label{subsec:predict_result_analysis}
-To understand the inference accuracy and the risks of different types of errors in the context of blood glucose management, we classify the inference results based on the Clarke Error Grid Analysis (CEGA) \cite{bib:DTT05:Clarke}.  
-The analysis classifies the inference results into correct event (Type A) and different types of errors (Type B to Type E) with increasing levels of severity. 
+To understand the inference accuracy and the risks of different types of errors in the context of blood glucose management, we classify the inference results based on the Clarke Error Grid Analysis (CEGA) \cite{bib:DTT05:Clarke}.
+The analysis classifies the inference results into correct event (Type A) and different types of errors (Type B to Type E) with increasing levels of severity.
 For instance, Type B errors are those that will not lead to inappropriate treatments, while Type E errors can lead to wrong treatment.
 \tabref{predict_results} summarizes the percentages of each type of results.
 As shown, \sysname will not cause inappropriate treatment (Type A and B) in almost 90\% of the cases.
 It may lead to unnecessary worries or treatment (Type C) in 5.47\% of the cases.
-In fewer than 5\% of the cases, \sysname will miss an abnormal blood glucose event (Type D) or confuse treatment (Type E). 
+In fewer than 5\% of the cases, \sysname will miss an abnormal blood glucose event (Type D) or confuse treatment (Type E).
 Therefore, \sysname is suitable as an temporal alternative for CGM devices.
 However, we do not recommend \sysname for extended duration of usage for patients serious diabetics, who need regular blood glucose management.
 
+\small
 \begin{table}[h]
 \centering
 \caption{Inference Result Analysis}
@@ -248,10 +249,10 @@ To demonstrate the effectiveness of the multi-division framework in making full 
 To evaluate the effect of different layers, we conduct blood glucose level inference with three combinations of layers.
 \begin{itemize}
   \item
-  \emph{Deep dynamic layer.} 
+  \emph{Deep dynamic layer.}
   Training without considering differences in groups and only output a general model.
-  \item 
-  \emph{Grouped input layer + deep dynamic layer.} 
+  \item
+  \emph{Grouped input layer + deep dynamic layer.}
   Learn group-specific feature representations but ignore per-person characteristics in the output.
   \item
   \emph{Grouped input layer + deep dynamic layer + personalized output layer (\modelname).}
@@ -277,7 +278,7 @@ The demonstrate the benefits of sharing data and knowledge among groups and user
   General learning results in a \emph{generic} model that assumes universal correlations between all inputs and the blood glucose levels.
   \item \emph{Group Learning.}
   The data of users belonging to a same group are fed into a model (\ie deep RNN) for training.
-  Three separate models are obtained for three groups (\ie non-diabetic, type I and type II diabetic). 
+  Three separate models are obtained for three groups (\ie non-diabetic, type I and type II diabetic).
   The group learning results in a \emph{group} model that shares the general characteristics of users within the same group but without data sharing among users in different groups.
   \item \emph{Single Learning.}
   We train a different model (\ie deep RNN) for each individual participant by feeding his/her own measurements into the model.
@@ -342,7 +343,7 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   %We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
 \end{itemize}
 
-\figref{fig:cmp_models} illustrates the results. 
+\figref{fig:cmp_models} illustrates the results.
 Apparently, \modelname achieves best performance on both precisions and recalls.
 \TODO{describe the results}
 
@@ -361,7 +362,7 @@ Apparently, \modelname achieves best performance on both precisions and recalls.
 \subsection{Micro-benchmarks}
 \subsubsection{Effectiveness of Features}
 \tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
-By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively. 
+By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively.
 Specifically, the physiological features ($X_{P}$) and the historical blood glucose trend ($X_{T_1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
 This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.
 
