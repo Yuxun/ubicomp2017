@@ -13,11 +13,11 @@
 \figref{fig:architecture} shows the architecture of \sysname, which consists of three modules.
 
 The \textbf{external factor collection} module records important factors that are important to infer blood glucose concentration and convenient to input via smartphones.
-The user is required to manually input their basic information (\eg health status, age, weight), and record drug, insulin and food intake.
+The only involvement required for users is the recording of their basic information (\eg health status, age, weight), record drug, insulin and food intake. As such, a user-friendly interface is designed to decompose the input process into multiple menu selections. 
 Meanwhile, \sysname will automatically measure the physical activities and sleep quality of the user via embedded sensors.
 After collecting data from multiple users, the \textbf{multi-task deep learning} framework (\modelname) first learns feature representations from users in the same group (non-diabetic, type I and type II diabetic), and then adopts a deep RNN layer to learn a general blood glucose level model on the dataset of all users.
 Finally it outputs a personalized blood glucose level model for each individual via a personality layer.
-The \textbf{blood glucose level tracking} module inputs measurements of the external factors into the trained personalized blood glucose level model, and outputs a specific blood glucose level at each time stamp.
+The \textbf{blood glucose level tracking} module takes measurements of the external factors as input, process the information with the trained personalized blood glucose level model, and finally outputs a specific blood glucose level at each time stamp.
 In \sysname, we consider 4 blood glucose levels as in \tabref{tab:blood_glucose_levels}.
 
 \begin{table}[h]

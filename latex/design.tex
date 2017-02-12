@@ -5,18 +5,18 @@ This section presents the detailed design of \sysname.
 
 \subsection{External Factor Sensing}
 \label{subsec:external}
-It is infeasible to record a complete list of impacting factors on blood glucose concentration.
-In \sysname, we measure five major external factors including food, drug and insulin intake, as well as physical activities and sleep quality.
+It is neither possible nor necessary to exhaust a complete list of influential factors on blood glucose concentration.
+In \sysname, five major external factors are measured, including food, drug and insulin intake, as well as physical activities and sleep quality.
 
 \fakeparagraph{Food Intake}
-As food intake is a main source of carbohydrate, \sysname provides a food menu for users to input their meals.
-We categorize meals into five types based on the carbohydrate food list~\cite{bib:carblist}, including grains, vegetables, milk and egg, fruits and meats.
+As food intake is a main source of carbohydrate, \sysname provides a food menu for users to keep track of their meals.
+Based on the carbohydrate food list~\cite{bib:carblist}, meals are categorized into five types, including grains, vegetables, milk and egg, fruits and meats.
 Users are asked to enter the food types and amounts of their meals, based on which \sysname calculates $U_C$, the carbohydrate of a meal.
 
 \fakeparagraph{Drug Intake}
-Oral diabetic drugs enhance the secretion of insulin into the blood and are usually used for type II diabetic patients.
-In \sysname, a drug menu of common 11 oral diabetes is presented for users to input their drug intake based on \cite{bib:druglist}.
-Users are required to select the drug name and record the drug dosage into \sysname.
+Oral diabetic drugs enhance the secretion of insulin into the blood and are usually used by type II diabetic patients.
+In \sysname, a drug menu of 11 common oral diabetes is presented for users to input their drug intake based on \cite{bib:druglist}.
+Users are required to select the drug name and record the dosage into \sysname.
 
 \fakeparagraph{Insulin Injection}
 Inulin injection is widely used for blood glucose control for type I and type II patients.
@@ -38,11 +38,11 @@ Sleep quality has a long-term influence on the blood glucose level~\cite{bib:DRC
 \sysname automatically measures sleep quality using smartphones as in~\cite{bib:UbiComp14:Gu}.
 The output sleep quality score $U_S$ is then used for physiological feature extraction.
 
-In summary, the five external factors are transformed into four categories of measurements including the carbohydrate of a meal ($U_C$), the amount of acting insulin ($U_I$), calorie expenditure ($U_E$) and sleep quality score ($U_S$), which are used as input to extract important features for blood glucose level inference.
+In summary, the five external factors are transformed into four categories of measurements including the carbohydrate of a meal ($U_C$), the amount of acting insulin ($U_I$), calorie expenditure ($U_E$) and sleep quality score ($U_S$), which are then used as input to extract important features for blood glucose level inference.
 
 \subsection{Feature Engineering}
 \label{subsec:features}
-We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U_E, U_S\}$ from both the physiological view ($X_P$, 10-dimension) and the temporal view ($X_T$, 51-dimension) to infer blood glucose levels.
+We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U_E, U_S\}$ from both the physiological view ($X_P$, 10-dimension) and the temporal view ($X_T$, 51-dimension) to infer blood glucose levels, detailed as follows:
 
 \subsubsection{Features from Physiological View $X_P$}
 \label{subsubsec:physiological}
@@ -99,10 +99,10 @@ We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U
   \end{tablenotes}
 \end{table}
 
-Physiological features are extracted based on physiological models that quantify the dynamics of glucose related variables in the body~\cite{bib:duke2010intelligent, bib:MAIHA14:Plis}.
+Physiological features are essentially medical/biological indexes in a person's body, that describes the dynamics of glucose related variables~\cite{bib:duke2010intelligent, bib:MAIHA14:Plis}.
 We extract physiological features based on the physiological model in~\cite{bib:duke2010intelligent}, which characterizes carbohydrate dynamics, insulin dynamics, exercise dynamics, and glucose dynamics.
 We further include sleep dynamics, another important external factor that affects blood glucose levels~\cite{bib:DRCP15:Iwasaki}.
-Specifically, we extract physiological features from the following blood glucose relevant dynamics.
+Specifically, the following physiological features are extracted to represent blood glucose relevant dynamics.
 \begin{itemize}
   \item
   Features from \emph{carbohydrate dynamics}:
@@ -120,11 +120,12 @@ Specifically, we extract physiological features from the following blood glucose
   Features from \emph{glucose dynamics}:
   glucose mass $G_m$ and glucose concentration $G$.
 \end{itemize}
-The features are inter-dependent and also related to the external factors.
-\figref{fig:phymodel} illustrates the dependencies among variables and \tabref{tab:phyeq} summarizes the transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and history physiological features at time $k$.
-The transition equations are determined by a set of user-specific parameters $\alpha$'s, the insulin sensitivity $S^I$ and the body mass $bm$.
-Note that it is generally difficult to tune the parameters in the transition equations.
+The features are inter-dependent and are also related to the external factors.
+\figref{fig:phymodel} illustrates the dependencies among variables and \tabref{tab:phyeq} summarizes the transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and historical physiological features at time $k$.
+The transition equations involve a set of parameters $\alpha$'s, e.g., the insulin sensitivity $S^I$ and the body mass $bm$.
+Note that it is generally difficult to determine the parameters in the transition equations.
 Therefore, the glucose concentration $G$ derived from the physiological model usually deviates from the actual blood glucose level.
+It can be viewed as a ``nominal'' blood glucose indicator averaged out from the overall population.
 Consequently, we exploit the glucose concentration $G$ derived from the physiological model as one dimension of the physiological features, which are fed into our \modelname framework to learn the complex, personalized dynamics of blood glucose.
 
 %\emph{Carbohydrate dynamics}:
@@ -266,8 +267,8 @@ As blood glucose level naturally varies over time, we extract two temporal featu
   Since people usually tend to lead a regular lifestyle, \eg having meals in the morning, at noon and in the evening and sleep at night, the blood glucose concentration also exhibits rough daily cycles.
   \figref{fig:XXX} plots the daily blood glucose traces of a volunteer for six successive days measured by a CGM device.
   \TODO{explain the figure, \eg always peak at XXX, XXX, XXX time, due to \eg meals, and...}
-  This motivates us to adopt the history blood glucose concentrations at time stamp $k$ (averaged over $D$ days) as one temporal feature to infer the blood glucose level at time $k$.
-  In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3min, which is accord with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
+  This motivates us to adopt the historical blood glucose concentrations at time stamp $k$ (averaged over $D$ days) as one temporal feature to infer the blood glucose level at time $k$.
+  In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3min, which is in accordance with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
   \item
   Most recent physiological features $X_{T_2}$:
   As shown in the physiological models, the current blood glucose concentration is relevant to the recent blood glucose concentration and physiological features.
@@ -305,40 +306,41 @@ In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $
 \subsection{Blood Glucose Level Inference}
 Given the features extracted based on the physiological process, it seems plausible to perform any classification algorithm for blood glucose level inference.
 Nonetheless, this plug-and-play approach will neglect important information from (1) dynamics of the process, and (2) inter-user similarity among the same group of participants.
-Traditionally, various sequential classification methods [], \eg hidden Markov model (HMM), recurrent neural networks (RNN), and conditional random fields (CRF), are used to capture the temporal correlation of the input feature.
+Traditionally, various sequential classification methods [], \eg hidden Markov model (HMM) and recurrent neural networks (RNN), are used to capture the temporal correlation of the input feature.
 The inter process correlations are often times incorporated with the so-called multi-task learning approaches [], which learns processes (or tasks) in parallel to improve classification or to reduce the data sample requirement.
 
 In this paper, a novel machine learning paradigm, namely Multi-division deep-dynamic RNN (\modelname), is proposed.
 To include the the aforementioned information sources in an unified framework, we develop two key ideas that extend the classical RNN. Firstly, the single hidden layer in RNN is replaced with several deep stacked layers.
-The deep structure in the new model is able to describe complex, multi-scale dynamics that would otherwise be ignored (or averaged out) by prior ``shallow'' models such as HMM, RNN, and CRF.
+The deep structure in the new model is able to describe complex, multi-scale dynamics that would otherwise be ignored (or averaged out) by prior ``shallow'' models.
 Secondly, the correlations among users, being quite significant within user groups (divisions), are encoded by group-shared input layer and common hidden layers, whereas the distinct characteristics of individual users are modeled with different output layers for personalized prediction.
 Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancement of deep learning and multi-task learning, to model group-interacted time series data having complex temporal dynamics.
-It can be viewed as both a deep extension of RNN, and an intermediate between single-task learning and multi-task learning, hence the name \modelname.
+It can be viewed as both a deep extension of RNN, and an intermediate between single-task learning and multi-task learning, hence the name.
+Although we develop \modelname for the specific use case of \sysname, it is worth pointing out that it can be readily applied to many other applications dealing with grouped dynamic data. 
 The overall configuration of the proposed model is summarized in \figref{fig:rnn}.
 Detailed construction of each component is given in the sequel.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/pics_RNN.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/pics_RNN2.pdf}
   \caption{Illustration of \modelname structure.}
   \label{fig:rnn}
 \end{figure}
 
 \subsubsection{Model construction by layers}
-The inputs of the \modelname model are the features extracted from the physiological model.
+The inputs of the \modelname model are the features extracted following the discussion in the previous section.
 The labeled data sequences for user number $j$ at time $i$ are denoted by $(x_i^{j},y_i^{j})$.
 We also adopt an index set convention, that $(x_A^{B},y_A^B)$ represents the data set $\left\{(x_i^{j},y_i^{j}) | i \in A, j\in B\right\}$ given index sets $A$ and $B$.
 
 \fakeparagraph{Grouped Input Layer}
 In the context of blood glucose prediction, available inputs are naturally divided into three groups according to the health condition of the participant from whom the data was generated.
 Notation-wise, we utilize $H$, $I$ and $II$ to indicate the the group of healthy user, user with type I diabetes and those having type II diabetes, respectively.
-Since the extracted features are essentially physiological indexes of an ``average'' person, they must go though different transformations to represent useful information of three distinct groups.
+Since the extracted features are essentially physiological indexes and temporally correlated variables, they must go though different transformations to represent useful information of three distinct groups.
 This consideration motivate the design of the input layer (bottom of \figref{fig:rnn}) - it is divided into three units that performs different linear and non-linear transformation according to user groups.
 For instance, a data sample $x_t^{I_j}$, generated at time $t$ from the $j^{th}$ user of type I, undergoes the following processing:
 \begin{align}
 \tilde{x}_t^{I_j} = \sigma \left( W^Ix_t^{I_j} \right)
 \end{align}
-where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a feature of all $1$s.}, $\sigma$ is some activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample.
+where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a feature of all $1$s.}, $\sigma$ is the activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample.
 Similar operations are conducted for data samples from group $H$ and $II$, but with different transformation coefficients.
 Intuitively, the shared transformation within groups would improve the learning of parameters (vs. single task learning), as information from all data in a homogeneous group is used.
 Also, the transformation can be stacked into several (say $P$) layers, for better information representation.
@@ -350,13 +352,13 @@ This assumption could be justified by a series of medical research[][].
 Moreover, since all users share the same hidden layer, all collected data samples are eventually helping the estimation of its parameters.
 The availability of rich information for the hidden layer makes the learning of a deep structure possible.
 In \sysname, a number of Long Short Term Memory (LSTM) networks are stacked together (middle of \figref{fig:rnn}), to increase the overall model flexibility.
-In particular, it has been justified in both theory and practice that stacked LSTMs are able to capture dynamics occurring at different time scales, which in the current application would enable the modeling of both slow and rapid biological/chemical reactions.
+It has been justified in both theory and practice that stacked LSTMs are able to capture dynamics occurring at different time scales, which in the current application would enable the modeling of both slow and rapid biological/chemical reactions.
 Although a wide variety of LSTM configuration exist in literature, in this work we adopt the one recently proposed by [], which combines the forget/input gate and merges cell/hidden state for simplicity and better generalization performance.
 Mathematically, given the output from the grouped input layer, the deep dynamic layer performs
 \begin{equation}
 \begin{aligned}
-&z^d_t = \sigma\left( W^d_z [h_{t-1}^d,h_t^{d-1}] \right) \\
-&r^d_t = \sigma\left( W^d_r [h_{t-1}^d,h_t^{d-1}] \right) \\
+&z^d_t = \sigma^d\left( W^d_z [h_{t-1}^d,h_t^{d-1}] \right) \\
+&r^d_t = \sigma^d\left( W^d_r [h_{t-1}^d,h_t^{d-1}] \right) \\
 &\tilde{h}_t^d = tanh\left( W^d_h [r_t^d*h_{t-1}^d,h_t^{d-1}] \right) \\
 &h^d_t = (1-z_t^d)*h_{t-1}^d + z_t^d*\tilde{h}_t^d
 \end{aligned}
@@ -375,7 +377,7 @@ More specifically, given $h^D_t$ from user $j$, it computes
 \subsubsection{Cost Sensitive Learning and Hyperparamter (Model) Selection}
 Similar to other deep neural network learning, \modelname is trained by minimizing the sum of losses over all the time steps.
 The definition of the loss function has much bearing on the generalization performance of the method.
-In particular for the current application, simply minimizing a general error rate seems inappropriate, because the costs of different types of misclassifiction errors are not the same.
+In particular for the current application, simply minimizing a general error rate seems inappropriate, because the costs of different types of misclassifiction errors can differ a lot.
 For example, missing the detection of high blood glucose (type I or II) is more costly than misclassifying normal condition to an alarm for high glucose.
 Moreover, in the collected data set from real people, the training data is inherently imbalanced - the available samples labeled Level 1 and Level 4 are much fewer (only 7\%) compared to samples in the other categories (Level 2 and Level 3).
 
@@ -391,11 +393,11 @@ The additional coefficient $C_{y_t}$ weights the misclassification error for cat
 In the current application, $\mathcal{Y} = \{1,2,3,4\}$, associated with four coefficients $C_1$ to $C_4$.
 Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance.
 
-With the technique of back-propagating, computing the gradient of \modelname is not so different from gradient calculation of classical RNN.
+With the technique of back-propagating, computing the gradient of \modelname is not so different from the gradient calculation of classical RNN.
 In this work, we accomplish those computation using Tensorflow [], and proceed to learn \modelname model by stochastic gradient descent for overall loss minimization.
 
 Last but not least, the construction of the \modelname model involves choosing 15 hyperparameters, \eg cost coefficients $C_{y}$, depth $D$ of the stacked dynamic layer, learning rate, number of hidden unit in the input layer, \etc
-Direct application of cross validation (CV) for hyperparameter tuning, even with the help of parallel computing, seems endless as the number of required CVs scales exponentially to the number of hyperparameters.
+Direct application of cross validation (CV) for hyperparameter tuning, even with the help of parallel computing, seems intractable as the number of required CVs scales exponentially to the number of hyperparameters.
 In this regards, we adopt Bayesian optimization (BO), a recent tool developed for blackbox function optimization with limited evaluations.
 The decision variables of BO are those hyperparameters, and the objective is the F-score of the precision and recall on some testing data set.
 Note that BO has been used recently for the hyperparameter (model) selection of many deep learning paradigms [][].

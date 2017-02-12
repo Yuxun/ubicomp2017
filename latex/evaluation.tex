@@ -167,7 +167,7 @@ All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
 In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up 9.88\% and 20.72\% of the entire training set.
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
-Overall, \sysname yields an accuracy of 82.14\%, showing the outstanding performance to track blood glucose levels.
+Overall, \sysname yields an accuracy of 82.14\%, showing a promising performance to track blood glucose levels.
 
 \begin{table}[h]
   \centering
@@ -220,7 +220,7 @@ Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that 
 \figref{fig:pre_gt} plots the example inference results of \sysname of three participants (one non-diabetic, one Type I diabetic patient, and one Type II diabetic patient) throughout a day.
 The errors are depicted at the bottom of each figure.
 As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:00, 11:30 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the type I diabetic user; 6:00, 12:50 and 17:45 for the type II user), insulin injection (7:30 for the type I diabetic user), drug intake (15:10 for the type II user) and exercises (15:30 for the type II user), indicating the importance of external factors.
-The blood glucose levels inferred by \sysname also match with the true blood glucose levels most of the time, which validates the effectiveness of \sysname during various daily activities.
+The blood glucose levels inferred by \sysname also match the true blood glucose levels most of the time, which validates the effectiveness of \sysname during various daily activities.
 
 Most errors mistake adjacent blood glucose levels, and usually occur during the transition of two blood glucose levels (\eg from 6:00 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
 Errors during blood glucose transitions are mainly caused by the delays to measure the external factors.
@@ -260,7 +260,7 @@ To evaluate the effect of different layers, we conduct blood glucose level infer
 \end{itemize}
 \figref{fig:cmp_model} plots the comparison results of the three combinations.
 As shown, both the precisions and recalls increase with more layers, with an improvement of 21.13\% in average precision and 18.57\% in average recall, respectively.
-Moreover, the standard deviations drop gradually from 17.25\% to 10.25\%  of average precision, and from 20.75\% to 10.75\% of average recall.
+Moreover, the standard deviations drop remarkably from 17.25\% to 10.25\%  of average precision, and from 20.75\% to 10.75\% of average recall.
 The results demonstrate the effectiveness of \modelname, which learns representative features from the same groups and considers individual differences in blood glucose level inference.
 
 \begin{figure}[h]
@@ -271,7 +271,7 @@ The results demonstrate the effectiveness of \modelname, which learns representa
 \end{figure}
 
 \fakeparagraph{Comparison of data sharing schemes}
-The demonstrate the benefits of sharing data and knowledge among groups and users, we compare \modelname with other learning frameworks with different data sharing schemes.
+To demonstrate the benefits of sharing data and knowledge among groups and users, we compare \modelname with other learning frameworks with different data sharing schemes.
 \begin{itemize}
   \item \emph{General Learning.}
   All the training data are directly fed into the model (\ie deep RNN) for training indifferently.
@@ -307,7 +307,7 @@ Conversely, single learning approach encodes the individual characteristics but 
 \end{figure}
 
 
-\subsubsection{Effectiveness of Deep Learning}
+\subsubsection{Effectiveness of Deep, Multi-division Learning}
 To demonstrate the effectiveness of adopting deep learning algorithms over conventional shallow learning algorithms, we compare our \modelname with the following algorithms.
 \begin{itemize}
   \item
@@ -318,7 +318,7 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   %The number of boosting iterations is varied from 100 to 500 by a step size of 50.
   \item
   \textbf{Support Vector Machine (SVM).}
-  SVM \cite{bib:wang2005support} bases on the idea of ¡°optimal separating hyperplane¡± that maximizes the separation margin of two data groups (classes).
+  SVM \cite{bib:wang2005support} bases on the idea of ï¿½ï¿½optimal separating hyperplaneï¿½ï¿½ that maximizes the separation margin of two data groups (classes).
   Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
   We train the Gaussian kernel SVM classifier with the kernlab package, which implements the sequential minimal optimization algorithm.
   %We vary the kernel width from $2^{-5}$ to $2^4$ with a factor of 2.
@@ -326,8 +326,10 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
   \item
   \textbf{Hidden Markov model (HMM).} \cite{bib:rabiner1986introduction}
+  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process. Simple as it is, HMM is widely used in signal processing and time series analysis due to its flexibility and tractability. In addition, it has close tights with optimal filtering and state estimation. In our implementation, HMM is learned with the classic Viterbi algorithm. 
   \item
   \textbf{Artificial neural network (ANN).}\cite{bib:wang2003artificial}
+  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow.  
   \item
   \textbf{Random Forest (RF).}
   As another ensemble method, RF~\cite{bib:liaw2002classification} combines many simple decision trees together and output the mode of classes for prediction.
@@ -345,8 +347,7 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
 
 \figref{fig:cmp_models} illustrates the results.
 Apparently, \modelname achieves best performance on both precisions and recalls.
-\TODO{describe the results}
-
+More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4. Among those baselines, it appears that no method could dominate the others, except that HMM performs slightly better in terms of recall score. This is mainly because HMM is the only method among baselines that incorporates temporal dependence. However compared to \modelname which is able to describe multi-scale dynamics, overall HMM is still much worse.  The overwhelming performance of \modelname is somewhat expected, as those classical baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users. The above observation further justifies the effort of adopting valuable knowledge about the application, for the design of new machine learning paradigms. 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{./img/Model_CMP.pdf}
@@ -364,7 +365,7 @@ Apparently, \modelname achieves best performance on both precisions and recalls.
 \tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
 By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively.
 Specifically, the physiological features ($X_{P}$) and the historical blood glucose trend ($X_{T_1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
-This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.
+This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time. 
 
 \begin{table}[h]
   \small
