@@ -310,8 +310,8 @@ In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $
 \subsection{Blood Glucose Level Inference}
 Given the features extracted based on the physiological process, it seems plausible to perform any classification algorithm for blood glucose level inference.
 Nonetheless, this plug-and-play approach will neglect important information from (1) dynamics of the process, and (2) inter-user similarity among the same group of participants.
-Traditionally, various sequential classification methods [], \eg hidden Markov model (HMM) and recurrent neural networks (RNN), are used to capture the temporal correlation of the input feature.
-The inter process correlations are often times incorporated with the so-called multi-task learning approaches [], which learns processes (or tasks) in parallel to improve classification or to reduce the data sample requirement.
+Traditionally, various sequential methods, \eg hidden Markov model (HMM), recurrent neural networks (RNN) and time series models, are used to capture the temporal correlation of the input feature.
+The inter process correlations are often times incorporated with the so-called multi-task learning approaches~\cite{evgeniou2004regularized}, which learns processes (or tasks) in parallel to improve classification or to reduce the data sample requirement.
 
 In this paper, a novel machine learning paradigm, namely Multi-division deep-dynamic RNN (\modelname), is proposed.
 To include the the aforementioned information sources in an unified framework, we develop two key ideas that extend the classical RNN. Firstly, the single hidden layer in RNN is replaced with several deep stacked layers.
@@ -344,7 +344,7 @@ For instance, a data sample $x_t^{I_j}$, generated at time $t$ from the $j^{th}$
 \begin{align}
 \tilde{x}_t^{I_j} = \sigma \left( W^Ix_t^{I_j} \right)
 \end{align}
-where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a feature of all $1$s.}, $\sigma$ is the activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample.
+where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a feature of all $1$s.}, $\sigma$ is the sigmoid activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample.
 Similar operations are conducted for data samples from group $H$ and $II$, but with different transformation coefficients.
 Intuitively, the shared transformation within groups would improve the learning of parameters (vs. single task learning), as information from all data in a homogeneous group is used.
 Also, the transformation can be stacked into several (say $P$) layers, for better information representation.
@@ -352,12 +352,12 @@ Also, the transformation can be stacked into several (say $P$) layers, for bette
 \fakeparagraph{Deep Dynamic Layer}
 A common hidden layer is designated to capture the dynamics of the blood glucose evolution process.
 The underlying assumption is that, the biological and chemical reactions governing blood glucose variation are similar for all people, despite of grouped behaviors in the representation of physiological indexes (input layer), or individual characteristics in exhibited glucose level.
-This assumption could be justified by a series of medical research[][].
+This assumption could be justified by a series of medical research~\cite{bib:JCEM13:Eckert,bib:JDST10:Vaddiraju}.
 Moreover, since all users share the same hidden layer, all collected data samples are eventually helping the estimation of its parameters.
 The availability of rich information for the hidden layer makes the learning of a deep structure possible.
 In \sysname, a number of Long Short Term Memory (LSTM) networks are stacked together (middle of \figref{fig:rnn}), to increase the overall model flexibility.
-It has been justified in both theory and practice that stacked LSTMs are able to capture dynamics occurring at different time scales, which in the current application would enable the modeling of both slow and rapid biological/chemical reactions.
-Although a wide variety of LSTM configuration exist in literature, in this work we adopt the one recently proposed by [], which combines the forget/input gate and merges cell/hidden state for simplicity and better generalization performance.
+It has been justified in both theory and practice that stacked LSTMs are able to capture dynamics occurring at different time scales~\cite{dyer2015transition}, which in the current application would enable the modeling of both slow and rapid biological/chemical reactions.
+Although a wide variety of LSTM configuration exist in literature, in this work we adopt the one recently proposed by~\cite{koutnik2014clockwork}, which combines the forget/input gate and merges cell/hidden state for simplicity and better generalization performance.
 Mathematically, given the output from the grouped input layer, the deep dynamic layer performs
 \begin{equation}
 \begin{aligned}
@@ -386,25 +386,26 @@ For example, missing the detection of high blood glucose (type I or II) is more 
 Moreover, in the collected data set from real people, the training data is inherently imbalanced - the available samples labeled Level 1 and Level 4 are much fewer (only 7\%) compared to samples in the other categories (Level 2 and Level 3).
 
 The above concerns motivate the cost sensitive learning of \modelname.
-Instead of directly minimizing a surrogate of error rate, we propose to optimize over a weighted version of classification losses[].
+Instead of directly minimizing a surrogate of error rate, we propose to optimize over a weighted version of classification losses.
 More specifically, the following total loss function is considered:
 \begin{equation}
-L = \sum_{t} \sum_{y_t \in \mathcal{Y}} l(y_t,\hat{y}_t)C_{y_t}
+\label{eq:obj}
+L = \sum_{t} \sum_{y_t \in \mathcal{Y}} l(y_t,\hat{y}_t)C_{y_t} + \lambda^T\phi (W^H,W^I,W^{II},W_z,W_r,W_h,W_o)
 \end{equation}
 where $\mathcal{Y}$ is the label set, and $\hat{y}_t$s are prediction output from \modelname.
 Our implementation uses cross entropy for $l(y_t,\hat{y}_t)$, but generally the ``base'' lost function $l(y_t,\hat{y}_t)$ can be any surrogate of the error function.
 The additional coefficient $C_{y_t}$ weights the misclassification error for category $y_t$.
 In the current application, $\mathcal{Y} = \{1,2,3,4\}$, associated with four coefficients $C_1$ to $C_4$.
-Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance.
+Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance. The second term in~\ref{eq:obj} is a regularization for model parameters, which in the current implementation is substantiated with a frobenius norm for each matrix. The penalty coefficient $\lambda$s are left as model hyper-parameters, whose selection procedure will be discussed later.
 
 With the technique of back-propagating, computing the gradient of \modelname is not so different from the gradient calculation of classical RNN.
-In this work, we accomplish those computation using Tensorflow [], and proceed to learn \modelname model by stochastic gradient descent for overall loss minimization.
+In this work, we accomplish those computation using Tensorflow, and proceed to learn \modelname model by stochastic gradient descent for overall loss minimization.
 
 Last but not least, the construction of the \modelname model involves choosing 15 hyperparameters, \eg cost coefficients $C_{y}$, depth $D$ of the stacked dynamic layer, learning rate, number of hidden unit in the input layer, \etc
 Direct application of cross validation (CV) for hyperparameter tuning, even with the help of parallel computing, seems intractable as the number of required CVs scales exponentially to the number of hyperparameters.
 In this regards, we adopt Bayesian optimization (BO), a recent tool developed for blackbox function optimization with limited evaluations.
 The decision variables of BO are those hyperparameters, and the objective is the F-score of the precision and recall on some testing data set.
-Note that BO has been used recently for the hyperparameter (model) selection of many deep learning paradigms [][].
+Note that BO has been used recently for the hyperparameter (model) selection of many deep learning paradigms~\cite{snoek2012practical}\cite{NIPS2016}.
 
 
 

@@ -317,16 +317,16 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   %We vary the maximum tree depth from 10 to 50 by factors of ten.
   %The number of boosting iterations is varied from 100 to 500 by a step size of 50.
   \item
-  \textbf{Support Vector Machine (SVM).}
+  \textbf{Multi-task Support Vector Machine (mSVM).}
   SVM \cite{bib:wang2005support} bases on the idea of ��optimal separating hyperplane�� that maximizes the separation margin of two data groups (classes).
-  Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
-  We train the Gaussian kernel SVM classifier with the kernlab package, which implements the sequential minimal optimization algorithm.
+  Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels. 
+  We use a multi-task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
   %We vary the kernel width from $2^{-5}$ to $2^4$ with a factor of 2.
   %We pick the penalty parameter from the set $\{10^i | i = -3, 0.5, 2\}$.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
   \item
-  \textbf{Hidden Markov model (HMM).} \cite{bib:rabiner1986introduction}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process. Simple as it is, HMM is widely used in signal processing and time series analysis due to its flexibility and tractability. In addition, it has close tights with optimal filtering and state estimation. In our implementation, HMM is learned with the classic Viterbi algorithm.
+  \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).} \cite{ni2007multi}
+  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}. Simple as it is, HMM is widely used in signal processing and time series analysis due to its interpretability and tractability. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.  
   \item
   \textbf{Artificial neural network (ANN).}\cite{bib:wang2003artificial}
   We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow.
@@ -338,16 +338,21 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   %The total number of trees is tuned from 100 to 1000, and the maximum tree depth from 10 to 50.
   %The splitting threshold is also varied from 0.1 to 0.9 with 0.1 intervals for cross validation.
   \item
-  \textbf{Gaussian Processes (GP).}
+  \textbf{Multi-task Gaussian Processes (mGP).}
   Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
   The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
-  We implement GP with the kernlab package, which includes several approximation algorithms for acceleration.
+  The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration.
   %We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
 \end{itemize}
 
 \figref{fig:cmp_models} illustrates the results.
 Apparently, \modelname achieves best performance on both precisions and recalls.
-More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4. Among those baselines, it appears that no method could dominate the others, except that HMM performs slightly better in terms of recall score. This is mainly because HMM is the only method among baselines that incorporates temporal dependence. However compared to \modelname which is able to describe multi-scale dynamics, overall HMM is still much worse.  The overwhelming performance of \modelname is somewhat expected, as those classical baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users. The above observation further justifies the effort of adopting valuable knowledge about the application, for the design of new machine learning paradigms.
+More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4. 
+Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score. 
+This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks. 
+However compared to \modelname which is able to describe multi-scale dynamics, overall nDP-iHMM is still worse.  
+The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users. 
+The above observation further justifies the effort of adopting valuable knowledge about the application, for the design of new machine learning paradigms.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{./img/Model_CMP.pdf}
