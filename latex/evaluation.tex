@@ -4,7 +4,7 @@
 \subsection{Experimental Settings}
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.7\columnwidth]{./img/UI.pdf}
+  \includegraphics[width=0.7\columnwidth]{./img/UI1.pdf}
   \caption{An illustration of the equipments for data collection. Each participant wears a CGM device to record blood glucose concentration and uses a smartphone to collect external factors. }
   \label{fig:experiment_case}
 \end{figure}
@@ -314,19 +314,19 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   \textbf{Gradient Boosting (GB).}
   GB \cite{bib:friedman2002stochastic} generates a prediction model by combining many weak classifiers into a stronger classification committee.
   We use AdaBoost procedure implemented in the fastAdaboost package to combine basic tree classifiers for ensemble learning.
-  %We vary the maximum tree depth from 10 to 50 by factors of ten.
-  %The number of boosting iterations is varied from 100 to 500 by a step size of 50.
   \item
   \textbf{Multi-task Support Vector Machine (mSVM).}
   SVM \cite{bib:wang2005support} bases on the idea of ��optimal separating hyperplane�� that maximizes the separation margin of two data groups (classes).
-  Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels. 
+  Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
   We use a multi-task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
   %We vary the kernel width from $2^{-5}$ to $2^4$ with a factor of 2.
   %We pick the penalty parameter from the set $\{10^i | i = -3, 0.5, 2\}$.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
+
   \item
+%<<<<<<< Updated upstream
   \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).} \cite{ni2007multi}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}. Simple as it is, HMM is widely used in signal processing and time series analysis due to its interpretability and tractability. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.  
+  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}. Simple as it is, HMM is widely used in signal processing and time series analysis due to its interpretability and tractability. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
   \item
   \textbf{Artificial neural network (ANN).}\cite{bib:wang2003artificial}
   We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow.
@@ -337,21 +337,36 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
   For implementation, we adopt the conditional inference tree algorithm in the Party package.
   %The total number of trees is tuned from 100 to 1000, and the maximum tree depth from 10 to 50.
   %The splitting threshold is also varied from 0.1 to 0.9 with 0.1 intervals for cross validation.
+%=======
+%  \textbf{Gradient Boosting (GB).}
+%  GB \cite{bib:friedman2002stochastic} generates a prediction model by combining many weak classifiers into a stronger classification committee.
+%  We use AdaBoost procedure implemented in the fastAdaboost package to combine basic tree classifiers for ensemble learning.
+%  %We vary the maximum tree depth from 10 to 50 by factors of ten.
+%  %The number of boosting iterations is varied from 100 to 500 by a step size of 50.
+%
+%>>>>>>> Stashed changes
   \item
   \textbf{Multi-task Gaussian Processes (mGP).}
   Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
   The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
   The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration.
   %We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
+
+ % \item
+%  \textbf{Hidden Markov model (HMM).} \cite{bib:rabiner1986introduction}
+%  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process. Simple as it is, HMM is widely used in signal processing and time series analysis due to its flexibility and tractability. In addition, it has close tights with optimal filtering and state estimation. In our implementation, HMM is learned with the classic Viterbi algorithm.
+
+
+
 \end{itemize}
 
 \figref{fig:cmp_models} illustrates the results.
 Apparently, \modelname achieves best performance on both precisions and recalls.
-More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4. 
-Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score. 
-This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks. 
-However compared to \modelname which is able to describe multi-scale dynamics, overall nDP-iHMM is still worse.  
-The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users. 
+More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4.
+Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score.
+This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks.
+However compared to \modelname which is able to describe multi-scale dynamics, overall nDP-iHMM is still worse.
+The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users.
 The above observation further justifies the effort of adopting valuable knowledge about the application, for the design of new machine learning paradigms.
 \begin{figure}[h]
   \centering
@@ -372,19 +387,37 @@ By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), 
 Specifically, the physiological features ($X_{P}$) and the historical blood glucose trend ($X_{T_1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
 This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.
 
+%\begin{table}[h]
+%  \small
+%  \centering
+%  \caption{Effectiveness of features.\TODO{no $X_{T_2}$ now.}}
+%  \label{tab:features}
+%  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+%  \hline
+%                                   & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
+%  \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
+%  $X_{P}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
+%  $X_{P}$+$X_{T_1}$                   & 51.97$\%$               & 58.11$\%$                                 & 60.42$\%$                & 58.90$\%$            & 63.35$\%$               & 53.59$\%$                                 & 69.82$\%$               & 65.16$\%$                                 \\ \hline
+%  $X_{P}$+$X_{T_1}$+$X_{T_2}$          & 64.60$\%$               & 73.08$\%$                                 & 69.87$\%$                & 61.23$\%$            & 74.33$\%$               & 67.81$\%$                                 & 76.64$\%$               & 72.32$\%$                                 \\ \hline
+%  $X_{P}$+$X_{T_1}$+$X_{T_2}$+$X_{T_3}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
+%  & 83.72$\%$               & 85.23$\%$                                  \\ \hline
+%  \end{tabular}
+%\end{table}
+
+
+
 \begin{table}[h]
   \small
   \centering
-  \caption{Effectiveness of features.\TODO{no $X_{T_2}$ now.}}
+  \caption{Effectiveness of features.}
   \label{tab:features}
   \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
   \hline
                                    & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
   \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
   $X_{P}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
-  $X_{P}$+$X_{T_1}$                   & 51.97$\%$               & 58.11$\%$                                 & 60.42$\%$                & 58.90$\%$            & 63.35$\%$               & 53.59$\%$                                 & 69.82$\%$               & 65.16$\%$                                 \\ \hline
-  $X_{P}$+$X_{T_1}$+$X_{T_2}$          & 64.60$\%$               & 73.08$\%$                                 & 69.87$\%$                & 61.23$\%$            & 74.33$\%$               & 67.81$\%$                                 & 76.64$\%$               & 72.32$\%$                                 \\ \hline
-  $X_{P}$+$X_{T_1}$+$X_{T_2}$+$X_{T_3}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
+  $X_{P}$+$X_{T_1}$                   & 58.29$\%$               & 65.60$\%$                                 & 65.15$\%$                & 60.07$\%$            & 68.84$\%$               & 60.70$\%$                                 & 73.23$\%$               & 68.74$\%$                                 \\ \hline
+  $X_{P}$+$X_{T_1}$+$X_{T_2}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
   & 83.72$\%$               & 85.23$\%$                                  \\ \hline
   \end{tabular}
 \end{table}

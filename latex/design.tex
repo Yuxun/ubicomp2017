@@ -42,7 +42,7 @@ In summary, the five external factors are transformed into four categories of me
 
 \subsection{Feature Engineering}
 \label{subsec:features}
-We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U_E, U_S\}$ from both the physiological view ($X_P$, 10-dimension) and the temporal view ($X_T$, 51-dimension) to infer blood glucose levels. 
+We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U_E, U_S\}$ from both the physiological view ($X_P$, 10-dimension) and the temporal view ($X_T$, 51-dimension) to infer blood glucose levels.
 %detailed as follows:
 
 \subsubsection{Features from Physiological View $X_P$}
@@ -96,7 +96,7 @@ We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U
       \textbf{Note 2:} All $\alpha$'s in the transition equations are user-specific parameters that need to be tuned per-person.
       The default values of parameters in the physiological model are set based on \cite{bib:duke2010intelligent} and are further tuned for each person via 10-cross validations.
       \item
-      \textbf{Note 3:} We set the time duration $k-k_0$ to 24 hours in exercise dynamics and 7 days in sleep dynamics, which optimize our experimental results and match with the conclusions of clinical results~\TODO{add citation}.
+      \textbf{Note 3:} We set the time duration $k-k_0$ to 24 hours in exercise dynamics and 7 days in sleep dynamics, which optimize our experimental results.
   \end{tablenotes}
 \end{table}
 
@@ -262,14 +262,22 @@ In summary, we extract a 10-dimension physiological feature vector $X_P$ for blo
 %\sysname computes $X$ at each time step and treats it as 10-dimensional
 %features.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{./img/historical_trend1.pdf}
+  \caption{ Daily blood glucose traces of a volunteer.}
+  \label{fig:historical_traces}
+\end{figure}
+
+
 \subsubsection{Features from Temporal View $X_T$}
 As blood glucose level naturally varies over time, we extract two temporal features for blood glucose level inference.
 \begin{itemize}
   \item
   History blood glucose concentration $X_{T_1}$ at time $k$:
-  Since people usually tend to lead a regular lifestyle, \eg having meals in the morning, at noon and in the evening and sleep at night, the blood glucose concentration also exhibits rough daily cycles.
-  \figref{fig:XXX} plots the daily blood glucose traces of a volunteer for six successive days measured by a CGM device.
-  \TODO{explain the figure, \eg always peak at XXX, XXX, XXX time, due to \eg meals, and...}
+  Since people usually tend to lead a regular lifestyle, \eg having meals in the morning, at noon and in the evening and taking drugs at certain times, the blood glucose concentration also exhibits rough daily cycles.
+  \figref{fig:historical_traces} plots the daily blood glucose traces of a volunteer for five successive days measured by a CGM device. \textcolor[rgb]{1.00,0.00,0.00}{As shown, the blood glucose trances always grow up signifcantly
+  in the durations of 8:40 to 9:40, 12:30 to 14:00 due to the breakfast and lunch, but increase moderately from 18:00 to 20:00 because of taking the drugs before the dinner.}
   This motivates us to adopt the historical blood glucose concentrations at time stamp $k$ (averaged over $D$ days) as one temporal feature to infer the blood glucose level at time $k$.
   In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3min, which is in accordance with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
   \item
