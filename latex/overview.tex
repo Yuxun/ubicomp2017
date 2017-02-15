@@ -1,22 +1,21 @@
 
 \section{Overview}
 \label{sec:overview}
-\sysname is a smartphone-based blood glucose level tracking system that \emph{(i)} collects important external impacting factors, \emph{(ii)} efficiently trains a personalized blood glucose level model via a multi-task deep learning framework (\modelname), and \emph{(iii)} timely reminds users of abnormal blood glucose levels.
+\sysname is a smartphone-based blood glucose level tracking system that \emph{(i)} non-intrusively collects important external impacting factors and conducts feature engineering, \emph{(ii)} efficiently trains a personalized blood glucose level model via a novel multi-task deep learning framework, and \emph{(iii)} timely reminds users of abnormal blood glucose levels.
 \figref{fig:architecture} shows the architecture of \sysname, which consists of three modules.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.85\columnwidth]{./img/System_Arch.pdf}
+  \includegraphics[width=0.85\columnwidth]{./img/System_Arch2.pdf}
   \caption{Architecture of \sysname.}
   \label{fig:architecture}
 \end{figure}
 
-The \textbf{external factor collection} module records external factors that are important to infer blood glucose concentration and convenient to input via smartphones.
+The \textbf{external factor collection and feature engineering} module first records external factors that are important to infer blood glucose concentration and convenient to input via smartphones.
 A user inputs meta information (\eg health status, age, weight), and records daily meal, drug and insulin intake.
-Meanwhile, \sysname will automatically measures physical activities and sleep quality of the user via embedded sensors.
-After collecting data from multiple users, the \textbf{multi-task deep learning} framework (\modelname) first learns feature representations from users in the same group (non-diabetic, type I and type II diabetic), and then adopts a deep RNN layer to learn a general blood glucose level model on the dataset of all users.
-Finally it outputs a personalized blood glucose level model for each individual via a personality layer.
-The \textbf{blood glucose level tracking} module takes measurements of the external factors as input, processes the information with the trained personalized blood glucose level model, and finally outputs a specific blood glucose level at each time stamp.
+Meanwhile, \sysname will automatically measures physical activities and sleep quality of the user via embedded sensors (\ie accelerometer, microphone and light sensor). After collecting data from multiple users, \sysname conducts feature engineering from physiological and temporal perspectives, and feeds them into a multi-task deep learning framework: \textbf{\modelname}.
+\modelname first learns feature representations from users in the same group (non-diabetic, type I and type II diabetic), and then adopts a deep RNN layer to learn a general blood glucose level model on the dataset of all users.
+Finally it outputs a personalized blood glucose level model for each individual via a personality layer. The personalized inference results of blood glucose level at fine-grained time resolution are eventually shown in the \textbf{blood glucose level tracking} module, reminding the users of the abnormal levels of blood glucose.
 In \sysname, we consider 4 blood glucose levels as in \tabref{tab:blood_glucose_levels}.
 
 %As such, a user-friendly interface is designed to decompose the input process into multiple menu selections.

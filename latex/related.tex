@@ -1,16 +1,16 @@
 % !TEX root = paper.tex
 \section{Related Work}
 \label{sec:relwork}
-Research on modeling blood glucose concentrations or abnormal events dates back to the 1960s and continues to attract extensive research interest~\cite{bib:IJNMBE16:Oviedo}.
+Research on inferring blood glucose concentrations or abnormal events dates back to the 1960s and continues to attract extensive research interest~\cite{bib:IJNMBE16:Oviedo}.
 Physiological models~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka} mathematically formulate the whole process of glucose metabolism and are widely used for simulations and studies involving glucose regulation.
 One major drawback of physiological models is the requirement for prior knowledge to adjust the physiological parameters.
-Alternatively, researchers propose to combine machine learning techniques with a minimal physiological model or directly correlating blood glucose levels with insulin, food intake and other inputs without physiological parameters.
-For instance, Plis~\etal~\cite{bib:MAIHA14:Plis} apply a generic physiological model of blood glucose dynamics to extract features for support vector regression to predict blood glucose levels.
+Alternatively, researchers propose to combine machine learning techniques with a non-specific physiological model or directly correlating blood glucose levels with insulin, food intake and other inputs without physiological parameters.
+For instance, Plis~\etal~\cite{bib:MAIHA14:Plis} apply a generic physiological model of blood glucose dynamics to extract features for support vector regression to infer blood glucose levels.
 Reymann~\etal~\cite{bib:EMBC16:Reymann} replace the physiological model by an online simulator and bring blood glucose tracking on mobile platforms.
 
 While physiological models and the underlying glucose metabolism dominate the dynamics of blood glucose, the impact of seemingly ``secondary'' factors, such as those related with individual's lifestyle, can be quite significant.
-Variations of food intake, exercises, sleep quality, heart rates, \etc, can also lead to blood glucose dynamics, which are not captured by a universal physiological model~\cite{bib:DRCP15:Iwasaki}.
-Consequently, it is crucial to monitor external lifestyle factors such as food, exercise, sleep quality as input to improve the modeling of blood glucose concentration.
+Variations of the personalized external lifestyle factors such as meals, insulin or drug intake, exercises, and sleep quality, \etc, can also lead to blood glucose dynamics, which are not captured by a universal physiological model~\cite{bib:DRCP15:Iwasaki}.
+Consequently, it is crucial to monitor these external lifestyle factors as inputs to improve the performance of blood glucose concentration inference.
 METABO~\cite{bib:EMBC09:Georga} is a client-server architecture based system that records dietary, physical activity, medication and medical information for hypoglycaemic and hyperglycaemic event prediction.
 Marling~\etal~\cite{bib:KDHealth16:Marling} improve hypoglycemia detection by combining CGM data with heart rate, galvanic skin response and skin temperature collected from a fitness band.
 However, these works all require CGM data as input, making them invasive and inconvenient for both patients and non-diabetic people.
@@ -19,14 +19,14 @@ Alternatively, there has been attempt at non-invasive blood glucose monitoring w
 Nguyen~\etal~\cite{bib:EMBC12:Nguyen} observe distinct patterns in ECG signals during hypoglycemia and hyperglycemia in type 1 diabetic patients.
 Sobel~\etal~\cite{bib:JDST14:Sobel} integrate five types of sensory data from two accelerometers, a heat-flux sensor, a thermistor, two ECG electrodes and a galvanic skin response sensor to predict blood glucose concentration.
 Ranvier~\etal~\cite{bib:SEMPER16:Ranvier} leverage ECG signals, and energy expenditure (estimated by an accelerometer and a breathing sensor) to detect hypoglycemic events.
-Our work is inspired by this body of research. We propose a smartphone-based non-invasive blood glucose monitoring system that jointly considers mean and insulin intake, physical activity and sleep quality without CGM data as input.
+Our work is inspired by this body of research. We propose a smartphone-based non-invasive blood glucose monitoring system that jointly considers meals, drugs and insulin intake, physical activity and sleep quality without CGM data as inputs.
 Practically, physical activity level and sleep quality are automatically tracked without manual input, which notably improves the useability of our system.
 
 
-Personalized blood glucose models are also important because models with generic parameters may not reflect user-specific factors such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
-Both the physiological parameters and the impact of life events on blood glucose need to be trained on user-specific data to account for inter-user differences~\cite{bib:ICMLA13:Bunescu}.
-However, a primary impediment is the lack of sufficient data to build up personalized models~\cite{bib:KDHealth16:Marling}.
-In this paper, we advance previous works by carefully designing a machine learning framework that shares blood glucose information among groups of users but preserves user-specific blood glucose characteristics via personalized learning, thus making full use of the limited, sometimes incomplete user-specific data, and achieving higher prediction accuracy than both generic learning and personalized learning.
+Moreover, personalized blood glucose models are also important. It is because those models with generic parameters may not reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
+Both the physiological parameters and the impact of life events on blood glucose need to be trained on user-specific data to account for inter-person differences~\cite{bib:ICMLA13:Bunescu}.
+However, a primary impediment to build up such model is lacking of sufficient personalized blood glucose data ~\cite{bib:KDHealth16:Marling}.
+In this paper, we advance previous works by carefully designing a multi-division deep learning framework that shares blood glucose information among groups of users, but preserves user-specific blood glucose characteristics via personalized learning, thus making full use of the limited, sometimes incomplete user-specific data, and achieving higher prediction accuracy than both generic learning and personalized learning.
 
 %Useful:
 %Meals, physical activity, and emotional state are some of the factors that affect BGC.

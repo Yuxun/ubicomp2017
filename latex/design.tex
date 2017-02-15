@@ -10,7 +10,7 @@ In \sysname, five major external factors are measured, including food, drug and 
 
 \fakeparagraph{Food Intake}
 As food intake is a main source of carbohydrate, \sysname provides a food menu for users to keep track of their meals.
-Based on the carbohydrate food list~\cite{bib:carblist}, meals are categorized into five types, including grains, vegetables, milk and egg, fruits and meats.
+Based on the carbohydrate food list~\cite{bib:carblist}, meals are categorized into five types, including grains, vegetables, milk and egg, fruits ,as well as meats.
 Users are asked to enter the food types and amounts of their meals, based on which \sysname calculates $U_C$, the carbohydrate of a meal.
 
 \fakeparagraph{Drug Intake}
@@ -24,19 +24,18 @@ Inulin injection is widely used for blood glucose control for type I and type II
 \sysname automatically transforms drug intake and insulin injection into the amount of acting insulin $U_I$ via bolus and basal rate information~\cite{bib:MAIHA14:Plis}.
 
 \fakeparagraph{Physical Activity}
-Daily activities \eg exercises consume the carbohydrate and affect blood glucose levels.
-In \sysname, we adopt an efficient activity recognition scheme~\cite{bib:KDDEN11:Kwapisz} to automatically record six common physical activities (walking, running, going upstairs, going downstairs, sitting and standing) along with the corresponding durations.
-\sysname then calculates the caloric expenditure based on the widely used calorie calculator~\cite{bib:HealthStatus, bib:CalorieCounter}.
+Daily activities \eg exercises, consume the carbohydrate and affect blood glucose levels.
+In \sysname, we adopt an efficient activity recognition scheme~\cite{bib:KDDEN11:Kwapisz}, which leverages the accelerometer of smartphones to automatically record six common physical activities (walking, running, going upstairs, going downstairs, sitting and standing) along with the corresponding durations.
+\sysname then calculates the caloric expenditure based on the widely used calorie calculator~\cite{bib:HealthStatus, bib:CalorieCounter, bib:shapesense}.
 \begin{equation}\label{eq:calorie_burn}
   Calorie Burn = (BMR/24)*MET*T,
 \end{equation}
-where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate.
+where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate. T is the activity duration time (in hours).
 \sysname leverages the calorie expenditure $U_E$ as input for physiological feature extraction.
 
 \fakeparagraph{Sleep Quality}
 Sleep quality has a long-term influence on the blood glucose level~\cite{bib:DRCP15:Iwasaki}.
-\sysname automatically measures sleep quality using smartphones as in~\cite{bib:UbiComp14:Gu}.
-The output sleep quality score $U_S$ is then used for physiological feature extraction.
+\sysname automatically measures sleep quality using smartphones as in~\cite{bib:UbiComp14:Gu}. It invokes the sensors (\ie accelerometer, microphone and light sensor) of smartphones to collect the ambient sleep-related factors, and then infersthe sleep quality by a statistics model. The output sleep quality score $U_S$ is then used for physiological feature extraction.
 
 In summary, the five external factors are transformed into four categories of measurements including the carbohydrate of a meal ($U_C$), the amount of acting insulin ($U_I$), calorie expenditure ($U_E$) and sleep quality score ($U_S$), which are then used as input to extract important features for blood glucose level inference.
 
@@ -69,7 +68,7 @@ We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U
   Insulin dynamics & $\begin{aligned}
                             I_{a}(k+1) &= I_{a}(k)-\alpha_{f,r,m}^I\times I_{a}(k)+U_{I}(k+1) \\
                             I_{s}(k+1) &= I_{s}(k) \\
-                            I_{m}(k+1) &= I_{m}(k)+\alpha_{f,r,m}^I\times I_{a}(k)+\alpha_{a}^I*I_{a}(k)-\alpha_c^I\times I_{m}(k) \\
+                            I_{m}(k+1) &= I_{m}(k)+\alpha_{f,r,m}^I\times I_{a}(k)+\alpha_{a}^I\times I_{a}(k)-\alpha_c^I\times I_{m}(k) \\
                             I(k) &= I_{m}(k)\times S^I / (142 \times bm)
                           \end{aligned}$ \\
   \midrule
@@ -276,8 +275,8 @@ As blood glucose level naturally varies over time, we extract two temporal featu
   \item
   History blood glucose concentration $X_{T_1}$ at time $k$:
   Since people usually tend to lead a regular lifestyle, \eg having meals in the morning, at noon and in the evening and taking drugs at certain times, the blood glucose concentration also exhibits rough daily cycles.
-  \figref{fig:historical_traces} plots the daily blood glucose traces of a volunteer for five successive days measured by a CGM device. \textcolor[rgb]{1.00,0.00,0.00}{As shown, the blood glucose trances always grow up signifcantly
-  in the durations of 8:40 to 9:40, 12:30 to 14:00 due to the breakfast and lunch, but increase moderately from 18:00 to 20:00 because of taking the drugs before the dinner.}
+  \figref{fig:historical_traces} plots the daily blood glucose traces of a volunteer for five successive days measured by a CGM device. As shown, the blood glucose trances always grow up signifcantly
+  in the durations of 8:40 to 9:40, 12:30 to 14:00 due to the breakfast and lunch, but increase moderately from 18:00 to 20:00 because of taking the drugs before the dinner.
   This motivates us to adopt the historical blood glucose concentrations at time stamp $k$ (averaged over $D$ days) as one temporal feature to infer the blood glucose level at time $k$.
   In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3min, which is in accordance with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
   \item
@@ -333,7 +332,7 @@ Detailed construction of each component is given in the sequel.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/pics_RNN2.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/pics_RNN3.pdf}
   \caption{Illustration of \modelname structure.}
   \label{fig:rnn}
 \end{figure}
@@ -345,22 +344,22 @@ We also adopt an index set convention, that $(x_A^{B},y_A^B)$ represents the dat
 
 \fakeparagraph{Grouped Input Layer}
 In the context of blood glucose prediction, available inputs are naturally divided into three groups according to the health condition of the participant from whom the data was generated.
-Notation-wise, we utilize $H$, $I$ and $II$ to indicate the the group of healthy user, user with type I diabetes and those having type II diabetes, respectively.
+Notation-wise, we utilize $H$, $I$ and $II$ to indicate the the group of non-diabetic user (healthy), user with type I diabetes and those having type II diabetes, respectively.
 Since the extracted features are essentially physiological indexes and temporally correlated variables, they must go though different transformations to represent useful information of three distinct groups.
 This consideration motivate the design of the input layer (bottom of \figref{fig:rnn}) - it is divided into three units that performs different linear and non-linear transformation according to user groups.
 For instance, a data sample $x_t^{I_j}$, generated at time $t$ from the $j^{th}$ user of type I, undergoes the following processing:
 \begin{align}
 \tilde{x}_t^{I_j} = \sigma \left( W^Ix_t^{I_j} \right)
 \end{align}
-where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a feature of all $1$s.}, $\sigma$ is the sigmoid activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample.
+where $W^I$ is the coefficients of the affine transformation \footnote{We assume that the interception is included in $W$. This can be done by simply adding a constant feature vector of $1$.}, $\sigma$ is the sigmoid activation function, and $\tilde{x}_t^{I_j}$ is the output of the input layer for that data sample.
 Similar operations are conducted for data samples from group $H$ and $II$, but with different transformation coefficients.
 Intuitively, the shared transformation within groups would improve the learning of parameters (vs. single task learning), as information from all data in a homogeneous group is used.
 Also, the transformation can be stacked into several (say $P$) layers, for better information representation.
 
 \fakeparagraph{Deep Dynamic Layer}
 A common hidden layer is designated to capture the dynamics of the blood glucose evolution process.
-The underlying assumption is that, the biological and chemical reactions governing blood glucose variation are similar for all people, despite of grouped behaviors in the representation of physiological indexes (input layer), or individual characteristics in exhibited glucose level.
-This assumption could be justified by a series of medical research~\cite{bib:JCEM13:Eckert,bib:JDST10:Vaddiraju}.
+The underlying assumption is that, the physiological reactions governing blood glucose variation are similar for all people, despite of grouped behaviors in the representation of physiological indexes (input layer), or individual characteristics in exhibited glucose level.
+This assumption could be justified by a series of medical related research~\cite{bib:lehmann1992physiological,bib:TBE07:Dalla,bib:PE04:Hovorka,bib:duke2010intelligent}.
 Moreover, since all users share the same hidden layer, all collected data samples are eventually helping the estimation of its parameters.
 The availability of rich information for the hidden layer makes the learning of a deep structure possible.
 In \sysname, a number of Long Short Term Memory (LSTM) networks are stacked together (middle of \figref{fig:rnn}), to increase the overall model flexibility.
@@ -391,7 +390,7 @@ Similar to other deep neural network learning, \modelname is trained by minimizi
 The definition of the loss function has much bearing on the generalization performance of the method.
 In particular for the current application, simply minimizing a general error rate seems inappropriate, because the costs of different types of misclassifiction errors can differ a lot.
 For example, missing the detection of high blood glucose (type I or II) is more costly than misclassifying normal condition to an alarm for high glucose.
-Moreover, in the collected data set from real people, the training data is inherently imbalanced - the available samples labeled Level 1 and Level 4 are much fewer (only 7\%) compared to samples in the other categories (Level 2 and Level 3).
+Moreover, in the collected data set from real people, the training data is inherently imbalanced - the available samples labeled Level 1 and Level 4 are much fewer (only 30.6\% in training dateset) compared to samples in the other categories (Level 2 and Level 3).
 
 The above concerns motivate the cost sensitive learning of \modelname.
 Instead of directly minimizing a surrogate of error rate, we propose to optimize over a weighted version of classification losses.
@@ -404,10 +403,10 @@ where $\mathcal{Y}$ is the label set, and $\hat{y}_t$s are prediction output fro
 Our implementation uses cross entropy for $l(y_t,\hat{y}_t)$, but generally the ``base'' lost function $l(y_t,\hat{y}_t)$ can be any surrogate of the error function.
 The additional coefficient $C_{y_t}$ weights the misclassification error for category $y_t$.
 In the current application, $\mathcal{Y} = \{1,2,3,4\}$, associated with four coefficients $C_1$ to $C_4$.
-Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance. The second term in~\ref{eq:obj} is a regularization for model parameters, which in the current implementation is substantiated with a frobenius norm for each matrix. The penalty coefficient $\lambda$s are left as model hyper-parameters, whose selection procedure will be discussed later.
+Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance. The second term in~Eq.\ref{eq:obj} is a regularization for model parameters, which in the current implementation is substantiated with a frobenius norm for each matrix. The penalty coefficient $\lambda$s are left as model hyper-parameters, whose selection procedure will be discussed later.
 
 With the technique of back-propagating, computing the gradient of \modelname is not so different from the gradient calculation of classical RNN.
-In this work, we accomplish those computation using Tensorflow, and proceed to learn \modelname model by stochastic gradient descent for overall loss minimization.
+In this work, we accomplish those computation using Tensorflow \cite{bib:Tensorflow}, and proceed to learn \modelname model by stochastic gradient descent for overall loss minimization.
 
 Last but not least, the construction of the \modelname model involves choosing 15 hyperparameters, \eg cost coefficients $C_{y}$, depth $D$ of the stacked dynamic layer, learning rate, number of hidden unit in the input layer, \etc
 Direct application of cross validation (CV) for hyperparameter tuning, even with the help of parallel computing, seems intractable as the number of required CVs scales exponentially to the number of hyperparameters.

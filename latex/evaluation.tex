@@ -12,7 +12,7 @@
 \textbf{Datasets.}
 We validate \sysname on a dataset of $112$ participants ($35$ non-diabetes, $38$ type I diabetic patients and $39$ type II diabetic patients) collected during July 2016 to January 2017.
 Each participant is equipped with (1) a WAVEGUIDER \emph{U-Tang} CGM device~\cite{bib:CGM_wave} to record blood glucose concentration every $3$ minutes and (2) a smartphone with \sysname installed to collect external factors either automatically (activities and sleep quality) or manually (food, drug, and insulin intake).
-All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, which is a disposable usage duration of enzyme of the CGM.
+All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, which is a normal disposable usage duration of the enzyme in the sensor of the CGM.
 \figref{fig:experiment_case} illustrates an example of data collection from a user.
 In total we obtain 762639 samples of blood glucose concentration and the corresponding external factors covering around 38132 hours.
 In brief, we collect the following categories of data:
@@ -161,7 +161,7 @@ We mainly adopt precision, recall and accuracy~\cite{prf1} to quantify the perfo
 
 \subsection{Inference Accuracy}
 \subsubsection{Overall Inference Accuracy}
-Since all participants collected both measurements of CGM and external factors for at least 6 days, \ie a normal usage duration of enzyme in the CGM, we use measurements during the former 5 days for training and the rest for testing.
+Since all participants collected both measurements of CGM and external factors for at least 6 days, we use measurements during the former 5 days for training and the rest for testing.
 \tabref{tab:confusion_matrix} shows the overall performance of \sysname.
 All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
@@ -189,7 +189,7 @@ Level 4                                                                         
 
 \subsubsection{Inference Result Analysis}
 \label{subsec:predict_result_analysis}
-To understand the inference accuracy and the risks of different types of errors in the context of blood glucose management, we classify the inference results based on the Clarke Error Grid Analysis (CEGA) \cite{bib:DTT05:Clarke}.
+To understand the inference accuracy and the risks of different types of errors in the context of blood glucose management, we classify the inference results based on the principles of Clarke Error Grid Analysis (CEGA) \cite{bib:DTT05:Clarke}.
 The analysis classifies the inference results into correct event (Type A) and different types of errors (Type B to Type E) with increasing levels of severity.
 For instance, Type B errors are those that will not lead to inappropriate treatments, while Type E errors can lead to wrong treatment.
 \tabref{predict_results} summarizes the percentages of each type of results.
@@ -219,13 +219,14 @@ Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that 
 \subsubsection{Temporal View of Inference Results}
 \figref{fig:pre_gt} plots the example inference results of \sysname of three participants (one non-diabetic, one Type I diabetic patient, and one Type II diabetic patient) throughout a day.
 The errors are depicted at the bottom of each figure.
-As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:00, 11:30 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the type I diabetic user; 6:00, 12:50 and 17:45 for the type II user), insulin injection (7:30 for the type I diabetic user), drug intake (15:10 for the type II user) and exercises (15:30 for the type II user), indicating the importance of external factors.
+As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:50, 11:20 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the type I diabetic user; 6:00, 12:50 and 17:45 for the type II user), insulin injection (7:40 for the type I diabetic user), drug intake (15:10 for the type II user) and exercises (15:30 for the type II user), indicating the importance of external factors.
 The blood glucose levels inferred by \sysname also match the true blood glucose levels most of the time, which validates the effectiveness of \sysname during various daily activities.
 
-Most errors mistake adjacent blood glucose levels, and usually occur during the transition of two blood glucose levels (\eg from 6:00 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
-Errors during blood glucose transitions are mainly caused by the delays to measure the external factors.
-Errors in case of sudden blood glucose changes occur because the sudden changes in blood glucose concentration may not immediately result in sudden changes in the external factors.
-Nevertheless, both errors tend to occur for a short duration of time, which will not lead to risky emergencies.
+Most errors mistake blood glucose levels 2 and level 3, and usually occur during the transition of two blood glucose levels (\eg from 6:10 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
+Errors during blood glucose transitions are mainly brought by the temporary delays to measure the external factors. In this case, the inference result will follow up the true value in a short time.
+Errors of sudden blood glucose fluctuation are often resulted by the abrupt or tiny changes of the external factors,
+which may not be immediately detected by \sysname. In this case, the durations of errors are too short to cause risky emergencies. Moreover, most errors belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment.
+%Nevertheless, both errors tend to occur for a short duration of time, which will not lead to risky emergencies.
 
 
 %For the former one, it is mainly due to the external factors tracked by \modelname have just changed for a short time, resulting in a little temporal delay to follow the true values. This type of error, however, can be revised quickly.
@@ -242,7 +243,7 @@ Nevertheless, both errors tend to occur for a short duration of time, which will
 
 \subsection{Model Comparison}
 
-\subsubsection{Effectiveness of Multi-division Framework}
+\subsubsection{Effectiveness of \modelname Framework}
 To demonstrate the effectiveness of the multi-division framework in making full use of the training dataset, we evaluation \modelname from two perspectives.
 
 \fakeparagraph{Layer contribution analysis}
@@ -250,12 +251,12 @@ To evaluate the effect of different layers, we conduct blood glucose level infer
 \begin{itemize}
   \item
   \emph{Deep dynamic layer.}
-  Training without considering differences in groups and only output a general model.
+  Training without considering differences in groups and persons, and only output a general model.
   \item
-  \emph{Grouped input layer + deep dynamic layer.}
+  \emph{Deep dynamic layer + Grouped input layer.}
   Learn group-specific feature representations but ignore per-person characteristics in the output.
   \item
-  \emph{Grouped input layer + deep dynamic layer + personalized output layer (\modelname).}
+  \emph{Deep dynamic layer + Grouped input layer + personalized output layer (\modelname).}
   Efficiently learn features from different groups and output personalized inference results.
 \end{itemize}
 \figref{fig:cmp_model} plots the comparison results of the three combinations.
@@ -265,7 +266,7 @@ The results demonstrate the effectiveness of \modelname, which learns representa
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/CMP_Models1.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/CMP_Models2.pdf}
   \caption{Performance of layer combinations.}
   \label{fig:cmp_model}
 \end{figure}
@@ -292,7 +293,7 @@ The results show that \modelname is both effective and stable in blood glucose l
 
 General learning treats each sample of training data equally, and ignores the individual differences, so it performs poorly in most cases.
 Conversely, single learning approach encodes the individual characteristics but suffers from lacking of user-specific training dataset. Even though group learning learns the similarities of users within the same group, it ignores inter-person physiological differences.
-\modelname combines the advantages of these three learning approaches, which makes better use of the limited training data by sharing measurements among users and preserves user-specific characteristics via the personal learning layer.
+\modelname combines the advantages of these three learning approaches, which makes better use of the limited individual training data by sharing measurements among users and preserves user-specific characteristics via the personal learning layer.
 
 %General learning performs slightly better than single learning for Level 2 and 3 (normal blood glucose levels), partly because the correlations between the inputs and normal blood glucose levels are relatively consistent for most people, while single learning suffers from lack of training data as it only uses user-specific data.
 %Conversely, single learning achieves higher precision and recall than general learning for Level 1 and 4 (abnormal blood glucose levels), partly because there are notable inter-person differences in the correlations between the inputs and abnormal blood glucose levels.
@@ -307,49 +308,43 @@ Conversely, single learning approach encodes the individual characteristics but 
 \end{figure}
 
 
-\subsubsection{Effectiveness of Deep, Multi-division Learning}
-To demonstrate the effectiveness of adopting deep learning algorithms over conventional shallow learning algorithms, we compare \modelname with the following algorithms.
+\subsubsection{Effectiveness of \modelname Learning Algorithm}
+To demonstrate the effectiveness of adopting \modelname learning algorithms over the shallow, deep or multi-task learning algorithms, we compare it with the following  advanced algorithms.
 \begin{itemize}
   \item
-  \textbf{Gradient Boosting (GB).}
-  GB \cite{bib:friedman2002stochastic} generates a prediction model by combining many weak classifiers into a stronger classification committee.
-  We use AdaBoost procedure implemented in the fastAdaboost package to combine basic tree classifiers for ensemble learning.
+  \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
+  As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
+  To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
+  For implementation, we adopt the conditional inference tree algorithm in the Party package.
+
+  \item
+  \textbf{Artificial neural network (ANN)~\cite{bib:wang2003artificial}.}
+  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
+
   \item
   \textbf{Multi-task Support Vector Machine (mSVM).}
-  SVM \cite{bib:wang2005support} bases on the idea of ��optimal separating hyperplane�� that maximizes the separation margin of two data groups (classes).
+  SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
   Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
   We use a multi-task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
-  %We vary the kernel width from $2^{-5}$ to $2^4$ with a factor of 2.
-  %We pick the penalty parameter from the set $\{10^i | i = -3, 0.5, 2\}$.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
   \item
-%<<<<<<< Updated upstream
-  \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).} \cite{ni2007multi}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}. Simple as it is, HMM is widely used in signal processing and time series analysis due to its interpretability and tractability. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
-  \item
-  \textbf{Artificial neural network (ANN).}\cite{bib:wang2003artificial}
-  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow.
-  \item
-  \textbf{Random Forest (RF).}
-  As another ensemble method, RF~\cite{bib:liaw2002classification} combines many simple decision trees together and output the mode of classes for prediction.
-  To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
-  For implementation, we adopt the conditional inference tree algorithm in the Party package.
-  %The total number of trees is tuned from 100 to 1000, and the maximum tree depth from 10 to 50.
-  %The splitting threshold is also varied from 0.1 to 0.9 with 0.1 intervals for cross validation.
-%=======
-%  \textbf{Gradient Boosting (GB).}
-%  GB \cite{bib:friedman2002stochastic} generates a prediction model by combining many weak classifiers into a stronger classification committee.
-%  We use AdaBoost procedure implemented in the fastAdaboost package to combine basic tree classifiers for ensemble learning.
-%  %We vary the maximum tree depth from 10 to 50 by factors of ten.
-%  %The number of boosting iterations is varied from 100 to 500 by a step size of 50.
-%
-%>>>>>>> Stashed changes
+  \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
+  GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
+  We use the implementation of the fastAdaboost package to combine basic tree classifiers for ensemble learning.
+
   \item
   \textbf{Multi-task Gaussian Processes (mGP).}
   Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
   The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
-  The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration.
+  The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
+
+
+  \item
+  \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
+  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}. Simple as it is, HMM is widely used in signal processing and time series analysis due to its interpretability and tractability. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
+
+
   %We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
 
  % \item
@@ -362,15 +357,15 @@ To demonstrate the effectiveness of adopting deep learning algorithms over conve
 
 \figref{fig:cmp_models} illustrates the results.
 Apparently, \modelname achieves best performance on both precisions and recalls.
-More specifically, it outperforms the runner-up by at least 20\% in terms of precision, and yields much better recalls for the categories of interest, i.e., level 1 and level 4.
+More specifically, it outperforms the runner-up by at least 20\% in terms of average precision, and yields much better recalls for the categories of interest, \ie level 1 and level 4.
 Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score.
 This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks.
-However compared to \modelname which is able to describe multi-scale dynamics, overall nDP-iHMM is still worse.
-The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or does not allow information sharing among available data from grouped users.
-The above observation further justifies the effort of adopting valuable knowledge about the application, for the design of new machine learning paradigms.
+However, compared to \modelname, which is able to describe multi-scale dynamics, nDP-iHMM is still worse in general.
+The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or can not allow information sharing among available data from users.
+The above observation further justifies the efforts of designing the new machine learning paradigm for \sysname, which efficiently transfers valuable knowledge between individuals.
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/Model_CMP.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/Model_CMP1.pdf}
   \caption{Performance comparison with shallow learning algorithms.}
   \label{fig:cmp_models}
 \end{figure}
@@ -383,10 +378,10 @@ The above observation further justifies the effort of adopting valuable knowledg
 \subsection{Micro-benchmarks}
 \subsubsection{Effectiveness of Features}
 \tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
-By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\%, respectively.
-Specifically, the physiological features ($X_{P}$) and the historical blood glucose trend ($X_{T_1}$) bring in the most notable improvement in detecting abnormal blood glucose events (Level 1 and Level 4).
-This is because the physiological model can well describe the impact of external factors (\eg food and exercise), and the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time.
-
+By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by at least 30\% and 40\% respectively.
+Specifically, all of the three features bring in notable improvements in detecting the blood glucose events.
+This is because $X_{P}$ from the physiological model can well reflect the impact of external factors (\eg food and exercise), and $X_{T1}$ from the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time. As for $X_{T2}$, it brings in more short-term temporal dependencies between physiological features and the blood glucose levels.
+In general, the precisions and recalls of 4 levels are increasing smoothly with adding each feature, demonstrating the effectiveness of the selected features.
 %\begin{table}[h]
 %  \small
 %  \centering
@@ -416,8 +411,19 @@ This is because the physiological model can well describe the impact of external
                                    & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
   \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
   $X_{P}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
-  $X_{P}$+$X_{T_1}$                   & 58.29$\%$               & 65.60$\%$                                 & 65.15$\%$                & 60.07$\%$            & 68.84$\%$               & 60.70$\%$                                 & 73.23$\%$               & 68.74$\%$                                 \\ \hline
-  $X_{P}$+$X_{T_1}$+$X_{T_2}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
+
+%$X_{T1}$                            & 28.71$\%$               & 24.45$\%$                                 & 25.01$\%$                & 28.17$\%$            & 27.21$\%$               & 20.87$\%$                                 & 28.24$\%$               & 25.75$\%$                                 \\ \hline
+%
+%
+%$X_{T2}$                            & 19.43$\%$               & 16.15$\%$                                 & 22.32$\%$                & 18.39$\%$            & 20.39$\%$               & 15.33$\%$                                 & 13.84$\%$               & 18.51$\%$                                 \\ \hline
+%
+%$X_{T_1}$+$X_{T_2}$                   & 35.11$\%$               & 29.73$\%$                                 & 30.68$\%$                & 36.72$\%$            & 35.91$\%$               & 40.16$\%$                                 & 38.81$\%$               & 47.26$\%$\\ \hline
+
+
+$X_{P}$+$X_{T_1}$                   & 58.29$\%$               & 63.60$\%$                                 & 72.15$\%$                & 60.17$\%$            & 68.84$\%$               & 61.49$\%$                                 & 73.23$\%$               & 66.74$\%$\\ \hline
+
+
+$X_{P}$+$X_{T_1}$+$X_{T_2}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
   & 83.72$\%$               & 85.23$\%$                                  \\ \hline
   \end{tabular}
 \end{table}
@@ -426,9 +432,9 @@ This is because the physiological model can well describe the impact of external
 \subsubsection{Impact of amount of training samples}
 In this experiment, we evaluate the performance of \sysname with increasing numbers of training samples.
 Since the duration of measurements for each participant varies from 6 to 30 days, we use measurements of 5 to 25 days for training, and the rest for testing.
-We keep the measurements for training but exclude them for testing if the duration of the measurements is short.
+Note that we keep the measurements for training but exclude them for testing if the duration of certain user's measurements is insufficient.
 For example, if the user's measurements last for 7 days, we use his measurement to evaluate the performance of using 5 days of training data, and test on the measurements of the remaining 2 days.
-However, when evaluating the performance with 10 days of training data, we only use the 7 days of measurements for training, but not for testing.
+However, when evaluating the performance with 10 days of training data, we only use his 7 days of measurements for training, but not for testing.
 
 \begin{figure}[h]
   \centering

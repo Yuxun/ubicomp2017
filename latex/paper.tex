@@ -77,7 +77,8 @@
 \newcommand{\subsecvspace}{\vspace{-0.15cm}}
 
 \begin{document}
-\title{SugerMate: Towards Ubiquitous Smartphone-based Blood Glucose Inference}
+%\title{SugerMate: Towards Ubiquitous Smartphone-based Blood Glucose Inference}
+\title{SugerMate: Non-intrusive Blood Glucose Inference with Smartphone}
 
 \author{Weixi Gu}
 \affiliation{%
@@ -131,12 +132,12 @@
 \begin{abstract}
   Inferring abnormal glucose events such as hyperglycemia and hypoglycemia is crucial for the health of both diabetic patients and non-diabetic people.
   However, continuous or regular blood glucose monitoring can be invasive and inconvenient in everyday life.
-  In this paper, we present \sysname, a ubiquitous personal blood glucose tracking system.
-  Provided with inputs of food, drug and insulin intake, it leverages smartphone sensors to automatically measure physical activities and sleep quality, and then infers the current blood glucose level at a fine-grained time resolution.
-  Nevertheless, accurate blood glucose level inference is still challenging due to model learning difficulties brought by the imbalanced, personalized, and often times limited measurements.
-  To make full use of the available information, we propose \modelname (multi-division deep dynamic recurrent neural network), a novel learning paradigm that is able to resolve those issues in an unified framework.
-  \modelname captures complex, multi-scale blood glucose dynamics via deep LSTM (long short-term memory) networks, extracts grouped feature representations with a multi-division learning structure, and preserves user-specific characteristics using personalized output layers.
-  Evaluations on 112 users over 7 months show that \modelname yields an average accuracy of 82.14\%, significantly outperforming previous learning methods that are either shallow, generically structured, or oblivious to grouped behaviors.
+  In this paper, we present \sysname, a non-intrusive abnormal blood glucose monitor based on smartphones.
+  Provided with inputs of food, drug and insulin intake, it leverages smartphone sensors to automatically measure physical activities and sleep quality, and then infers the current blood glucose level.  
+  Nevertheless, accurate inference of blood glucose level is extremely challenging. The imbalanced, sparse and personalized blood glucose measurements make it difficult to build up a robust model.
+  To make full use of the available information, we propose \modelname (multi-division deep dynamic recurrent neural network), a novel learning paradigm that is able to resolve these issues in an unified framework.
+  \modelname captures complex, multi-scale blood glucose dynamics via deep neural networks, extracts grouped feature representations with a multi-division learning structure, and preserves user-specific characteristics by personalized output layers.
+  Evaluations on 112 users over 7 months show that \modelname yields an average accuracy of 82.14\%, significantly outperforming the previous learning methods that are either shallow, generically structured, or oblivious to grouped behaviors, guaranteeing an excellent performance of \sysname on the anomalous blood glucose event detection.
 \end{abstract}
 
 %Real time blood glucose monitoring is crucial for individuals. Either hyperglycemia or hypoglycemia yields potential risks on personal heath.
