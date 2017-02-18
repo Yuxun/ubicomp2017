@@ -10,7 +10,7 @@
 \end{figure}
 
 \textbf{Datasets.}
-We validate \sysname on a dataset of $112$ participants ($35$ non-diabetes, $38$ type I diabetic patients and $39$ type II diabetic patients) collected during July 2016 to January 2017.
+We validate \sysname on a dataset of $112$ participants ($35$ non-diabetes, $38$ type I diabetic patients and $39$ type II diabetic patients) collected from July 2016 to January 2017.
 Each participant is equipped with (1) a WAVEGUIDER \emph{U-Tang} CGM device~\cite{bib:CGM_wave} to record blood glucose concentration every $3$ minutes and (2) a smartphone with \sysname installed to collect external factors either automatically (activities and sleep quality) or manually (food, drug, and insulin intake).
 All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, which is a normal disposable usage duration of the enzyme in the sensor of the CGM.
 \figref{fig:experiment_case} illustrates an example of data collection from a user.
@@ -52,7 +52,7 @@ In brief, we collect the following categories of data:
   \subfloat[]{%
   \begin{tabular}{ccc}
   \toprule
-  \textbf{Weight (kg)} &\textbf{BMI ($kg/m^2$)}\cite{bib:world2013bmi} &\textbf{\# User} \\
+  \textbf{Weight} &\textbf{BMI ($kg/m^2$)}\cite{bib:world2013bmi} &\textbf{\# User} \\
   \midrule
   Underweight & (0,  18.5) & 18 \\
   Normal weight & [18.5,  25) & 31 \\
@@ -141,7 +141,7 @@ In brief, we collect the following categories of data:
 %\end{table}
 
 \textbf{Ground Truth.}
-We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}.
+We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. In real world deployment, users do not need to wear CGM to measure the blood glucose level.  
 
 \textbf{Metrics.}
 We mainly adopt precision, recall and accuracy~\cite{prf1} to quantify the performance of \sysname.
@@ -165,7 +165,7 @@ Since all participants collected both measurements of CGM and external factors f
 \tabref{tab:confusion_matrix} shows the overall performance of \sysname.
 All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
-In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up 9.88\% and 20.72\% of the entire training set.
+In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up around 10\% and 20\% of the entire training set.
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
 Overall, \sysname yields an accuracy of 82.14\%, showing a promising performance to track blood glucose levels.
 
@@ -218,7 +218,7 @@ Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that 
 
 \subsubsection{Temporal View of Inference Results}
 \figref{fig:pre_gt} plots the example inference results of \sysname of three participants (one non-diabetic, one Type I diabetic patient, and one Type II diabetic patient) throughout a day.
-The errors are depicted at the bottom of each figure.
+The errors are depicted at the bottom of each subfigure.
 As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:50, 11:20 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the type I diabetic user; 6:00, 12:50 and 17:45 for the type II user), insulin injection (7:40 for the type I diabetic user), drug intake (15:10 for the type II user) and exercises (15:30 for the type II user), indicating the importance of external factors.
 The blood glucose levels inferred by \sysname also match the true blood glucose levels most of the time, which validates the effectiveness of \sysname during various daily activities.
 
@@ -244,7 +244,7 @@ which may not be immediately detected by \sysname. In this case, the durations o
 \subsection{Model Comparison}
 
 \subsubsection{Effectiveness of \modelname Framework}
-To demonstrate the effectiveness of the multi-division framework in making full use of the training dataset, we evaluation \modelname from two perspectives.
+To demonstrate the effectiveness of the multi-division framework in making full use of the dataset, we evaluation \modelname from two perspectives.
 
 \fakeparagraph{Layer contribution analysis}
 To evaluate the effect of different layers, we conduct blood glucose level inference with three combinations of layers.
@@ -309,13 +309,13 @@ Conversely, single learning approach encodes the individual characteristics but 
 
 
 \subsubsection{Effectiveness of \modelname Learning Algorithm}
-To demonstrate the effectiveness of adopting \modelname learning algorithms over the shallow, deep or multi-task learning algorithms, we compare it with the following  advanced algorithms.
+To demonstrate the effectiveness of adopting \modelname learning algorithms over the different shallow, deep or multi-task learning algorithms, we compare it with the following  advanced algorithms.
 \begin{itemize}
   \item
   \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
   As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
   To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
-  For implementation, we adopt the conditional inference tree algorithm in the Party package.
+
 
   \item
   \textbf{Artificial neural network (ANN)~\cite{bib:wang2003artificial}.}
@@ -331,7 +331,7 @@ To demonstrate the effectiveness of adopting \modelname learning algorithms over
   \item
   \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
   GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
-  We use the implementation of the fastAdaboost package to combine basic tree classifiers for ensemble learning.
+  We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
 
   \item
   \textbf{Multi-task Gaussian Processes (mGP).}
@@ -366,7 +366,7 @@ The above observation further justifies the efforts of designing the new machine
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\columnwidth]{./img/Model_CMP1.pdf}
-  \caption{Performance comparison with shallow learning algorithms.}
+  \caption{Performance comparison with the different learning algorithms.}
   \label{fig:cmp_models}
 \end{figure}
 
@@ -378,9 +378,9 @@ The above observation further justifies the efforts of designing the new machine
 \subsection{Micro-benchmarks}
 \subsubsection{Effectiveness of Features}
 \tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
-By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by at least 30\% and 40\% respectively.
+By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by at 31.38\% and 41.48\% respectively.
 Specifically, all of the three features bring in notable improvements in detecting the blood glucose events.
-This is because $X_{P}$ from the physiological model can well reflect the impact of external factors (\eg food and exercise), and $X_{T1}$ from the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time. As for $X_{T2}$, it brings in more short-term temporal dependencies between physiological features and the blood glucose levels.
+This is because $X_{P}$ from the physiological model can well reflect the impact of external factors (\eg food and exercise), and $X_{T1}$ from the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time. As for $X_{T2}$, it brings in  more efficient short-term temporal dependencies between physiological features and the blood glucose levels.
 In general, the precisions and recalls of 4 levels are increasing smoothly with adding each feature, demonstrating the effectiveness of the selected features.
 %\begin{table}[h]
 %  \small
@@ -446,7 +446,7 @@ However, when evaluating the performance with 10 days of training data, we only 
 \figref{fig:per_under_train_days} illustrates the results for all the 4 blood glucose levels.
 The results are averaged over all testing samples as in previous evaluations.
 As expected, the precisions and recalls for all the 4 blood glucose levels improve smoothly with the increase of training samples.
-The results verify that the challenge (and our motivation to adopt a multi-task learning framework) is the lack of training data.
+The results verify that the challenge (and our motivation to adopt a multi-division deep learning framework) is the lack of training data.
 Note that \sysname is not a replacement of the current CGM devices, but rather, a complement when CGM devices are uncomfortable or inconvenient to wear.
 Therefore we envision the training dataset will grow gradually after wearing the CGM device multiple times (at least for diabetes patients), and the overall accuracy will also improve over time as a result.
 
@@ -454,7 +454,7 @@ Therefore we envision the training dataset will grow gradually after wearing the
 
 \subsubsection{Impact of Temporal Gaps}
 The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
-Since \sysname does not rely on the previous blood glucose level as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated).
+Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated).
 
 \begin{figure}[h]
   \centering
@@ -463,10 +463,10 @@ Since \sysname does not rely on the previous blood glucose level as an input, it
   \label{fig:per_under_various_pred_days}
 \end{figure}
 
-\figref{fig:per_under_various_pred_days} plots the overall performance by training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
+\figref{fig:per_under_various_pred_days} plots the overall performance of training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
 Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather a ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
-From the results, we recommend \sysname users to put on the CGM device to monitor the blood glucose at least every three weeks.
+From the results, we recommend \sysname users to put on the CGM device to monitor the blood glucose at least every three weeks. 
 The data sampled by the CGM will automatically feed into \sysname for a model retraining.
 
 

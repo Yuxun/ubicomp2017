@@ -4,29 +4,29 @@
 \label{sec:intro}
 Blood glucose concentration plays an important role in personal health.
 Hyperglycemia (high blood glucose level) results in diabetes, leading to health risks such as pancreatic function failure, immunity reduce and ocular fundus diseases~\cite{bib:DC95:Klein}.
-Meanwhile, hypoglycemia (low blood glucose level) also brings complications such as confusion, shakiness, anxiety, and if not treated in time, coma or death~\cite{bib:AJM91:DCCT}.
+Meanwhile, hypoglycemia (low blood glucose level) also brings complications such as confusion, shakiness, anxiety, and even coma or death if not treated in time~\cite{bib:AJM91:DCCT}.
 The International Diabetes Federation (IDF) reports that there were 415 million diabetic patients in 2015 and the number will rise to 642 million by 2040~\cite{bib:IDF15}.
 People with diabetes need tight control of their blood glucose concentration to avoid both short-term and long-term physiological complications.
-While non-diabetic people normally have adequate self-regulation of blood glucose concentration, they can still risk hypoglycemia when taking prolonged exercises, drinking excess amounts of alcohol, having eating disorders, taking certain medicines (\eg certain painkiller and antibiotic), or having pre-diabetes~\cite{bib:JCEM13:Eckert, bib:NEJM82:Felig}.
+While non-diabetic people normally have adequate self-regulation of blood glucose concentration, they still have the risk of hypoglycemia when taking prolonged exercises, drinking excess amounts of alcohol, having eating disorders, taking certain medicines (\eg certain painkiller and antibiotic), or having pre-diabetes~\cite{bib:JCEM13:Eckert, bib:NEJM82:Felig}.
 
 While continuous or regular blood glucose monitoring is essential for blood glucose management and beneficial for hyper- and hypoglycemia warning, it can be invasive and inconvenient, especially during daily life.
-A standard and direct blood glucose measurement is to collect and analyze a drop of blood by finger pricking, which requires a new prick on the finger for every new observation.
+A standard and direct blood glucose measurement is to collect and analyze a drop of blood by finger pricking, which requires a new prick on the finger for every  observation.
 Alternatively, non-invasive (without penetrating the skin) continuous glucose monitoring (CGM) has attracted extensive research leveraging techniques such as thermal infrared spectroscopy, Raman spectroscopy and impedance spectroscopy~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}.
 However, most CGM devices are expensive, cumbersome to wear for extended time, complicated in terms of operation/maintenance, and are usually limited to clinical uses, making them unattractive for both diabetic patients and non-diabetic people.
 
 Towards more ubiquitous blood glucose monitoring when traditional CGM devices are unavailable or inconvenient to general users, researchers propose to explore the increasingly rich sensors embedded in commercial fitness wearables and smartphones as a complement.
 In addition to the glucose metabolism that is difficult to measure directly, blood glucose also correlates to easily measurable physiological activities such as food and drug intake, energy expenditure, sleep quality and emotional states~\cite{bib:DRCP15:Iwasaki}.
-Pioneer works~\cite{bib:EMBC12:Nguyen, bib:SEMPER16:Ranvier, bib:JDST14:Sobel} have proposed preliminary systems leveraging commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose events.
+Pioneer works~\cite{bib:EMBC12:Nguyen, bib:SEMPER16:Ranvier, bib:JDST14:Sobel} have proposed preliminary systems adopting commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose events.
 Nevertheless, they are validated with limited number of measurements~\cite{bib:SEMPER16:Ranvier, bib:JDST14:Sobel} or still require complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen, bib:JDST14:Sobel}.
 
 In this work, we design \sysname, the first personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking meal, drug and insulin intake, physical activity and sleep quality.
 When \sysname detects an abnormal blood glucose event, it reminds the user to double-check by finger pricking or using CGM devices.
 \sysname exploits recent advances in smartphone-based automatic human activity recognition~\cite{bib:KDDEN11:Kwapisz} and sleep quality measurement~\cite{bib:UbiComp14:Gu} to acquire external factors as input for abnormal blood glucose event detection, making it widely applicable in daily use.
-In addition, \sysname considers both \emph{generic} and \emph{user-specific} correlations between blood glucose levels and the measurable external factors, which are largely overlooked in previous works.
+In addition, \sysname comprehensively considers \emph{generic}, \emph{grouped}  and \emph{user-specific} correlations between blood glucose levels and the measurable external factors, which are largely overlooked in previous works.
 
 However, it is challenging to learn effective, accurate and personalized blood glucose models in practice.
-While there have been general blood glucose models that characterizing universal trends between blood glucose concentration and various external factors~\cite{bib:IJNMBE16:Oviedo}, they have to be adjusted based on user-specific data to account for inter-user differences~\cite{bib:ICMLA13:Bunescu}.
-Yet it is often difficult to collect sufficient data to directly build up personalized models~\cite{bib:KDHealth16:Marling}.
+While there have been general blood glucose models characterizing universal trends between blood glucose concentration and various external factors~\cite{bib:IJNMBE16:Oviedo}, they have to be adjusted based on user-specific data to account for inter-user differences~\cite{bib:ICMLA13:Bunescu}.
+Yet it is often difficult to collect sufficient data to directly build up personalized models~\cite{bib:KDHealth16:Marling}:
 \emph{(i)}
 A disposable enzyme of glucose sensor embedded in the CGM device is only capable of a few days \cite{bib:CGM_wiki, bib:CGM_wave}, and most users are unwilling to wear CGM devices frequently due to discomfort.
 \emph{(ii)}
@@ -42,18 +42,19 @@ Evaluations on the blood glucose dataset composed of 112 users lasting 7 months 
 The key contributions of this work are summarized as follows.
 \begin{itemize}
   \item
-  To the best of our knowledge, \sysname is the first smartphone-based personalized abnormal blood glucose event detection system that works without CGM data as input.
-  It automatically collects exercise levels and sleep quality, together with manual records of food and drug intake, and infers the current blood glucose level of users.
-  \item��
-  We propose \modelname, a novel multi-division deep dynamic RNN framework able to \emph{(i)} depict complex dynamics via deep dynamic layers, \emph{(i)} extract group-distinct feature representations via grouped input layers, and \emph{(iii)} preserve user-specific characteristics via the personalized output layer.
+  To the best of our knowledge, \sysname is the first personalized blood glucose monitor based on smartphone that works without CGM data as input.
+  It automatically collects daily exercise and sleep quality, and infers the current blood glucose level of users,  together with manual records of food, drug and insulin intake.
+  \item
+  We propose \modelname, a novel multi-division deep dynamic RNN framework able to \emph{(i)} depict complex dynamics via deep dynamic layers, \emph{(ii)} extract group-distinct feature representations via grouped input layers, and \emph{(iii)} preserve user-specific characteristics via the personalized output layer.
   It tackles the typical sparsity and imbalance problems in datasets for blood glucose modeling and offers an opportunity to build personalized blood glucose models for the general public based on limited personal measurements.
   \item
   We conduct extensive evaluations on both diabetic patients and non-diabetic people.
-  Experimental results from a dataset covering 35 non-diabetic people, 38 type I and 39 type II diabetic patients in 7 months demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow learning algorithms in precision and recall.
+  Experimental results from a dataset covering 35 non-diabetic people, 38 type I and 39 type II diabetic patients in 7 months demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall.
 \end{itemize}
 
-In the rest of this paper, we review related works in \secref{sec:relwork}, present an overview of \sysname in \secref{sec:overview}, and elaborate on the detailed design and evaluation in \secref{sec:design} and \secref{sec:eval}, respectively.
-Finally we conclude in \secref{sec:conclusion}.
+In the rest of this paper, we review related works in \secref{sec:relwork} and present an overview of \sysname in \secref{sec:overview}.
+The design and evaluation of \sysname are detailed in \secref{sec:design} and \secref{sec:eval}, respectively.
+Finally, we conclude in \secref{sec:conclusion}.
 %\begin{itemize}
 %  \item
 %  A non-intrusive and ubiquitous approach is proposed to monitor the blood glucose variance with smartphones.

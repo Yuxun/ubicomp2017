@@ -9,13 +9,13 @@ It is neither possible nor necessary to exhaust a complete list of influential f
 In \sysname, five major external factors are measured, including food, drug and insulin intake, as well as physical activities and sleep quality.
 
 \fakeparagraph{Food Intake}
-As food intake is a main source of carbohydrate, \sysname provides a food menu for users to keep track of their meals.
+As food intake is the main source of carbohydrate, \sysname provides a food menu for users to keep track of their meals.
 Based on the carbohydrate food list~\cite{bib:carblist}, meals are categorized into five types, including grains, vegetables, milk and egg, fruits ,as well as meats.
 Users are asked to enter the food types and amounts of their meals, based on which \sysname calculates $U_C$, the carbohydrate of a meal.
 
 \fakeparagraph{Drug Intake}
 Oral diabetic drugs enhance the secretion of insulin into the blood and are usually used by type II diabetic patients.
-In \sysname, a drug menu of 11 common oral diabetes is presented for users to input their drug intake based on \cite{bib:druglist}.
+In \sysname, a menu of 11 common oral medicines is presented for users to input their drug intake based on \cite{bib:druglist}.
 Users are required to select the drug name and record the dosage into \sysname.
 
 \fakeparagraph{Insulin Injection}
@@ -35,7 +35,7 @@ where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit
 
 \fakeparagraph{Sleep Quality}
 Sleep quality has a long-term influence on the blood glucose level~\cite{bib:DRCP15:Iwasaki}.
-\sysname automatically measures sleep quality using smartphones as in~\cite{bib:UbiComp14:Gu}. It invokes the sensors (\ie accelerometer, microphone and light sensor) of smartphones to collect the ambient sleep-related factors, and then infersthe sleep quality by a statistics model. The output sleep quality score $U_S$ is then used for physiological feature extraction.
+\sysname automatically measures sleep quality using smartphones as in~\cite{bib:UbiComp14:Gu}. It invokes the sensors (\ie accelerometer, microphone and light sensor) of smartphones to collect the ambient sleep-related factors, and then infers the sleep quality by a statistics model. The output sleep quality score $U_S$ is then used for physiological feature extraction.
 
 In summary, the five external factors are transformed into four categories of measurements including the carbohydrate of a meal ($U_C$), the amount of acting insulin ($U_I$), calorie expenditure ($U_E$) and sleep quality score ($U_S$), which are then used as input to extract important features for blood glucose level inference.
 
@@ -273,9 +273,9 @@ In summary, we extract a 10-dimension physiological feature vector $X_P$ for blo
 As blood glucose level naturally varies over time, we extract two temporal features for blood glucose level inference.
 \begin{itemize}
   \item
-  History blood glucose concentration $X_{T_1}$ at time $k$:
+  Historical blood glucose concentration $X_{T_1}$ at time $k$:
   Since people usually tend to lead a regular lifestyle, \eg having meals in the morning, at noon and in the evening and taking drugs at certain times, the blood glucose concentration also exhibits rough daily cycles.
-  \figref{fig:historical_traces} plots the daily blood glucose traces of a volunteer for five successive days measured by a CGM device. As shown, the blood glucose trances always grow up signifcantly
+  \figref{fig:historical_traces} plots the daily blood glucose traces of a volunteer for five successive days measured by a CGM device. As shown, the blood glucose trances always grow up significantly
   in the durations of 8:40 to 9:40, 12:30 to 14:00 due to the breakfast and lunch, but increase moderately from 18:00 to 20:00 because of taking the drugs before the dinner.
   This motivates us to adopt the historical blood glucose concentrations at time stamp $k$ (averaged over $D$ days) as one temporal feature to infer the blood glucose level at time $k$.
   In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3min, which is in accordance with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
@@ -412,7 +412,7 @@ Last but not least, the construction of the \modelname model involves choosing 1
 Direct application of cross validation (CV) for hyperparameter tuning, even with the help of parallel computing, seems intractable as the number of required CVs scales exponentially to the number of hyperparameters.
 In this regards, we adopt Bayesian optimization (BO), a recent tool developed for blackbox function optimization with limited evaluations.
 The decision variables of BO are those hyperparameters, and the objective is the F-score of the precision and recall on some testing data set.
-Note that BO has been used recently for the hyperparameter (model) selection of many deep learning paradigms~\cite{snoek2012practical}\cite{NIPS2016}.
+Note that BO has been used recently for the hyperparameter (model) selection of many deep learning paradigms~\cite{snoek2012practical, NIPS2016}.
 
 
 
