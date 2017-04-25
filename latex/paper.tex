@@ -70,7 +70,7 @@
 \newcommand{\zimu}[1]{{\color{Maroon}{#1}}}
 \newcommand{\weixi}[1]{{\color{blue}{#1}}}
 
-\newcommand{\sysname}{SugerMate\xspace}
+\newcommand{\sysname}{SugarMate\xspace}
 \newcommand{\modelname}{Md$^3$RNN\xspace}
 
 
@@ -78,7 +78,7 @@
 
 \begin{document}
 %\title{SugerMate: Towards Ubiquitous Smartphone-based Blood Glucose Inference}
-\title{SugerMate: Non-intrusive Blood Glucose Monitoring with Smartphones}
+\title{SugarMate: Non-intrusive Blood Glucose Monitoring with Smartphones}
 
 \author{Weixi Gu}
 \affiliation{%
@@ -107,6 +107,16 @@
   %\postcode{ }
   %\country{ }
 }
+%
+%\author{Han Zou}
+%\affiliation{%
+%  \institution{ETH Zurich}
+%  %\department{}
+%  %\streetaddress{ }
+%  %\city{ }
+%  %\postcode{ }
+%  %\country{ }
+%}
 
 \author{Costas J. Spanos}
 \affiliation{%
@@ -132,8 +142,8 @@
   Inferring abnormal glucose events such as hyperglycemia and hypoglycemia is crucial for the health of both diabetic patients and non-diabetic people.
   However, continuous or regular blood glucose monitoring can be invasive and inconvenient in everyday life.
   In this paper, we present \sysname, a non-intrusive blood glucose detection system solely based on smartphones. In addition to the records of food, drug and insulin intake,
-  it leverages smartphone sensors to  measure physical activities and sleep quality automatically. 
-  Provided with the imbalanced, personalized, and often limited measurements, the most challenging part of \sysname is the inference of blood glucose level at a fine-grained time resolution. 
+  it leverages smartphone sensors to  measure physical activities and sleep quality automatically.
+  Provided with the imbalanced, personalized, and often limited measurements, the most challenging part of \sysname is the inference of blood glucose level at a fine-grained time resolution.
   To this end, we propose \modelname (multi-division deep dynamic recurrent neural network), a novel learning paradigm that is able to make full use of the available information.
   Specifically, \modelname (1) captures complex, multi-scale blood glucose dynamics via deep neural networks, (2) extracts grouped feature representations with a multi-division learning structure, and (3) preserves user-specific characteristics using personalized output layers.
   Evaluations on 112 users over 7 months show that \modelname yields an average accuracy of 82.14\%, significantly outperforming previous learning methods that are either shallow, generically structured, or oblivious to grouped behaviors. Such promising results justify \sysname as a reliable and non-intrusive blood glucose monitoring system amiable to daily use.
@@ -210,6 +220,7 @@ E-mail: zzhou@tik.ee.ethz.ch;
 \input{overview}
 \input{design}
 \input{evaluation}
+\input{userstudy}
 %\input{discussion}
 \input{conclusion}
 

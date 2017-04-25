@@ -16,11 +16,10 @@ However, most CGM devices are expensive, cumbersome to wear for extended time, c
 
 Towards more ubiquitous blood glucose monitoring when traditional CGM devices are unavailable or inconvenient to general users, researchers propose to explore the increasingly rich sensors embedded in commercial fitness wearables and smartphones as a complement.
 In addition to the glucose metabolism that is difficult to measure directly, blood glucose also correlates to easily measurable physiological activities such as food and drug intake, energy expenditure, sleep quality and emotional states~\cite{bib:DRCP15:Iwasaki}.
-Pioneer works~\cite{bib:EMBC12:Nguyen, bib:SEMPER16:Ranvier, bib:JDST14:Sobel} have proposed preliminary systems adopting commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose events.
+Pioneer works~\cite{bib:EMBC12:Nguyen, bib:SEMPER16:Ranvier, bib:JDST14:Sobel} have proposed preliminary systems adopting commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose evnts.
 Nevertheless, they are validated with limited number of measurements~\cite{bib:SEMPER16:Ranvier, bib:JDST14:Sobel} or still require complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen, bib:JDST14:Sobel}.
 
-In this work, we design \sysname, the first personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking meal, drug and insulin intake, physical activity and sleep quality.
-When \sysname detects an abnormal blood glucose event, it reminds the user to double-check by finger pricking or using CGM devices.
+In this work, we design \sysname, the first personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking meal, drug and insulin intake, physical activity and sleep quality. \textcolor[rgb]{1.00,0.00,0.00}{The target users of current prototype includes both non-diabetes individuals and type I and type II diabetic patients, which are two main types of diabetes mellitus \cite{bib:Diabetes_mellitus}. \sysname monitors the blood glucose every 3 min, which is a fine-grained interval to track the blood glucose dynamics. When it detects an abnormal blood glucose event, it reminds the user to double-check by finger pricking or using CGM devices}.
 \sysname exploits recent advances in smartphone-based automatic human activity recognition~\cite{bib:KDDEN11:Kwapisz} and sleep quality measurement~\cite{bib:UbiComp14:Gu} to acquire external factors as input for abnormal blood glucose event detection, making it widely applicable in daily use.
 In addition, \sysname comprehensively considers \emph{generic}, \emph{grouped}  and \emph{user-specific} correlations between blood glucose levels and the measurable external factors, which are largely overlooked in previous works.
 
@@ -55,15 +54,4 @@ The key contributions of this work are summarized as follows.
 In the rest of this paper, we review related works in \secref{sec:relwork} and present an overview of \sysname in \secref{sec:overview}.
 The design and evaluation of \sysname are detailed in \secref{sec:design} and \secref{sec:eval}, respectively.
 Finally, we conclude in \secref{sec:conclusion}.
-%\begin{itemize}
-%  \item
-%  A non-intrusive and ubiquitous approach is proposed to monitor the blood glucose variance with smartphones.
-%  It monitors the user's blood glucose level when he/she does not wear clinical professional monitor devices.
-%  Once \sysname detects the abnormal points of blood glucose level, it reminds the user of  blood glucose measurement by CGM for a further control.
-%  \item��
-%  Two dimensional types of blood glucose features (\emph{e.g.},  physiological factors  and  temporal factors) are well considered to infer the blood glucose levels. In particular, the physiological factors described in the physiological model are encoded in the Multi-task deep RNN model, using for quantifying the impact of physiological factors on the blood glucose levels. We also translate the historical data to infer the current blood glucose level. By measuring the influence of these factors on the blood glucose, \sysname can well infer the variance of the blood glucose.
-%  \item
-%  By sharing the blood glucose data in the information representation layer and temporal dynamic deep learning layer, \sysname can well copy with the limited data of single user, but enables to keep the individual blood glucose characteristics in the personality learning layer.
-%  Meanwhile, the deep Recurrent Neural Networks (RNN) adopted in \sysname, is able to encode the temporal relationships between the sensed outer contextual factors and blood glucose level.
-%  With the assistance of the multi-task deep RNN model, \sysname can infer the blood glucose trend with high accuracy.
-%\end{itemize}
+

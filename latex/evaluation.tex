@@ -141,7 +141,7 @@ In brief, we collect the following categories of data:
 %\end{table}
 
 \textbf{Ground Truth.}
-We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. In real world deployment, users do not need to wear CGM to measure the blood glucose level.  
+We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. In real world deployment, users do not need to wear CGM to measure the blood glucose level.
 
 \textbf{Metrics.}
 We mainly adopt precision, recall and accuracy~\cite{prf1} to quantify the performance of \sysname.
@@ -167,7 +167,7 @@ All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
 In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up around 10\% and 20\% of the entire training set.
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
-Overall, \sysname yields an accuracy of 82.14\%, showing a promising performance to track blood glucose levels.
+Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels. \textcolor[rgb]{1.00,0.00,0.00}{As a supplement of the professional blood glucose measurements, it is a screening tool for users to acknowledge their blood glucose while users cannot measure blood glucose by CGM or finger sticker. Moreover, since \sysname holds the high recall in Level 1 and Level 4 detection, it is sensitive to detect the abnormal cases. When SugarMate detects the abnormal cases, it will ask the users to have a double-check by CGM or finger stickers and take corresponding treatment.}
 
 \begin{table}[h]
   \centering
@@ -309,18 +309,31 @@ Conversely, single learning approach encodes the individual characteristics but 
 
 
 \subsubsection{Effectiveness of \modelname Learning Algorithm}
-To demonstrate the effectiveness of adopting \modelname learning algorithms over the different shallow, deep or multi-task learning algorithms, we compare it with the following  advanced algorithms.
+To demonstrate the effectiveness of adopting \modelname learning algorithms over other classifiers, we compare it with several typical algorithms from following  two aspects.
+
+The typical classifiers that do not share features from users:  1) Support vector machine 2) Gaussian Process 3) Hidden Markov Model 4) Random Forest (RF) 5) Artificial neural network (ANN) 6) Gradient Boosting (GB).
+
 \begin{itemize}
   \item
   \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
   As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
   To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
 
-
   \item
   \textbf{Artificial neural network (ANN)~\cite{bib:wang2003artificial}.}
   We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
 
+  \item
+  \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
+  GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
+  We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
+\end{itemize}
+
+ The typical multi-task classifiers that share features from users:  1) Multi-task Support Vector Machine (mSVM) 2) Multi-task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multi-task Random Forest (RF) 5) Multi-task neural network (ANN) 6) Multi-task Gradient Boosting (GB).
+
+
+
+\begin{itemize}
   \item
   \textbf{Multi-task Support Vector Machine (mSVM).}
   SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
@@ -328,10 +341,6 @@ To demonstrate the effectiveness of adopting \modelname learning algorithms over
   We use a multi-task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
-  \item
-  \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
-  GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
-  We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
 
   \item
   \textbf{Multi-task Gaussian Processes (mGP).}
@@ -466,7 +475,7 @@ Since \sysname does not rely on the previous blood glucose value measured by CGM
 \figref{fig:per_under_various_pred_days} plots the overall performance of training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
 Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather a ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
-From the results, we recommend \sysname users to put on the CGM device to monitor the blood glucose at least every three weeks. 
+From the results, we recommend \sysname users to put on the CGM device to monitor the blood glucose at least every three weeks.
 The data sampled by the CGM will automatically feed into \sysname for a model retraining.
 
 
