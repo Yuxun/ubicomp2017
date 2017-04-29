@@ -28,7 +28,7 @@ Daily activities \eg exercises, consume the carbohydrate and affect blood glucos
 In \sysname, we adopt an efficient activity recognition scheme~\cite{bib:KDDEN11:Kwapisz}, which leverages the accelerometer of smartphones to automatically record six common physical activities (walking, running, going upstairs, going downstairs, sitting and standing) along with the corresponding durations.
 \sysname then calculates the caloric expenditure based on the widely used calorie calculator~\cite{bib:HealthStatus, bib:CalorieCounter, bib:shapesense}.
 \begin{equation}\label{eq:calorie_burn}
-  Calorie Burn = (BMR/24)*MET*T,
+  Calorie Burn = (BMR/24)\times MET \times T,
 \end{equation}
 where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate. T is the activity duration time (in hours).
 \sysname leverages the calorie expenditure $U_E$ as input for physiological feature extraction.
@@ -52,6 +52,133 @@ We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U
   \caption{An illustration of dependencies of physiological features $X_P=\{C_{g_1}, C_{g_2}, I_{a}, I_{m}, I_{s}, I, E, S,  G_{m}, G\}$ and of external factors $U=\{U_C, U_I, U_E, U_S\}$.}
   \label{fig:phymodel}
 \end{figure}
+
+
+Physiological features are essentially medical/biological indexes in a person's body, that describes the dynamics of glucose related variables~\cite{bib:duke2010intelligent, bib:MAIHA14:Plis}.
+We extract physiological features based on the physiological model in~\cite{bib:duke2010intelligent}, which characterizes carbohydrate dynamics, insulin dynamics, exercise dynamics, and glucose dynamics.
+We further include sleep dynamics, another important external factor that affects blood glucose levels~\cite{bib:DRCP15:Iwasaki}.
+Specifically, the following physiological features are extracted to represent blood glucose relevant dynamics.
+\begin{itemize}
+  \item
+  Features from \emph{carbohydrate dynamics}:
+  carbohydrate consumption $C_{g_1}$ and carbohydrate digestion $C_{g_2}$.
+  \item
+  Features from \emph{insulin dynamics}:
+  subcutaneous insulin absorption $I_{a}$, insulin secretion by pancreas $I_{s}$, insulin mass $I_{m}$ and active plasma insulin level $I$.
+  \item
+  Features from \emph{exercise dynamics}:
+  long-term effect of exercises on insulin $E$.
+  \item
+  Features from \emph{sleep dynamics}:
+  long-term effect of sleep quality on insulin $S$.
+  \item
+  Features from \emph{glucose dynamics}:
+  glucose mass $G_m$ and glucose concentration $G$.
+\end{itemize}
+The features are inter-dependent and are also related to the external factors.
+\figref{fig:phymodel} illustrates the dependencies among variables and the corresponding transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and historical physiological features at time $k$ are detailed as follows.
+The transition equations are derived from \cite{bib:duke2010intelligent}, which has been applied in several clinic works \cite{bib:MAIHA14:Plis}.
+
+\emph{Carbohydrate dynamics}:
+\textcolor[rgb]{1.00,0.00,0.00}{Carbohydrate dynamics refer to the transitions of carbohydrate consumption $C_{g_1}$ and the carbohydrate digestion $C_{g_2}$.
+Equation~\ref{Eq:Cg1} and Equation~\ref{Eq:Cg2} show their transition equations respectively, where $U_{c}$ stands for the carbohydrate proportion of meals.}
+\begin{equation}\label{Eq:Cg1}
+C_{g1}(k+1)=C_{g1}(t)-\alpha_{1}^c \times C_{g1}(k)+U_{c}(k)
+\end{equation}
+
+\begin{equation}\label{Eq:Cg2}
+C_{g2}(k+1)=C_{g2}(k)+\alpha_{1}^c \times C_{g1}(k)-\alpha_{2}^c \times C_{g2}(k)
+\end{equation}
+
+\textcolor[rgb]{1.00,0.00,0.00}{\emph{Insulin dynamics}: Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$, the insulin secretion by pancreas $I_{s}$,  the insulin mass $I_{m}$, and the level of active plasma insulin $I$. Their corresponding transitions are listed in Equation ~\ref{Eq:Ia}, ~\ref{Eq:Is}, ~\ref{Eq:Im} and ~\ref{Eq:I}, where
+$U_{I}$ states for the amount of insulin injected or simulated by the diabetes drugs, and $S^I$ and $bm$ refer to the insulin sensitive and body mass respectively.}
+
+\begin{equation}\label{Eq:Ia}
+I_{a}(k+1)=I_{a}(k)-\alpha_{f,r,m}^I \times I_{a}(k)+U_{i}(k)
+\end{equation}
+
+
+\begin{equation}\label{Eq:Is}
+    I_{s}(k+1)=
+   \begin{cases}
+    I_{s}(k)+min[\alpha_1^I(\alpha_2^I(G_k-G_0))+\alpha_3^I \times G_0, \triangle I_{max}^{s}] &\mbox{Type II}\\
+    I_{s}(k)+0 &\mbox{Type I}
+   \end{cases}
+  \end{equation}
+
+\begin{equation}\label{Eq:Im}
+I_{m}(k+1)=I_{m}(k)+\alpha_{f,r,m}^I \times I_{a}(k)+\alpha_{a}^I \times I_{a}(k)-\alpha_c^I \times I_{m}(k)
+\end{equation}
+
+
+\begin{equation}\label{Eq:I}
+I(k)=(I_{m}(k)\times S^I)/(142 \times bm)
+\end{equation}
+
+\textcolor[rgb]{1.00,0.00,0.00}{\emph{Exercise dynamics}: Exercise dynamics $E$ denotes the exercise effect on insulin over the past time window.
+This long-term influence can be expressed by a cumulative moving average \cite{bib:lowry1992multivariate} as Equation~\ref{Eq:E} in the physiological model,}
+\begin{equation}\label{Eq:E}
+E(k-k_0+1)=(k-k_0) \times E(k-k_0)+U_{e}(k-k_0)
+\end{equation}
+where $k$ and $k_0$ are the current and beginning time point in the past time window. In \sysname, the window size of exercise is set to 24 hours, which optimizes the experimental results.
+
+\textcolor[rgb]{1.00,0.00,0.00}{\emph{Sleep dynamics}: Sleep dynamics $S$ represents the sleeping quality effect on insulin. In physiological model, sleeping
+effect also has a long-term influence on the insulin as the exercise effects. Specifically, it maintains a constant effect on
+blood glucose for each day. Equation~\ref{Eq:S} shows its transition equation.}
+
+\begin{equation}\label{Eq:S}
+S(k-k_0+1)=(k-k_0) \times S(k-k_0)+U_{s}(k-k_0)
+\end{equation},
+
+where $k$ and $k_0$ are the current and beginning time point in the past time window.
+In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion
+of clinical studies.
+
+
+\emph{Glucose dynamics}: Blood glucose dynamic points to the fluctuation of glucose mass $G_m$  in Equation~\ref{Eq:Gm},
+and glucose concentration $G(t)$ in Equation~\ref{Eq:G}.
+\begin{equation}\label{Eq:Gm}
+G_m(k+1)=G_m(k)+\delta_{abs}+\delta_{egp}-\delta_{ind}-\delta_{dep}-\delta_{clr}
+\end{equation}
+\begin{equation}\label{Eq:G}
+G(k)=G_m(k)/(2.2 \times bm)
+\end{equation}
+
+Specifically, $\delta_{abs}$ in Equation~\ref{Eq:abs} refers to the impact results of carbohydrate absorption, and
+$\delta_{egp}$ in Equation~\ref{Eq:egp} indicates to the hepatic glucose production from
+the liver. These two factors improve the blood glucose concentration of body.
+\begin{equation}\label{Eq:abs}
+  \delta_{abs}=\alpha_3^c \times \alpha_2^c \times C_{g2}
+\end{equation}
+
+\begin{equation}\label{Eq:egp}
+  \delta_{egp}=\alpha_2^{egp} \times exp(-I(t)/\alpha_3^{egp})-\alpha_1^{egp} \times G(t)
+\end{equation}
+
+\textcolor[rgb]{1.00,0.00,0.00}{$\delta_{ind}$ (Equation~\ref{Eq:ind}) describes results of insulin independent uptake, which is consumed by the central nervous
+system and the red blood cells.}
+\textcolor[rgb]{1.00,0.00,0.00}{$\delta_{dep}$ (Equation~\ref{Eq:dep}) indicates the impact results of insulin dependent uptake. It reflects the effects
+of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
+$\delta_{clr}$ (Equation~\ref{Eq:clr}) stands for the influence of renal clearance on blood glucose. Once blood glucose
+concentrations exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
+The three factors decrease the blood glucose level.}
+
+\begin{equation}\label{Eq:ind}
+  \delta_{ind}=\alpha_1^{ind}/\sqrt{G(t)}
+\end{equation}
+
+\begin{equation}\label{Eq:dep}
+  \delta_{dep}=\alpha_1^{dep} \times  E(t) \times S(t) \times I(t)/(G(t)+\alpha_2^{dep})
+\end{equation}
+
+\begin{equation}\label{Eq:clr}
+  \delta_{clr}=\alpha_1^{clr} \times (G(t)-\tau)
+\end{equation}
+
+\textcolor[rgb]{1.00,0.00,0.00}{
+\tabref{tab:phyeq} summarizes the transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and historical physiological features at time $k$.}
+
+
 \begin{table}[h]
   \centering
   \caption{Transition equations to calculate physiological features at time $k+1$ based on external factors measured at time $k+1$ and physiological features at time $k$~\cite{bib:duke2010intelligent, bib:MAIHA14:Plis}.}
@@ -67,7 +194,9 @@ We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U
   \midrule
   Insulin dynamics & $\begin{aligned}
                             I_{a}(k+1) &= I_{a}(k)-\alpha_{f,r,m}^I\times I_{a}(k)+U_{I}(k+1) \\
-                            I_{s}(k+1) &= I_{s}(k) \\
+
+                            I_{s}(k+1) &= I_{s}(k)+min[\alpha_1^I(\alpha_2^I(G_k-G_0))+\alpha_3^I \times G_0, \triangle I_{max}^{s}] &\mbox{Type II}\\
+                            I_{s}(k+1) &= I_{s}(k)+0 &\mbox{Type I}\\
                             I_{m}(k+1) &= I_{m}(k)+\alpha_{f,r,m}^I\times I_{a}(k)+\alpha_{a}^I\times I_{a}(k)-\alpha_c^I\times I_{m}(k) \\
                             I(k) &= I_{m}(k)\times S^I / (142 \times bm)
                           \end{aligned}$ \\
@@ -99,29 +228,7 @@ We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U
   \end{tablenotes}
 \end{table}
 
-Physiological features are essentially medical/biological indexes in a person's body, that describes the dynamics of glucose related variables~\cite{bib:duke2010intelligent, bib:MAIHA14:Plis}.
-We extract physiological features based on the physiological model in~\cite{bib:duke2010intelligent}, which characterizes carbohydrate dynamics, insulin dynamics, exercise dynamics, and glucose dynamics.
-We further include sleep dynamics, another important external factor that affects blood glucose levels~\cite{bib:DRCP15:Iwasaki}.
-Specifically, the following physiological features are extracted to represent blood glucose relevant dynamics.
-\begin{itemize}
-  \item
-  Features from \emph{carbohydrate dynamics}:
-  carbohydrate consumption $C_{g_1}$ and carbohydrate digestion $C_{g_2}$.
-  \item
-  Features from \emph{insulin dynamics}:
-  subcutaneous insulin absorption $I_{a}$, insulin secretion by pancreas $I_{s}$, insulin mass $I_{m}$ and active plasma insulin level $I$.
-  \item
-  Features from \emph{exercise dynamics}:
-  long-term effect of exercises on insulin $E$.
-  \item
-  Features from \emph{sleep dynamics}:
-  long-term effect of sleep quality on insulin $S$.
-  \item
-  Features from \emph{glucose dynamics}:
-  glucose mass $G_m$ and glucose concentration $G$.
-\end{itemize}
-The features are inter-dependent and are also related to the external factors.
-\figref{fig:phymodel} illustrates the dependencies among variables and \tabref{tab:phyeq} summarizes the transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and historical physiological features at time $k$.
+
 The transition equations involve a set of parameters $\alpha$'s, e.g., the insulin sensitivity $S^I$ and the body mass $bm$.
 Note that it is generally difficult to determine the parameters in the transition equations.
 Therefore, the glucose concentration $G$ derived from the physiological model usually deviates from the actual blood glucose level.
@@ -130,111 +237,7 @@ Consequently, we exploit the glucose concentration $G$ derived from the physiolo
 
 In summary, we extract a 10-dimension physiological feature vector $X_P$ for blood glucose level inference.
 
-%\emph{Carbohydrate dynamics}:
-%Carbohydrate dynamics refer to the transitions of carbohydrate consumption $C_{g_1}$ and the carbohydrate digestion $C_{g_2}$.
-%Equation~\ref{Eq:Cg1} and Equation~\ref{Eq:Cg2} show their transition equations respectively, where $U_{c}$ stands for the carbohydrate proportion of meals.
-%\begin{equation}\label{Eq:Cg1}
-%C_{g1}(t+1)=C_{g1}(t)-\alpha_{1}^c*C_{g1}(t)+U_{c}(t)
-%\end{equation}
-%
-%\begin{equation}\label{Eq:Cg2}
-%C_{g2}(t+1)=C_{g2}(t)+\alpha_{1}^c*C_{g1}(t)-\alpha_{2}^c*C_{g2}(t)
-%\end{equation}
 
-%\emph{Insulin dynamics}: Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$ (Equation~\ref{Eq:Is}),
-%the insulin secretion by pancreas $I_{s}$ and  the insulin mass $I_{m}$ (Equation~\ref{Eq:Im}).
-%The level of active plasma insulin $I$ (Equation~\ref{Eq:I}). $U_{I}$
-%states for the amount of insulin injected or simulated by the diabetes drugs.
-%
-%$S^I$ and $bm$ refer to the insulin sensitive and body mass respectively.
-%
-%\begin{equation}\label{Eq:Is}
-%I_{a}(t+1)=I_{a}(t)-\alpha_{f,r,m}^I*I_{a}(t)+U_{i}(t)
-%\end{equation}
-%
-%
-%\begin{equation}\label{Eq:Isec}
-%    I_{s}(t+1)=
-%   \begin{cases}
-%    I_{s}(t)+min[\alpha_1^I(\alpha_2^I(G_t-G_0))+\alpha_3^I*G_0, \triangle I_{max}^{s}] &\mbox{Type II}\\
-%    I_{s}(t)+0 &\mbox{Type I}
-%   \end{cases}
-%  \end{equation}
-%
-%\begin{equation}\label{Eq:Im}
-%I_{m}(t+1)=I_{m}(t)+\alpha_{f,r,m}^I*I_{a}(t)+\alpha_{a}^I*I_{a}(t)-\alpha_c^I*I_{m}(t)
-%\end{equation}
-%
-%
-%\begin{equation}\label{Eq:I}
-%I(t)=\frac{I_{m}(t)*S^I}{142*bm}
-%\end{equation}
-
-%\emph{Exercise dynamics}: Exercise dynamics $E$ denotes the exercise effect on insulin over the past time window.
-%This long-term influence can be expressed by a cumulative moving average \cite{bib:lowry1992multivariate, bib:cma} as Equation~\ref{Eq:E} in the physiological model.
-%
-%\begin{equation}\label{Eq:E}
-%E(t-t_0+1)=(t-t_0)*E(t-t_0)+U_{e}(t-t_0)
-%\end{equation}
-
-%where $t$ and $t_0$ are the current and beginning time point in the past time window. In \sysname,
-%the window size of exercise is set to 24 hours, which optimizes the experimental results and matches the conclusion
-%of clinical studies.
-%
-%\emph{Sleep dynamics}: Sleep dynamics $S$ represents the sleeping quality effect on insulin. In physiological model, sleeping
-%effect also has a long-term influence on the insulin as the exercise effects. Specifically, it maintains a constant effect on
-%blood glucose for each day. Equation~\ref{Eq:S} shows its transition equation.
-%
-%\begin{equation}\label{Eq:S}
-%S(t-t_0+1)=(t-t_0)*S(t-t_0)+U_{s}(t-t_0)
-%\end{equation},
-%
-%where $t$ and $t_0$ are the current and beginning time point in the past time window.
-%In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion
-%of clinical studies.
-
-
-%\emph{Blood glucose dynamics}: Blood glucose dynamic points to the fluctuation of glucose mass $G_m$  in Equation~\ref{Eq:Gm},
-%and glucose concentration $G(t)$ in Equation~\ref{Eq:G}.
-%\begin{equation}\label{Eq:Gm}
-%G_m(t+1)=G_m(t)+\delta_{abs}+\delta_{egp}-\delta_{ind}-\delta_{dep}-\delta_{clr}
-%\end{equation}
-%\begin{equation}\label{Eq:G}
-%G(t)=G_m(t)/(2.2*bm)
-%\end{equation}
-%
-%Specifically, $\delta_{abs}$ in Equation~\ref{Eq:abs} refers to the impact results of carbohydrate absorption, and
-%$\delta_{egp}$ in Equation~\ref{Eq:egp} indicates to the hepatic glucose production from
-%the liver. These two factors improve the blood glucose concentration of body.
-%\begin{equation}\label{Eq:abs}
-%  \delta_{abs}=\alpha_3^c*\alpha_2^c*C_{g2}
-%\end{equation}
-%
-%\begin{equation}\label{Eq:egp}
-%  \delta_{egp}=\alpha_2^{egp}*exp(-I(t)/\alpha_3^{egp})-\alpha_1^{egp}*G(t)
-%\end{equation}
-%
-%$\delta_{ind}$ (Equation~\ref{Eq:ind}) describes results of insulin independent uptake, which is consumed by the central nervous
-%system and the red blood cells.
-%$\delta_{dep}$ (Equation~\ref{Eq:dep}) indicates the impact results of insulin dependent uptake. It reflects the effects
-%of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
-%$\delta_{clr}$ (Equation~\ref{Eq:clr}) stands for the influence of renal clearance on blood glucose. Once blood glucose
-%concentrations exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
-%The three factors decrease the blood glucose level.
-%
-%\begin{equation}\label{Eq:ind}
-%  \delta_{ind}=\alpha_1^{ind}/\sqrt{G(t)}
-%\end{equation}
-%
-%\begin{equation}\label{Eq:dep}
-%  \delta_{dep}=\alpha_1^{dep}* E(t)*S(t)*I(t)/(G(t)+\alpha_2^{dep})
-%\end{equation}
-%
-%\begin{equation}\label{Eq:clr}
-%  \delta_{clr}=\alpha_1^{clr}*(G(t)-\tau)
-%\end{equation}
-%
-%with an extension of sleeping fact according to its physiological impact discussed in.
 
 
 %\paragraph{Temporal Graph of Physiological Model}
@@ -318,14 +321,14 @@ In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $
 Given the features extracted based on the physiological process, it seems plausible to perform any classification algorithm for blood glucose level inference.
 Nonetheless, this plug-and-play approach will neglect important information from (1) dynamics of the process, and (2) inter-user similarity among the same group of participants.
 Traditionally, various sequential methods, \eg hidden Markov model (HMM), recurrent neural networks (RNN) and time series models, are used to capture the temporal correlation of the input feature.
-The inter process correlations are often times incorporated with the so-called multi-task learning approaches~\cite{evgeniou2004regularized}, which learns processes (or tasks) in parallel to improve classification or to reduce the data sample requirement.
+\textcolor[rgb]{1.00,0.00,0.00}{The inter process correlations are often times incorporated with the approaches~\cite{evgeniou2004regularized}, which learns processes in parallel to improve classification or to reduce the data sample requirement.}
 
 In this paper, a novel machine learning paradigm, namely Multi-division deep-dynamic RNN (\modelname), is proposed.
 To include the the aforementioned information sources in an unified framework, we develop two key ideas that extend the classical RNN. Firstly, the single hidden layer in RNN is replaced with several deep stacked layers.
 The deep structure in the new model is able to describe complex, multi-scale dynamics that would otherwise be ignored (or averaged out) by prior ``shallow'' models.
 Secondly, the correlations among users, being quite significant within user groups (divisions), are encoded by group-shared input layer and common hidden layers, whereas the distinct characteristics of individual users are modeled with different output layers for personalized prediction.
-Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancement of deep learning and multi-task learning, to model group-interacted time series data having complex temporal dynamics.
-It can be viewed as both a deep extension of RNN, and an intermediate between single-task learning and multi-task learning, hence the name.
+Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancement of deep learning and multi-division learning, to model group-interacted time series data having complex temporal dynamics.
+It can be viewed as both a deep extension of RNN, and an intermediate between single-division learning and multi-division learning, hence the name.
 Although we develop \modelname for the specific use case of \sysname, it is worth pointing out that it can be readily applied to many other applications dealing with grouped dynamic data.
 The overall configuration of the proposed model is summarized in \figref{fig:rnn}.
 Detailed construction of each component is given in the sequel.

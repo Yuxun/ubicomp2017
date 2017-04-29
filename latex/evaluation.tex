@@ -141,7 +141,7 @@ In brief, we collect the following categories of data:
 %\end{table}
 
 \textbf{Ground Truth.}
-We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. In real world deployment, users do not need to wear CGM to measure the blood glucose level.
+We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. \textcolor[rgb]{1.00,0.00,0.00}{In real world deployment, users are only required to wear the CGM in a calibration period for labeled examples, but do not need to wear CGM for the whole process of the blood glucose measurement.}
 
 \textbf{Metrics.}
 We mainly adopt precision, recall and accuracy~\cite{prf1} to quantify the performance of \sysname.
@@ -216,16 +216,53 @@ Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that 
 \end{table}
 
 
+
 \subsubsection{Temporal View of Inference Results}
 \figref{fig:pre_gt} plots the example inference results of \sysname of three participants (one non-diabetic, one Type I diabetic patient, and one Type II diabetic patient) throughout a day.
 The errors are depicted at the bottom of each subfigure.
 As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:50, 11:20 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the type I diabetic user; 6:00, 12:50 and 17:45 for the type II user), insulin injection (7:40 for the type I diabetic user), drug intake (15:10 for the type II user) and exercises (15:30 for the type II user), indicating the importance of external factors.
 The blood glucose levels inferred by \sysname also match the true blood glucose levels most of the time, which validates the effectiveness of \sysname during various daily activities.
 
-Most errors mistake blood glucose levels 2 and level 3, and usually occur during the transition of two blood glucose levels (\eg from 6:10 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
-Errors during blood glucose transitions are mainly brought by the temporary delays to measure the external factors. In this case, the inference result will follow up the true value in a short time.
-Errors of sudden blood glucose fluctuation are often resulted by the abrupt or tiny changes of the external factors,
-which may not be immediately detected by \sysname. In this case, the durations of errors are too short to cause risky emergencies. Moreover, most errors belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment.
+\textcolor[rgb]{1.00,0.00,0.00}{Most errors mistake blood glucose levels 2 and level 3, and usually occur during the transition of two blood glucose levels (\eg from 6:10 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
+These errors  belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment.}
+
+%Errors during blood glucose transitions are mainly brought by the temporary delays to measure the external factors. In this case, the inference result will follow up the true value in a short time.
+%Errors of sudden blood glucose fluctuation are often resulted by the abrupt or tiny changes of the external factors,
+%which may not be immediately detected by \sysname. In this case, the durations of errors are too short to cause risky emergencies. Moreover, most errors belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment.
+
+
+\begin{table}[h]
+\centering
+\caption{Inference result analysis from per day per person}
+\label{tab:fpfn}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Level} & \textbf{False Positive} & \textbf{False Positive Rate} & \textbf{False Negative} & \textbf{False Negative Rate} \\ \hline
+Level 1        & 14.12                   & 2.94\%                       & 8.00                    & 1.67\%                       \\ \hline
+Level 2        & 26.46                   & 5.51\%                       & 33.32                   & 6.94\%                       \\ \hline
+Level 3        & 28.64                   & 5.97\%                       & 29.71                   & 6.19\%                       \\ \hline
+Level 4        & 16.49                   & 3.44\%                       & 14.69                   & 3.06\%                       \\ \hline
+\end{tabular}
+\end{table}
+
+
+%\begin{table}[h]
+%\centering
+%\caption{My caption}
+%\label{my-label}
+%\begin{tabular}{|l|c|c|c|c|c|c|}
+%\hline
+%\textbf{Level} & \multicolumn{1}{l|}{\textbf{False Positive (Per Day)}} & \multicolumn{1}{l|}{\textbf{False Positive (Per Hour)}} & \multicolumn{1}{l|}{\textbf{False Positive Rate}} & \multicolumn{1}{l|}{\textbf{False Negative (Per Day)}} & \multicolumn{1}{l|}{\textbf{False Positive (Per Hour)}} & \multicolumn{1}{l|}{\textbf{False Negative Rate}} \\ \hline
+%Level 1        & 14.12                                                  & 0.59                                                    & 2.94\%                                            & 8.00                                                   & 0.33                                                    & 1.67\%                                            \\ \hline
+%Level 2        & 26.46                                                  & 1.10                                                    & 5.51\%                                            & 33.32                                                  & 1.39                                                    & 6.94\%                                            \\ \hline
+%Level 3        & 28.64                                                  & 1.19                                                    & 5.97\%                                            & 29.71                                                  & 1.24                                                    & 6.19\%                                            \\ \hline
+%Level 4        & 16.49                                                  & 0.69                                                    & 3.44\%                                            & 14.69                                                  & 0.61                                                    & 3.06\%                                            \\ \hline
+%\end{tabular}
+%\end{table}
+
+\textcolor[rgb]{1.00,0.00,0.00}{Table~\ref{tab:fpfn} shows the average numbers of false positive and false negative per day per user, as well as their corresponding rates on the testing dataset. Considering \sysname reports a total of 480 blood glucose samples per day per user, the numbers of false positive and false negative are not large.
+The false positive/negative rates of four levels keep in a low level (less than 7\%), and those of the low and high blood glucose cases (level 1/4) are even less.  Since most of the errors occur during the transition of blood glucose levels or are resulted by the sudden blood glucose fluctuation, \sysname does not advise users to take measurement once level 1 or level 4 is detected, but reminds them while the blood glucose level becomes stable, \ie after the occurrence of three continuous level 1/4 blood glucose samples. This short warning delay (9 mins) improves the efficiency of blood glucose warning in practice use.}
+
 %Nevertheless, both errors tend to occur for a short duration of time, which will not lead to risky emergencies.
 
 
@@ -292,7 +329,7 @@ It also yields the lowest standard deviations (17.18\% of average precision and 
 The results show that \modelname is both effective and stable in blood glucose level inference.
 
 General learning treats each sample of training data equally, and ignores the individual differences, so it performs poorly in most cases.
-Conversely, single learning approach encodes the individual characteristics but suffers from lacking of user-specific training dataset. Even though group learning learns the similarities of users within the same group, it ignores inter-person physiological differences.
+\textcolor[rgb]{1.00,0.00,0.00}{Conversely, single learning approach encodes the individual characteristics but suffers from lacking of user-specific training dataset. It may require a very large learning personalized data to achieve an effective result.} Even though group learning learns the similarities of users within the same group, it ignores inter-person physiological differences.
 \modelname combines the advantages of these three learning approaches, which makes better use of the limited individual training data by sharing measurements among users and preserves user-specific characteristics via the personal learning layer.
 
 %General learning performs slightly better than single learning for Level 2 and 3 (normal blood glucose levels), partly because the correlations between the inputs and normal blood glucose levels are relatively consistent for most people, while single learning suffers from lack of training data as it only uses user-specific data.
@@ -327,31 +364,40 @@ The typical classifiers that do not share features from users:  1) Support vecto
   \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
   GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
   We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
+
+  \item
+  \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
+  Support vector machines (SVM)s are supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis.  The core idea is to represent of the examples as points in space, mapped so that the examples of the separate categories are divided by a clear gap that is as wide as possible. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
+
+ \item
+ \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
+  Gaussian process is a particular kind of statistical model where observations occur in a continuous domain, \eg time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
+
+\item
+\textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
+A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
+
 \end{itemize}
 
- The typical multi-task classifiers that share features from users:  1) Multi-task Support Vector Machine (mSVM) 2) Multi-task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multi-task Random Forest (RF) 5) Multi-task neural network (ANN) 6) Multi-task Gradient Boosting (GB).
+The typical classifiers that share features from users:  1) Multi-task Support Vector Machine (mSVM) 2) Multi-task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multi-task Random Forest (RF) 5) Multi-task neural network (ANN) 6) Multi-task Gradient Boosting (GB).
 
 
 
 \begin{itemize}
-  \item
-  \textbf{Multi-task Support Vector Machine (mSVM).}
-  SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
-  Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
-  We use a multi-task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
-  To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
+\item
+\textbf{Multi-task Support Vector Machine (mSVM).}
+SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
+Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
+We use a multi-task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function. To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
+\item
+\textbf{Multi-task Gaussian Processes (mGP).}
+Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
+The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
-  \item
-  \textbf{Multi-task Gaussian Processes (mGP).}
-  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
-  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
-  The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
-
-
-  \item
-  \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}. Simple as it is, HMM is widely used in signal processing and time series analysis due to its interpretability and tractability. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
+\item
+\textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
+Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}.  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
 
 
   %We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
@@ -364,8 +410,7 @@ The typical classifiers that do not share features from users:  1) Support vecto
 
 \end{itemize}
 
-\figref{fig:cmp_models} illustrates the results.
-Apparently, \modelname achieves best performance on both precisions and recalls.
+\figref{fig:cmp_models} illustrates the results. Apparently, \modelname achieves best performance on both precisions and recalls.
 More specifically, it outperforms the runner-up by at least 20\% in terms of average precision, and yields much better recalls for the categories of interest, \ie level 1 and level 4.
 Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score.
 This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks.
@@ -430,6 +475,8 @@ In general, the precisions and recalls of 4 levels are increasing smoothly with 
 
 
 $X_{P}$+$X_{T_1}$                   & 58.29$\%$               & 63.60$\%$                                 & 72.15$\%$                & 60.17$\%$            & 68.84$\%$               & 61.49$\%$                                 & 73.23$\%$               & 66.74$\%$\\ \hline
+
+$X_{P}$+$X_{T_2}$                   & 54.48$\%$               & 49.11$\%$                                 & 50.81$\%$                & 69.43$\%$            & 67.21$\%$               & 70.20$\%$                                 & 61.24$\%$               & 64.10$\%$\\ \hline
 
 
 $X_{P}$+$X_{T_1}$+$X_{T_2}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$

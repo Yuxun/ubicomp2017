@@ -31,24 +31,24 @@ A disposable enzyme of glucose sensor embedded in the CGM device is only capable
 \emph{(ii)}
 Despite their importance, measurements of hyper- and hypoglycemia events are rare compared with normal blood glucose concentrations, making it difficult to accurately detect abnormal blood glucose events.
 
-To take full advantages of the \emph{sparse}, \emph{imbalanced} measurements to build \emph{personalized} blood glucose level models, we first conduct feature extraction from both physiological and temporal data analysis viewpoints. More importantly, we propose \modelname (multi-division deep dynamic recurrent neural network), a novel learning paradigm that efficiently extracts general blood glucose level relevant features and preserves user-specific characteristics.
+To take full advantages of the \emph{sparse}, \emph{imbalanced} measurements to build \emph{personalized} blood glucose level models, we first conduct feature extraction from both physiological and temporal data analysis viewpoints. More importantly, we propose \modelname (multi-division deep dynamic recurrent neural network), an efficient learning paradigm that extracts general blood glucose level relevant features and preserves user-specific characteristics.
 Our \modelname advances previous recurrent neural network (RNN) structures in two perspectives.
 On the one hand, it replaces the single hidden layer with multiple deep stacked layers to describe complex, multi-scale dynamics in blood glucose metabolism.
 On the other hand, it leverages a group-shared input layer to extract distinctive feature representations within the same group (\ie non-diabetic, type I and type II diabetic), and adds a personalized output layer to capture individual differences.
-In short, \modelname can be regarded as both a deep extension of RNN and a combination of single-task and multi-task learning.
+In short, \modelname can be regarded as both a deep hierarchical RNN architectures, \textcolor[rgb]{1.00,0.00,0.00}{which is a combination of single user division and grouped user division learning}.
 Evaluations on the blood glucose dataset composed of 112 users lasting 7 months show that our novel \modelname framework outperforms both generic learning (\ie ignoring inter-user differences) and personalized learning (due to lack of measurements), and also achieves notably higher inference accuracy than conventional shallow learning algorithms.
 
 The key contributions of this work are summarized as follows.
 \begin{itemize}
   \item
-  To the best of our knowledge, \sysname is the first personalized blood glucose monitor based on smartphone that works without CGM data as input.
+  To the best of our knowledge, \sysname is the first personalized blood glucose monitor based on smartphone that works without CGM data as long-term input.
   It automatically collects daily exercise and sleep quality, and infers the current blood glucose level of users,  together with manual records of food, drug and insulin intake.
   \item
-  We propose \modelname, a novel multi-division deep dynamic RNN framework able to \emph{(i)} depict complex dynamics via deep dynamic layers, \emph{(ii)} extract group-distinct feature representations via grouped input layers, and \emph{(iii)} preserve user-specific characteristics via the personalized output layer.
-  It tackles the typical sparsity and imbalance problems in datasets for blood glucose modeling and offers an opportunity to build personalized blood glucose models for the general public based on limited personal measurements.
+  We propose \modelname, an efficient multi-division deep dynamic RNN framework able to \emph{(i)} depict complex dynamics via deep dynamic layers, \emph{(ii)} extract group-distinct feature representations via grouped input layers, and \emph{(iii)} preserve user-specific characteristics via the personalized output layer.
+\textcolor[rgb]{1.00,0.00,0.00}{ It tackles the typical sparsity and imbalance problems in datasets for blood glucse modeling and offers an opportunity to build blood glucose models for the general public based on limited personal measurements from single-user and grouped-users views.}
   \item
-  We conduct extensive evaluations on both diabetic patients and non-diabetic people.
-  Experimental results from a dataset covering 35 non-diabetic people, 38 type I and 39 type II diabetic patients in 7 months demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall.
+ \textcolor[rgb]{1.00,0.00,0.00}{ We conduct extensive evaluations on both diabetic patients and non-diabetic people.
+  Experimental results from a dataset that covers 35 non-diabetic people, 38 type I and 39 type II diabetic patients and each person is measured at least 6 days, demonstrating that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall.}
 \end{itemize}
 
 In the rest of this paper, we review related works in \secref{sec:relwork} and present an overview of \sysname in \secref{sec:overview}.
