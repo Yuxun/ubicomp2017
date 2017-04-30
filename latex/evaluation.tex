@@ -281,7 +281,7 @@ The false positive/negative rates of four levels keep in a low level (less than 
 \subsection{Model Comparison}
 
 \subsubsection{Effectiveness of \modelname Framework}
-To demonstrate the effectiveness of the multi-division framework in making full use of the dataset, we evaluation \modelname from two perspectives.
+\textcolor[rgb]{1.00,0.00,0.00}{To demonstrate the effectiveness of the multi-division framework in making full use of the dataset, we evaluate \modelname by 10-fold cross validation \cite{bib:refaeilzadeh2009cross} from two perspectives.}
 
 \fakeparagraph{Layer contribution analysis}
 To evaluate the effect of different layers, we conduct blood glucose level inference with three combinations of layers.
@@ -514,16 +514,14 @@ Since \sysname does not rely on the previous blood glucose value measured by CGM
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/Performance_gap1.pdf}
+  \includegraphics[width=0.9\columnwidth]{./img/Performance_gap2.pdf}
   \caption{Impact of temporal gaps between the training and testing datasets.}
   \label{fig:per_under_various_pred_days}
 \end{figure}
 
 \figref{fig:per_under_various_pred_days} plots the overall performance of training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
-Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather a ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
-From the results, we recommend \sysname users to put on the CGM device to monitor the blood glucose at least every three weeks.
-The data sampled by the CGM will automatically feed into \sysname for a model retraining.
+\textcolor[rgb]{1.00,0.00,0.00}{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather a ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear. From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays. The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance.}
 
 
 
