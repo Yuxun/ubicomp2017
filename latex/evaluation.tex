@@ -202,7 +202,7 @@ However, we do not recommend \sysname for extended duration of usage for patient
 \begin{table}[h]
 \centering
 \small
-\caption{Inference result analysis.}
+\caption{ Clarke error grid analysis}
 \label{predict_results}
 \begin{tabular}{|c|l|c|}
 \hline
@@ -218,13 +218,14 @@ Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that 
 
 
 \subsubsection{Temporal View of Inference Results}
+\label{subsec:Inference_Results}
 \figref{fig:pre_gt} plots the example inference results of \sysname of three participants (one non-diabetic, one Type I diabetic patient, and one Type II diabetic patient) throughout a day.
 The errors are depicted at the bottom of each subfigure.
 As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:50, 11:20 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the type I diabetic user; 6:00, 12:50 and 17:45 for the type II user), insulin injection (7:40 for the type I diabetic user), drug intake (15:10 for the type II user) and exercises (15:30 for the type II user), indicating the importance of external factors.
 The blood glucose levels inferred by \sysname also match the true blood glucose levels most of the time, which validates the effectiveness of \sysname during various daily activities.
 
-\textcolor[rgb]{1.00,0.00,0.00}{Most errors mistake blood glucose levels 2 and level 3, and usually occur during the transition of two blood glucose levels (\eg from 6:10 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
-These errors  belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment.}
+\textcolor[rgb]{1.00,0.00,0.00}{In \figref{fig:pre_gt}, most errors mistake blood glucose level 2 and level 3, and usually occur during the transition of two blood glucose levels (\eg from 6:10 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
+These errors  belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment. We will discuss the reasons of error in section \ref{sec:discussion}.}
 
 %Errors during blood glucose transitions are mainly brought by the temporary delays to measure the external factors. In this case, the inference result will follow up the true value in a short time.
 %Errors of sudden blood glucose fluctuation are often resulted by the abrupt or tiny changes of the external factors,
@@ -233,18 +234,18 @@ These errors  belong to the results of Type B in \ref{subsec:predict_result_anal
 
 \begin{table}[h]
 \centering
-\caption{Inference result analysis from per day per person}
+\small
+\caption{Inference result analysis}
 \label{tab:fpfn}
-\begin{tabular}{|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
-\textbf{Level} & \textbf{False Positive} & \textbf{False Positive Rate} & \textbf{False Negative} & \textbf{False Negative Rate} \\ \hline
-Level 1        & 14.12                   & 2.94\%                       & 8.00                    & 1.67\%                       \\ \hline
-Level 2        & 26.46                   & 5.51\%                       & 33.32                   & 6.94\%                       \\ \hline
-Level 3        & 28.64                   & 5.97\%                       & 29.71                   & 6.19\%                       \\ \hline
-Level 4        & 16.49                   & 3.44\%                       & 14.69                   & 3.06\%                       \\ \hline
+\textbf{Level} & \multicolumn{1}{l|}{\textbf{FP (Day)}} & \multicolumn{1}{l|}{\textbf{FP (Hour)}} & \multicolumn{1}{l|}{\textbf{FPR}} & \multicolumn{1}{l|}{\textbf{FN (Day)}} & \multicolumn{1}{l|}{\textbf{FP (Hour)}} & \multicolumn{1}{l|}{\textbf{FNR}} \\ \hline
+Level 1        & 14.12                                                  & 0.59                                                    & 2.94\%                                            & 8.00                                                   & 0.33                                                    & 1.67\%                                            \\ \hline
+Level 2        & 26.46                                                  & 1.10                                                    & 5.51\%                                            & 33.32                                                  & 1.39                                                    & 6.94\%                                            \\ \hline
+Level 3        & 28.64                                                  & 1.19                                                    & 5.97\%                                            & 29.71                                                  & 1.24                                                    & 6.19\%                                            \\ \hline
+Level 4        & 16.49                                                  & 0.69                                                    & 3.44\%                                            & 14.69                                                  & 0.61                                                    & 3.06\%                                            \\ \hline
 \end{tabular}
 \end{table}
-
 
 %\begin{table}[h]
 %\centering
@@ -260,8 +261,8 @@ Level 4        & 16.49                   & 3.44\%                       & 14.69 
 %\end{tabular}
 %\end{table}
 
-\textcolor[rgb]{1.00,0.00,0.00}{Table~\ref{tab:fpfn} shows the average numbers of false positive and false negative per day per user, as well as their corresponding rates on the testing dataset. Considering \sysname reports a total of 480 blood glucose samples per day per user, the numbers of false positive and false negative are not large.
-The false positive/negative rates of four levels keep in a low level (less than 7\%), and those of the low and high blood glucose cases (level 1/4) are even less.  Since most of the errors occur during the transition of blood glucose levels or are resulted by the sudden blood glucose fluctuation, \sysname does not advise users to take measurement once level 1 or level 4 is detected, but reminds them while the blood glucose level becomes stable, \ie after the occurrence of three continuous level 1/4 blood glucose samples. This short warning delay (9 mins) improves the efficiency of blood glucose warning in practice use.}
+\textcolor[rgb]{1.00,0.00,0.00}{Table~\ref{tab:fpfn} shows the average numbers of False Positive (FP) and False Negative (FN) per day, per hour of each person, as well as their corresponding rates (FPR/FNR) on the testing dataset. Considering \sysname reports a total of 480 blood glucose samples per day per user, the numbers of false positive and false negative are not large.
+The false positive/negative rates of four levels keep in a low level (less than 7\%), and those of the low and high blood glucose cases (level 1/4) are even less.  Since most of the errors occur during the transition of blood glucose levels or are resulted by the sudden blood glucose fluctuation, \sysname does not advise users to take measurement once level 1 or level 4 is detected, but reminds them while the blood glucose level becomes stable, \ie after the occurrence of three continuous level 1/4 blood glucose samples. This short warning delay (9 mins) improves the efficiency of blood glucose warning in practice use \cite{bib:Low_Blood_Glucose_(Hypoglycemia),bib:whitmer2009hypoglycemic}.}
 
 %Nevertheless, both errors tend to occur for a short duration of time, which will not lead to risky emergencies.
 
@@ -379,19 +380,18 @@ A hidden Markov model (HMM) is a statistical Markov model in which the system be
 
 \end{itemize}
 
-The typical classifiers that share features from users:  1) Multi-task Support Vector Machine (mSVM) 2) Multi-task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multi-task Random Forest (RF) 5) Multi-task neural network (ANN) 6) Multi-task Gradient Boosting (GB).
-
+The typical classifiers that share features from users. We use multiple task framework to share the information among users. Each task indicates an user. 1) Multiple task Support Vector Machine (mSVM) 2) Multiple task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multiple task Random Forest (RF) 5) Multiple task neural network (ANN) 6) Multiple task Gradient Boosting (GB).
 
 
 \begin{itemize}
 \item
-\textbf{Multi-task Support Vector Machine (mSVM).}
+\textbf{Multiple task Support Vector Machine (mSVM).}
 SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
 Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
-We use a multi-task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function. To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
+We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function. To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
 \item
-\textbf{Multi-task Gaussian Processes (mGP).}
+\textbf{Multiple task Gaussian Processes (mGP).}
 Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
 The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
@@ -510,7 +510,7 @@ Therefore we envision the training dataset will grow gradually after wearing the
 
 \subsubsection{Impact of Temporal Gaps}
 The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
-Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated).
+Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated). \textcolor[rgb]{1.00,0.00,0.00}{To demonstrate this point, we adopt the first 5 days of measurements as training set, and increase the testing measurement gap  by 5 days gradually.}
 
 \begin{figure}[h]
   \centering
@@ -521,7 +521,7 @@ Since \sysname does not rely on the previous blood glucose value measured by CGM
 
 \figref{fig:per_under_various_pred_days} plots the overall performance of training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
-\textcolor[rgb]{1.00,0.00,0.00}{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather a ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear. From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays. The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance.}
+\textcolor[rgb]{1.00,0.00,0.00}{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather an ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear. From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays. The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance. The current system, therefore, requires training from a CGM (like many previous works) and also requires periodic retraining to remain effective.}
 
 
 
