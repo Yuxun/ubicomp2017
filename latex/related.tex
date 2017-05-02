@@ -14,7 +14,7 @@ Consequently, it is crucial to monitor these external lifestyle factors as input
 METABO~\cite{bib:EMBC09:Georga} is a client-server architecture based system that records dietary, physical activity, medication and medical information for hypoglycaemic and hyperglycaemic event prediction.
 Marling~\etal~\cite{bib:KDHealth16:Marling} improve hypoglycemia detection by combining CGM data with heart rate, galvanic skin response and skin temperature collected from a fitness band.
 However, these works all require CGM data as input, making them invasive and inconvenient for both patients and non-diabetic people.
-\textcolor[rgb]{1.00,0.00,0.00}{Compared with previous works, our system requires less calibration of CGM. It only necessitates per suer calibration data from a CGM at the training period, but does not rely on CGM input at the testing period.}
+\textcolor[rgb]{1.00,0.00,0.00}{Compared with previous works, our system requires less calibration of CGM. It only necessitates per user calibration data from a CGM at the training period, but does not rely on CGM input at the testing period.}
 
 Alternatively, there has been attempt at non-invasive blood glucose monitoring with pervasive wearable and mobile devices.
 Nguyen~\etal~\cite{bib:EMBC12:Nguyen} observe distinct patterns in ECG signals during hypoglycemia and hyperglycemia in type I diabetic patients.
@@ -24,7 +24,7 @@ Our work is inspired by this body of research. We propose a smartphone-based non
 Practically, physical activity level and sleep quality are automatically tracked without manual input, which notably improves the useability of our system.
 
 
-Moreover, personalized blood glucose models are also important. It is because those models with generic parameters may not reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}. 
+Moreover, personalized blood glucose models are also important. It is because those models with generic parameters may not reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
 Both the physiological parameters and the impact of life events on blood glucose need to be trained on user-specific data to account for inter-person differences~\cite{bib:ICMLA13:Bunescu}.  Several classic statistic models can be used to train these parameters by the machine learning algorithms.
 \textcolor[rgb]{1.00,0.00,0.00}{Support Vector Machines (SVMs)~\cite{bib:wang2005support} are the basic classification model.  They bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes). Due to this construction, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels.
 Gaussian Process~\cite{bib:rasmussen2006gaussian} is a particular kind of statistical model where observations occur in a continuous domain, e.g., time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable.
