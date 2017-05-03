@@ -114,50 +114,11 @@ In brief, we collect the following categories of data:
   \end{tabular}}%
 \end{table}
 
-%\begin{table}[]
-%  \centering
-%  \caption{Summary of experimental settings.}
-%  \label{tab:dataset}
-%  \begin{tabular}{clccclcccccl}
-%  \hline\hline
-%  \multicolumn{12}{c}{\textbf{Blood Glucose}}                                                                                                                                                                                               \\ \hline
-%  \multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Blood Level}} & \multicolumn{2}{r}{\textbf{\cellcolor[gray]{0.8}Level 1}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Level 2}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Level 3}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Level 4}} & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}Total}} \\
-%  \multicolumn{2}{l}{Number of Sample}     & \multicolumn{2}{c}{75369}            & \multicolumn{2}{c}{293530}           & \multicolumn{2}{c}{235686}           & \multicolumn{2}{c}{158054}           & \multicolumn{2}{c}{762639}         \\ \hline\hline
-%  \multicolumn{12}{c}{\textbf{Experimental Duration}}                                                                                                                                                                                          \\ \hline
-%  \multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Days}}        & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}6-10}}    & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}11-15}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}16-20}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}21-25}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}26-30}} \\
-%  \multicolumn{2}{l}{Number of Users}      & \multicolumn{2}{c}{48}               & \multicolumn{2}{c}{24}               & \multicolumn{2}{c}{20}               & \multicolumn{2}{c}{13}               & \multicolumn{2}{c}{7}              \\
-%  \hline\hline
-%  \multicolumn{12}{c}{\textbf{Summary of participant data}}                                                                                                                                                                                      \\ \hline
-%  \multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Age}}         & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}15-24}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}25-34}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}35-44}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}45-54}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}55-70}} \\
-%  \multicolumn{2}{l}{Number of Users}      & \multicolumn{2}{c}{8}                & \multicolumn{2}{c}{17}               & \multicolumn{2}{c}{24}               & \multicolumn{2}{c}{29}               & \multicolumn{2}{c}{34}             \\
-%  \multicolumn{2}{l}{\textbf{\cellcolor[gray]{0.8}Weight}}      & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}30-44}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}45-54}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}55-64}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}65-74}}   & \multicolumn{2}{c}{\textbf{\cellcolor[gray]{0.8}75-90}} \\
-%  \multicolumn{2}{l}{Number of Users}      & \multicolumn{2}{c}{18}               & \multicolumn{2}{c}{21}               & \multicolumn{2}{c}{32}               & \multicolumn{2}{c}{22}               & \multicolumn{2}{c}{19}             \\
-%  \multicolumn{4}{l}{\textbf{\cellcolor[gray]{0.8}Gender}}      & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Male}}                                                               & \multicolumn{5}{c}{\textbf{\cellcolor[gray]{0.8}Female}}                                                          \\
-%  \multicolumn{4}{l}{Number of Users}      & \multicolumn{3}{c}{57}                                                                          & \multicolumn{5}{c}{55}                                                                       \\ \hline\hline
-%  \multicolumn{12}{c}{\textbf{User Health Status}}                                                                                                                                                                                          \\ \hline
-%  \multicolumn{3}{l}{\textbf{\cellcolor[gray]{0.8}Health Status}}                   & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Health}}                     & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Type I}}                      & \multicolumn{3}{c}{\textbf{\cellcolor[gray]{0.8}Type II}}                  \\
-%  \multicolumn{3}{l}{Number of Users}                          & \multicolumn{3}{c}{35}                                  & \multicolumn{3}{c}{38}                                   & \multicolumn{3}{c}{39}                                \\ \hline
-%  \end{tabular}
-%\end{table}
-
 \textbf{Ground Truth.}
 We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. \textcolor[rgb]{1.00,0.00,0.00}{In real world deployment, users are only required to wear the CGM in a calibration period for labeled examples, but do not need to wear CGM for the whole process of the blood glucose measurement.}
 
 \textbf{Metrics.}
 We mainly adopt precision, recall and accuracy~\cite{prf1} to quantify the performance of \sysname.
-%
-%
-%\begin{table}[]
-%\centering
-%\caption{The details of dataset}
-%\label{The details of dataset}
-%\begin{tabular}{|l|c|c|c|c|l|}
-%\hline
-%\textbf{Blood Level}                  & \textbf{Level 1} & \textbf{Level 2} & \textbf{level 3} & \textbf{Level 4} & \textbf{Total}         \\ \hline
-%\multicolumn{1}{|c|}{\textbf{Number}} & 75369            & 293530           & 235686           & 158054           & \multicolumn{1}{c|}{762639} \\ \hline
-%\end{tabular}
-%\end{table}
-
 
 \subsection{Inference Accuracy}
 \subsubsection{Overall Inference Accuracy}
@@ -175,14 +136,21 @@ Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance t
   \label{tab:confusion_matrix}
   \begin{tabular}{|c|c|c|c|c|l|l|}
   \hline
-  \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Ground\\ Truth\end{tabular}}} & \multicolumn{4}{c|}{\textbf{Inference}}                                                                                 & \multicolumn{2}{l|}{\multirow{2}{*}{}}                                                            \\ \cline{2-5}
-                                                                                 & Level 1                      & Level 2                      & Level 3                      & Level 4                      & \multicolumn{2}{l|}{}                                                                             \\ \hline
-Level 1                                                                          & \cellcolor[gray]{0.8}62657                        & 5521                         & 3672                         & 3519                         & 83.13\%                             & \multirow{4}{*}{\rotatebox{90}{\textbf{Recall}} }                           \\ \cline{1-6}
-Level 2                                                                          & 16346                        &  \cellcolor[gray]{0.8}240584                       & 27563                        & 9037                         & 81.96\%                             &                                                             \\ \cline{1-6}
-Level 3                                                                          & 2660                         & 30905                        & \cellcolor[gray]{0.8}188472                       & 13649                        & 79.97\%                             &                                                             \\ \cline{1-6}
-Level 4                                                                          & 3443                         & 5620                         & 14278                        & \cellcolor[gray]{0.8}134713                       & 85.23\%                             &                                                             \\ \hline
-\multicolumn{1}{|l|}{\multirow{2}{*}{}}                                          & \multicolumn{1}{l|}{73.62\%} & \multicolumn{1}{l|}{85.12\%} & \multicolumn{1}{l|}{80.55\%} & \multicolumn{1}{l|}{83.72\%} & \multicolumn{2}{l|}{\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Accuracy:\\ 82.14\%\end{tabular}}} \\ \cline{2-5}
-\multicolumn{1}{|l|}{}                                                           & \multicolumn{4}{c|}{\textbf{Precision}}                                                                                 & \multicolumn{2}{l|}{}                                                                             \\ \hline
+  \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Ground\\ Truth\end{tabular}}} & \multicolumn{4}{c|}{\textbf{Inference}}                                                                                 & \multicolumn{2}{l|}{\multirow{2}{*}{}}\\ 
+  \cline{2-5} & Level 1 & Level 2 & Level 3 & Level 4 & \multicolumn{2}{l|}{}
+  \\ \hline
+  Level 1 & \cellcolor[gray]{0.8}62657 & 5521 & 3672 & 3519 & 83.13\% & \multirow{4}{*}{\rotatebox{90}{\textbf{Recall}} } \\ 
+  \cline{1-6}
+  Level 2 & 16346 &  \cellcolor[gray]{0.8}240584 & 27563 & 9037 & 81.96\% & \\ 
+  \cline{1-6}
+  Level 3 & 2660 & 30905 & \cellcolor[gray]{0.8}188472 & 13649 & 79.97\% & \\ 
+  \cline{1-6}
+  Level 4 & 3443 & 5620 & 14278 & \cellcolor[gray]{0.8}134713 & 85.23\% & \\ 
+  \hline
+  \multicolumn{1}{|l|}{\multirow{2}{*}{}} & \multicolumn{1}{l|}{73.62\%} & \multicolumn{1}{l|}{85.12\%} & \multicolumn{1}{l|}{80.55\%} & \multicolumn{1}{l|}{83.72\%} & \multicolumn{2}{l|}{\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Accuracy:\\ 82.14\%\end{tabular}}} \\ 
+  \cline{2-5}
+  \multicolumn{1}{|l|}{} & \multicolumn{4}{c|}{\textbf{Precision}} & \multicolumn{2}{l|}{} \\ 
+  \hline
 \end{tabular}
 \end{table}
 
@@ -200,77 +168,55 @@ Therefore, \sysname is suitable as an temporal alternative for CGM devices.
 However, we do not recommend \sysname for extended duration of usage for patients serious diabetics, who need regular blood glucose management.
 
 \begin{table}[h]
-\centering
-\small
-\caption{ Clarke error grid analysis}
-\label{predict_results}
-\begin{tabular}{|c|l|c|}
-\hline
-\textbf{Type of Result} & \multicolumn{1}{c|}{\textbf{Explanation of Result}}                                                                                                                                                                                                & \textbf{Percentage} \\ \hline
-Type A                  & \begin{tabular}[c]{@{}l@{}}The inference value is consistent with the true value.\\ (\ie the inference blood glucose level is correct.)\end{tabular}                                                                                             & 82.14\%             \\ \hline
-Type B                  & \begin{tabular}[c]{@{}l@{}}The inference result would not lead to inappropriate treatment. \\ (\ie Level 2 is predicted as Level 3, or vice-versa.)\end{tabular}                                                                                 & 7.67\%              \\ \hline
-Type C                  & \begin{tabular}[c]{@{}l@{}}The inference result will lead to unnecessary treatment. \\ (\emph{i.e.}, Level 2 is predicted as Level 1/4,or Level 3 is predicted as Level 1/4.)\end{tabular}                                                                       & 5.47\%              \\ \hline
-Type D                  & \begin{tabular}[c]{@{}l@{}}Fail to detect hypoglycemia or hyperglycemia.\\ (\ie Level 1/4 are predicted as Level 2/3.)\end{tabular} & 3.81\%              \\ \hline
-Type E                  & \begin{tabular}[c]{@{}l@{}}The predicted results that would confuse treatment by mistaking hypoglycemia\\ for hyperglycemia or vice-versa.\\ (\ie Level 1 is predicted as Level 4, and vice-versa.)\end{tabular}                                           & 0.91\%              \\ \hline
+  \centering
+  \small
+  \caption{Clarke error grid analysis}
+  \label{predict_results}
+  \begin{tabular}{|c|l|c|}
+  \hline
+  \textbf{Type of Result} & \multicolumn{1}{c|}{\textbf{Explanation of Result}} & \textbf{Percentage} \\ 
+  \hline
+  Type A & \begin{tabular}[c]{@{}l@{}}The inference value is consistent with the true value.\\ (\ie the inference blood glucose level is correct.)\end{tabular}                                                                                             & 82.14\% \\ \hline
+  Type B & \begin{tabular}[c]{@{}l@{}}The inference result would not lead to inappropriate treatment. \\ (\ie Level 2 is predicted as Level 3, or vice-versa.)\end{tabular} & 7.67\% \\ \hline
+  Type C & \begin{tabular}[c]{@{}l@{}}The inference result will lead to unnecessary treatment. \\ (\emph{i.e.}, Level 2 is predicted as Level 1/4,or Level 3 is predicted as Level 1/4.)\end{tabular} & 5.47\% \\ \hline
+  Type D & \begin{tabular}[c]{@{}l@{}}Fail to detect hypoglycemia or hyperglycemia.\\ (\ie Level 1/4 are predicted as Level 2/3.)\end{tabular} & 3.81\% \\ \hline
+  Type E & \begin{tabular}[c]{@{}l@{}}The predicted results that would confuse treatment by mistaking hypoglycemia\\ for hyperglycemia or vice-versa.\\ (\ie Level 1 is predicted as Level 4, and vice-versa.)\end{tabular} & 0.91\% \\ \hline
 \end{tabular}
 \end{table}
-
 
 
 \subsubsection{Temporal View of Inference Results}
 \label{subsec:Inference_Results}
-\figref{fig:pre_gt} plots the example inference results of \sysname of three participants (one non-diabetic, one Type I diabetic patient, and one Type II diabetic patient) throughout a day.
-The errors are depicted at the bottom of each subfigure.
-As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:50, 11:20 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the type I diabetic user; 6:00, 12:50 and 17:45 for the type II user), insulin injection (7:40 for the type I diabetic user), drug intake (15:10 for the type II user) and exercises (15:30 for the type II user), indicating the importance of external factors.
-The blood glucose levels inferred by \sysname also match the true blood glucose levels most of the time, which validates the effectiveness of \sysname during various daily activities.
-
-\textcolor[rgb]{1.00,0.00,0.00}{In \figref{fig:pre_gt}, most errors mistake blood glucose level 2 and level 3, and usually occur during the transition of two blood glucose levels (\eg from 6:10 to 6:30 for the type II user), or in case of sudden blood glucose concentration change (\eg at 2:30 for the non-diabetic user and at 0:30 for the type I user).
-These errors  belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment. We will discuss the reasons of error in section \ref{sec:discussion}.}
-
-%Errors during blood glucose transitions are mainly brought by the temporary delays to measure the external factors. In this case, the inference result will follow up the true value in a short time.
-%Errors of sudden blood glucose fluctuation are often resulted by the abrupt or tiny changes of the external factors,
-%which may not be immediately detected by \sysname. In this case, the durations of errors are too short to cause risky emergencies. Moreover, most errors belong to the results of Type B in \ref{subsec:predict_result_analysis}, which would not lead to inappropriate treatment.
-
+\figref{fig:pre_gt} plots the inference results of \sysname of three participants (one non-diabetic, one Type I diabetic patient, and one Type II diabetic patient) throughout a day.
+The errors are depicted at the bottom of each figure.
+As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:50, 11:20 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the Type I diabetic user; 6:00, 12:50 and 17:45 for the Type II user), insulin injection (7:40 for the Type I diabetic user), drug intake (15:10 for the Type II user) and exercises (15:30 for the Type II user), indicating the importance of external factors.
+The blood glucose levels inferred by \sysname match the true blood glucose levels most of the time.
+\rev{Most errors mistake level 2 and level 3, and the errors often occur during the transition of two levels (\eg from 6:10 to 6:30 for the Type II diabetic user), or in case of sudden change of blood glucose concentration (\eg at 2:30 for the non-diabetic user and at 0:30 for the Type I diabetic user).
+Nevertheless, these errors belong to the Type B errors in \secref{subsec:predict_result_analysis}, which will not lead to inappropriate treatment.}
 
 \begin{table}[h]
-\centering
-\small
-\caption{Inference result analysis}
-\label{tab:fpfn}
-\begin{tabular}{|l|c|c|c|c|c|c|}
-\hline
-\textbf{Level} & \multicolumn{1}{l|}{\textbf{FP (Day)}} & \multicolumn{1}{l|}{\textbf{FP (Hour)}} & \multicolumn{1}{l|}{\textbf{FPR}} & \multicolumn{1}{l|}{\textbf{FN (Day)}} & \multicolumn{1}{l|}{\textbf{FP (Hour)}} & \multicolumn{1}{l|}{\textbf{FNR}} \\ \hline
-Level 1        & 14.12                                                  & 0.59                                                    & 2.94\%                                            & 8.00                                                   & 0.33                                                    & 1.67\%                                            \\ \hline
-Level 2        & 26.46                                                  & 1.10                                                    & 5.51\%                                            & 33.32                                                  & 1.39                                                    & 6.94\%                                            \\ \hline
-Level 3        & 28.64                                                  & 1.19                                                    & 5.97\%                                            & 29.71                                                  & 1.24                                                    & 6.19\%                                            \\ \hline
-Level 4        & 16.49                                                  & 0.69                                                    & 3.44\%                                            & 14.69                                                  & 0.61                                                    & 3.06\%                                            \\ \hline
+  \centering
+  \small
+  \caption{\rev{Summary of average false positives and false negative per user.}}
+  \label{tab:fpfn}
+  \begin{tabular}{|l|c|c|c|c|c|c|}
+  \hline
+  \textbf{Level} & \multicolumn{1}{l|}{\textbf{FP (Day)}} & \multicolumn{1}{l|}{\textbf{FP (Hour)}} & \multicolumn{1}{l|}{\textbf{FPR}} & \multicolumn{1}{l|}{\textbf{FN (Day)}} & \multicolumn{1}{l|}{\textbf{FN (Hour)}} & \multicolumn{1}{l|}{\textbf{FNR}} 
+  \\ \hline
+  Level 1 & 14.12 & 0.59 & 2.94\% & 8.00 & 0.33 & 1.67\% \\ \hline
+  Level 2 & 26.46 & 1.10 & 5.51\% & 33.32 & 1.39 & 6.94\% \\ \hline
+  Level 3 & 28.64 & 1.19 & 5.97\% & 29.71 & 1.24 & 6.19\% \\ \hline
+  Level 4 & 16.49 & 0.69 & 3.44\% & 14.69 & 0.61 & 3.06\% \\ \hline
 \end{tabular}
 \end{table}
 
-%\begin{table}[h]
-%\centering
-%\caption{My caption}
-%\label{my-label}
-%\begin{tabular}{|l|c|c|c|c|c|c|}
-%\hline
-%\textbf{Level} & \multicolumn{1}{l|}{\textbf{False Positive (Per Day)}} & \multicolumn{1}{l|}{\textbf{False Positive (Per Hour)}} & \multicolumn{1}{l|}{\textbf{False Positive Rate}} & \multicolumn{1}{l|}{\textbf{False Negative (Per Day)}} & \multicolumn{1}{l|}{\textbf{False Positive (Per Hour)}} & \multicolumn{1}{l|}{\textbf{False Negative Rate}} \\ \hline
-%Level 1        & 14.12                                                  & 0.59                                                    & 2.94\%                                            & 8.00                                                   & 0.33                                                    & 1.67\%                                            \\ \hline
-%Level 2        & 26.46                                                  & 1.10                                                    & 5.51\%                                            & 33.32                                                  & 1.39                                                    & 6.94\%                                            \\ \hline
-%Level 3        & 28.64                                                  & 1.19                                                    & 5.97\%                                            & 29.71                                                  & 1.24                                                    & 6.19\%                                            \\ \hline
-%Level 4        & 16.49                                                  & 0.69                                                    & 3.44\%                                            & 14.69                                                  & 0.61                                                    & 3.06\%                                            \\ \hline
-%\end{tabular}
-%\end{table}
 
-\textcolor[rgb]{1.00,0.00,0.00}{Table~\ref{tab:fpfn} shows the average numbers of False Positive (FP) and False Negative (FN) per day, per hour of each person, as well as their corresponding rates (FPR/FNR) on the testing dataset. Considering \sysname reports a total of 480 blood glucose samples per day per user, the numbers of false positive and false negative are not large.
-The false positive/negative rates of four levels keep in a low level (less than 7\%), and those of the low and high blood glucose cases (level 1/4) are even less.  Since most of the errors occur during the transition of blood glucose levels or are resulted by the sudden blood glucose fluctuation, \sysname does not advise users to take measurement once level 1 or level 4 is detected, but reminds them while the blood glucose level becomes stable, \ie after the occurrence of three continuous level 1/4 blood glucose samples. This short warning delay (9 mins) improves the efficiency of blood glucose warning in practice use \cite{bib:Low_Blood_Glucose_(Hypoglycemia),bib:whitmer2009hypoglycemic}.}
-
-%Nevertheless, both errors tend to occur for a short duration of time, which will not lead to risky emergencies.
-
-
-%For the former one, it is mainly due to the external factors tracked by \modelname have just changed for a short time, resulting in a little temporal delay to follow the true values. This type of error, however, can be revised quickly.
-%For the latter one, the period of sudden blood glucose fluctuation lasts too short for \sysname to detect the dynamics of external factors. Nevertheless, the duration of this kind of error is too short, which hardly harm the users.
-
-%\textcolor[rgb]{1.00,0.00,0.00}{Moreover, we can also learn most of errors belongs to the Type B/C  rather than Type D/E (serious error) in the \tabref{predict_results}, which are also accordant with the conclusion in \secref{subsec:predict_result_analysis}.}
+\rev{Table~\ref{tab:fpfn} shows the average false positives (FP) and false negatives (FN) per day and per hour for each user.
+Given an inference every 3 minutes or 480 inferences per day, the number of FPs and FNs per hour is no greater than two.
+Since only FPs for Level 1 and 4 will cause annoying notifications, such situations occur at an even lower rate.
+To further reduce the unnecessary notifications, \sysname only reminds the user when there are three consecutive inferences of Level 1 or Level 4.
+This mechanism is acceptable because (a) most errors occur during transition of blood glucose levels or when there is a sudden change of blood glucose concentration and (b) the 9-minute delay usually will still save sufficient time for proper treatment \cite{bib:Low_Blood_Glucose_(Hypoglycemia)} \cite{bib:whitmer2009hypoglycemic}.
+}
 
 \begin{figure}[h]
   \centering
@@ -282,7 +228,7 @@ The false positive/negative rates of four levels keep in a low level (less than 
 \subsection{Model Comparison}
 
 \subsubsection{Effectiveness of \modelname Framework}
-\textcolor[rgb]{1.00,0.00,0.00}{To demonstrate the effectiveness of the multi-division framework in making full use of the dataset, we evaluate \modelname by 10-fold cross validation \cite{bib:refaeilzadeh2009cross} from two perspectives.}
+\rev{To demonstrate the effectiveness of the multi-division framework in making full use of the dataset, we evaluate \modelname by 10-fold cross-validation \cite{bib:refaeilzadeh2009cross} from two perspectives.}
 
 \fakeparagraph{Layer contribution analysis}
 To evaluate the effect of different layers, we conduct blood glucose level inference with three combinations of layers.
@@ -304,8 +250,8 @@ The results demonstrate the effectiveness of \modelname, which learns representa
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/CMP_Models2.pdf}
-  \caption{Performance of layer combinations.}
+  \includegraphics[width=0.8\columnwidth]{./img/CMP_Models2.pdf}
+  \caption{Performance of layer combinations. \rev{The error bars denote the standard deviations on 10-fold cross-validation.}}
   \label{fig:cmp_model}
 \end{figure}
 
@@ -330,18 +276,13 @@ It also yields the lowest standard deviations (17.18\% of average precision and 
 The results show that \modelname is both effective and stable in blood glucose level inference.
 
 General learning treats each sample of training data equally, and ignores the individual differences, so it performs poorly in most cases.
-\textcolor[rgb]{1.00,0.00,0.00}{Conversely, single learning approach encodes the individual characteristics but suffers from lacking of user-specific training dataset. It may require a very large learning personalized data to achieve an effective result.} Even though group learning learns the similarities of users within the same group, it ignores inter-person physiological differences.
+\rev{Conversely, single learning approach encodes the individual characteristics but suffers from lacking of user-specific training dataset. It may require a very large learning personalized data to achieve an effective result.} Even though group learning learns the similarities of users within the same group, it ignores inter-person physiological differences.
 \modelname combines the advantages of these three learning approaches, which makes better use of the limited individual training data by sharing measurements among users and preserves user-specific characteristics via the personal learning layer.
-
-%General learning performs slightly better than single learning for Level 2 and 3 (normal blood glucose levels), partly because the correlations between the inputs and normal blood glucose levels are relatively consistent for most people, while single learning suffers from lack of training data as it only uses user-specific data.
-%Conversely, single learning achieves higher precision and recall than general learning for Level 1 and 4 (abnormal blood glucose levels), partly because there are notable inter-person differences in the correlations between the inputs and abnormal blood glucose levels.
-%That is, the reasons for abnormal blood glucose levels can vary from person to person.
-
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/performance_of_multi_division.pdf}
-  \caption{Performance comparison of different data sharing schemes.}
+  \includegraphics[width=0.8\columnwidth]{./img/performance_of_multi_division.pdf}
+  \caption{Performance of data sharing schemes. \rev{The error bars denote the standard deviations on 10-fold cross-validation.}}
   \label{fig:cmp_multi_division}
 \end{figure}
 
@@ -373,87 +314,64 @@ The typical classifiers that do not share features from users:  1) Support vecto
  \item
  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
   Gaussian process is a particular kind of statistical model where observations occur in a continuous domain, \eg time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
-
-\item
-\textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
-A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
+  
+  \item
+  \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
+  A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
 
 \end{itemize}
 
-The typical classifiers that share features from users. We use multiple task framework to share the information among users. Each task indicates an user. 1) Multiple task Support Vector Machine (mSVM) 2) Multiple task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multiple task Random Forest (RF) 5) Multiple task neural network (ANN) 6) Multiple task Gradient Boosting (GB).
+\rev{
+The typical classifiers that share features from users. We use multiple task framework to share the information among users. 
+Each task indicates an user. 
+1) Multiple task Support Vector Machine (mSVM) 2) Multiple task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multiple task Random Forest (RF) 5) Multiple task neural network (ANN) 6) Multiple task Gradient Boosting (GB).
 
 
 \begin{itemize}
-\item
-\textbf{Multiple task Support Vector Machine (mSVM).}
-SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
-Due to this construction, it usually generalizes well, and its dual form is a quadratic programing that can be easily incorporated with kernels.
-We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function. To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
+  \item
+  \textbf{Multiple task Support Vector Machine (mSVM).}
+  SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
+  Due to this construction, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels.
+  We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function. 
+  To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
-\item
-\textbf{Multiple task Gaussian Processes (mGP).}
-Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
-The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
+  \item
+  \textbf{Multiple task Gaussian Processes (mGP).}
+  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
+  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. 
+  The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
-\item
-\textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
-Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}.  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
-
-
-  %We use the radial basis kernel and vary the kernel width from 2$^{-5}$ to 2$^4$ with an incremental factor of 2$^{0.5}$.
-
- % \item
-%  \textbf{Hidden Markov model (HMM).} \cite{bib:rabiner1986introduction}
-%  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process. Simple as it is, HMM is widely used in signal processing and time series analysis due to its flexibility and tractability. In addition, it has close tights with optimal filtering and state estimation. In our implementation, HMM is learned with the classic Viterbi algorithm.
-
-
-
+  \item
+  \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
+  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}.  
+  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
 \end{itemize}
 
-\figref{fig:cmp_models} illustrates the results. Apparently, \modelname achieves best performance on both precisions and recalls.
-More specifically, it outperforms the runner-up by at least 20\% in terms of average precision, and yields much better recalls for the categories of interest, \ie level 1 and level 4.
+\figref{fig:cmp_models} illustrates the results. 
+Apparently, \modelname achieves best performance on both precisions and recalls.
+More specifically, it outperforms the runner-up by at least 20\% in terms of average precision, and yields much better recalls for the categories of interest, \ie Level 1 and Level 4.
 Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score.
 This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks.
 However, compared to \modelname, which is able to describe multi-scale dynamics, nDP-iHMM is still worse in general.
 The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or can not allow information sharing among available data from users.
 The above observation further justifies the efforts of designing the new machine learning paradigm for \sysname, which efficiently transfers valuable knowledge between individuals.
+}
+
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/Model_CMP1.pdf}
+  \includegraphics[width=0.8\columnwidth]{./img/Model_CMP1.pdf}
   \caption{Performance comparison with the different learning algorithms.}
   \label{fig:cmp_models}
 \end{figure}
 
-
-
-
-%It was then used to quantify the clinical accuracy of blood glucose estimates generated by meters as compared to a reference value.
-
 \subsection{Micro-benchmarks}
 \subsubsection{Effectiveness of Features}
-\tabref{tab:features} shows the average precisions and recalls for all the 4 blood glucose levels with different combinations of features.
-By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by at 31.38\% and 41.48\% respectively.
-Specifically, all of the three features bring in notable improvements in detecting the blood glucose events.
-This is because $X_{P}$ from the physiological model can well reflect the impact of external factors (\eg food and exercise), and $X_{T1}$ from the historical trend enables to track the individual temporal dynamics of average blood glucose concentrations in recent time. As for $X_{T2}$, it brings in  more efficient short-term temporal dependencies between physiological features and the blood glucose levels.
-In general, the precisions and recalls of 4 levels are increasing smoothly with adding each feature, demonstrating the effectiveness of the selected features.
-%\begin{table}[h]
-%  \small
-%  \centering
-%  \caption{Effectiveness of features.\TODO{no $X_{T_2}$ now.}}
-%  \label{tab:features}
-%  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
-%  \hline
-%                                   & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
-%  \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
-%  $X_{P}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
-%  $X_{P}$+$X_{T_1}$                   & 51.97$\%$               & 58.11$\%$                                 & 60.42$\%$                & 58.90$\%$            & 63.35$\%$               & 53.59$\%$                                 & 69.82$\%$               & 65.16$\%$                                 \\ \hline
-%  $X_{P}$+$X_{T_1}$+$X_{T_2}$          & 64.60$\%$               & 73.08$\%$                                 & 69.87$\%$                & 61.23$\%$            & 74.33$\%$               & 67.81$\%$                                 & 76.64$\%$               & 72.32$\%$                                 \\ \hline
-%  $X_{P}$+$X_{T_1}$+$X_{T_2}$+$X_{T_3}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
-%  & 83.72$\%$               & 85.23$\%$                                  \\ \hline
-%  \end{tabular}
-%\end{table}
-
-
+\tabref{tab:features} shows the average precisions and recalls using different combinations of features.
+By combining physiological features ($X_{P}$) with temporal features ($X_{T}$), the average precision and recall of the 4 blood glucose levels improve by 31.38\% and 41.48\% respectively.
+\rev{The precision and recall increase by about 10\% to 30\% with physiological and short-term temporal features ($X_{P}+X_{T_2}$) over physiological features alone.
+However, the historical trends $X_{T_1}$ prove to be more effective than the short-term temporal features $X_{T_2}$ (see the second and the third rows of \tabref{tab:features}).
+The necessity to include historical trends indicates the need for re-calibration, as will be discussed in \secref{subsubsec:gaps}.
+}
 
 \begin{table}[h]
   \small
@@ -462,30 +380,22 @@ In general, the precisions and recalls of 4 levels are increasing smoothly with 
   \label{tab:features}
   \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
   \hline
-                                   & \multicolumn{2}{c|}{\textbf{Level 1}}                     & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}}                     & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
-  \textbf{Features}                  & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision}  & \textbf{Recall} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} & \textbf{Precision} & \multicolumn{1}{l|}{\textbf{Recall}} \\ \hline
-  $X_{P}$                            & 43.37$\%$               & 32.82$\%$                                 & 46.03$\%$                & 39.10$\%$            & 51.79$\%$               & 48.95$\%$                                 & 56.30$\%$               & 43.49$\%$                                 \\ \hline
-
-%$X_{T1}$                            & 28.71$\%$               & 24.45$\%$                                 & 25.01$\%$                & 28.17$\%$            & 27.21$\%$               & 20.87$\%$                                 & 28.24$\%$               & 25.75$\%$                                 \\ \hline
-%
-%
-%$X_{T2}$                            & 19.43$\%$               & 16.15$\%$                                 & 22.32$\%$                & 18.39$\%$            & 20.39$\%$               & 15.33$\%$                                 & 13.84$\%$               & 18.51$\%$                                 \\ \hline
-%
-%$X_{T_1}$+$X_{T_2}$                   & 35.11$\%$               & 29.73$\%$                                 & 30.68$\%$                & 36.72$\%$            & 35.91$\%$               & 40.16$\%$                                 & 38.81$\%$               & 47.26$\%$\\ \hline
-
-
-$X_{P}$+$X_{T_1}$                   & 58.29$\%$               & 63.60$\%$                                 & 72.15$\%$                & 60.17$\%$            & 68.84$\%$               & 61.49$\%$                                 & 73.23$\%$               & 66.74$\%$\\ \hline
-
-$X_{P}$+$X_{T_2}$                   & 54.48$\%$               & 49.11$\%$                                 & 50.81$\%$                & 69.43$\%$            & 67.21$\%$               & 70.20$\%$                                 & 61.24$\%$               & 64.10$\%$\\ \hline
-
-
-$X_{P}$+$X_{T_1}$+$X_{T_2}$ & 73.62$\%$   & 83.13$\%$                                 & 85.12$\%$               & 81.96$\%$            & 80.55$\%$   & 79.97$\%$
-  & 83.72$\%$               & 85.23$\%$                                  \\ \hline
+  & \multicolumn{2}{c|}{\textbf{Level 1}} & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}} & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
+  \textbf{Features} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} &\textbf{Recall} 
+  \\ \hline
+  $X_{P}$ & 43.37$\%$ & 32.82$\%$ & 46.03$\%$ & 39.10$\%$ & 51.79$\%$ & 48.95$\%$ & 56.30$\%$ & 43.49$\%$ 
+  \\ \hline
+  $X_{P}$+$X_{T_1}$ & 58.29$\%$ & 63.60$\%$ & 72.15$\%$ & 60.17$\%$ & 68.84$\%$ & 61.49$\%$ & 73.23$\%$ & 66.74$\%$
+  \\ \hline
+  \rev{$X_{P}$+$X_{T_2}$} & \rev{54.48$\%$} & \rev{49.11$\%$} & \rev{50.81$\%$} & \rev{69.43$\%$} & \rev{67.21$\%$} & \rev{70.20$\%$} & \rev{61.24$\%$} & \rev{64.10$\%$} 
+  \\ \hline
+  $X_{P}$+$X_{T_1}$+$X_{T_2}$ & 73.62$\%$ & 83.13$\%$ & 85.12$\%$ & 81.96$\%$ & 80.55$\%$ & 79.97$\%$ & 83.72$\%$ & 85.23$\%$
+  \\ \hline
   \end{tabular}
 \end{table}
 
 
-\subsubsection{Impact of amount of training samples}
+\subsubsection{Necessary Training Data}
 In this experiment, we evaluate the performance of \sysname with increasing numbers of training samples.
 Since the duration of measurements for each participant varies from 6 to 30 days, we use measurements of 5 to 25 days for training, and the rest for testing.
 Note that we keep the measurements for training but exclude them for testing if the duration of certain user's measurements is insufficient.
@@ -494,7 +404,7 @@ However, when evaluating the performance with 10 days of training data, we only 
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/performance_under_days1.pdf}
+  \includegraphics[width=0.8\columnwidth]{./img/performance_under_days1.pdf}
   \caption{Impact of increasing amount of training samples.}
   \label{fig:per_under_train_days}
 \end{figure}
@@ -509,28 +419,21 @@ Therefore we envision the training dataset will grow gradually after wearing the
 
 
 \subsubsection{Impact of Temporal Gaps}
+\label{subsubsec:gaps}
+
 The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
 Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated). \textcolor[rgb]{1.00,0.00,0.00}{To demonstrate this point, we adopt the first 5 days of measurements as training set, and increase the testing measurement gap  by 5 days gradually.}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\columnwidth]{./img/Performance_gap2.pdf}
+  \includegraphics[width=0.8\columnwidth]{./img/Performance_gap2.pdf}
   \caption{Impact of temporal gaps between the training and testing datasets.}
   \label{fig:per_under_various_pred_days}
 \end{figure}
 
 \figref{fig:per_under_various_pred_days} plots the overall performance of training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
-\textcolor[rgb]{1.00,0.00,0.00}{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather an ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear. From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays. The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance. The current system, therefore, requires training from a CGM (like many previous works) and also requires periodic retraining to remain effective.}
-
-
-
-
-%\subsubsection{Detection Accuracy for Different Groups}
-%Fig.~\ref{fig:cmp_groups} illustrates the results of each groups.
-%
-%\TODO{redraw the figures, no need to include general and personal learning here. show the performance for different health status, gender, age groups, weight groups, \etc, explain why \sysname works better for certain groups, or works well for all groups}.
-%
-%We also apply general learning approach on the users in same group, and compare the prediction performance of \modelname. Fig.~\ref{fig:cmp_groups}
-%shows the results. As is shown, \modelname outperforms the general learning methods in each group, especially the performance of level 1 and level 4. It mainly results by two reasons. On the one hand, the limitation of blood glucose data in each group weakens the capability of temporal dynamic characteristics. On the other hand, the imbalanced distribution of blood glucose data of one group also low the performance down. For example, much more data of level 4 and much less data of level 1 in group 3 (type II diabetes) low down the recall of level 1 and the precision of level 4. It is even hard to be solved by the cost sensitive approach.
-
+\rev{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather an ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear. 
+From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays. 
+The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance. 
+The current system, therefore, requires training from a CGM (like many previous works) and also requires periodic retraining to remain effective.}

@@ -2,11 +2,11 @@
 
 % Metadata Information
 \acmJournal{IMWUT}
-\acmVolume{2}
-\acmNumber{0}
+\acmVolume{1}
+\acmNumber{3}
 \acmArticle{0}
 \acmYear{2017}
-\acmMonth{6}
+\acmMonth{9}
 \acmArticleSeq{0}
 
 % Copyright
@@ -22,11 +22,8 @@
 
 % Paper history
 \received{February 2017}
-%\received[accepted]{June 2009}
+\received[revised]{May 2017}
 
-
-% Load basic packages
-%\usepackage{balance}       % to better equalize the last page
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{colortbl}
@@ -46,8 +43,6 @@
 \usepackage{rotating}
 \usepackage{array}
 
-
-% End of preamble. Here it comes the document.
 
 \newcommand{\etal}{\emph{et~al.}\xspace}
 \newcommand{\eg}{\emph{e.g.},\xspace}
@@ -73,6 +68,11 @@
 \newcommand{\sysname}{SugarMate\xspace}
 \newcommand{\modelname}{Md$^3$RNN\xspace}
 
+\ifodd 1
+\newcommand{\rev}[1]{{\color{blue}#1}} %revise of the text
+\else
+\newcommand{\rev}[1]{#1}
+\fi
 
 \newcommand{\subsecvspace}{\vspace{-0.15cm}}
 
@@ -221,7 +221,7 @@ E-mail: zzhou@tik.ee.ethz.ch;
 \input{design}
 \input{evaluation}
 \input{userstudy}
-\input{discussion}
+%\input{discussion}
 \input{conclusion}
 
 \bibliographystyle{ACM-Reference-Format}
