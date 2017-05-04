@@ -72,6 +72,25 @@ We also listed two representative comments from two users (a 'Instructive' and a
 
 In summary, \sysname gives suggestions on their meals, drugs and exercises \etc The users from \emph{'Normal'} level (most of whom are health) care about how to prevent diabetes or abnormal blood glucose cases. For this requirement, the personalized blood glucose dynamic records collected by \sysname can be synced to the experts communities, which can help the experts design a personalized precaution measurement.
 
+\subsubsection{The usage willingness of system}
+We have also conducted an investigation on the usage willingness of \sysname. It indicates the willingness of people to use \sysname, which requires the manual records and the CGM periodic calibrations.
+Users are asked "\emph{Are you willing to use \sysname instead of the CGM to monitor blood glucose if you need manual records of daily food, drug and insulin intake as well as wear CGM to conduct a periodic calibration per month}". Users report "Willingness" or "Unwillingness" in the  questionnaire, and Fig.\ref{fig:user_willingness} illustrates the corresponding results. As shown,  above 90\% diabetes patients of Type I and Type II shows willingness to use \sysname. While the percentage of non-diabetes users choosing willingness is little less, but still above than 85\%. It meets our intuition that the diabetes patients care more about their blood glucose than that of non-diabetes users.
+We also select two representative comments from two choices of users.
+
+\begin{itemize}
+  \item I like this app.  Manual records seem much more convenience compared with that of wearing CGM, which is painful and uncomfortable. A CGM calibration per month is not a big deal and I can accept it. I am so happy because it can save money. More importantly, I no longer need to bear the pains of CGM everyday. [\emph{Willingness, Type II diabetes patient}]
+  \item I am OK with the periodic CGM calibration, but the daily food record is a trouble for me. I always eat outside and easily forget what I have eat after the meal. \sysname provides the camera functions, but it cannot transfer the food in picture to words now. It will be much convenient if the automatic conversion realized (from picture to words). [\emph{Unwillingness, Non-diabetes user}]
+\end{itemize}
+
+In general, most of users are willing to take \sysname as an alternative measurement of the CGM. The principal negative factors on the usage willingness is daily food intake, which is often required to record more than three times per day. We are now implementing the functions of image identification and the speech recognition, and believe these functions can reduce the burden of users.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\columnwidth]{./img/willingness.pdf}
+  \caption{The usage willingness of \sysname}
+  \label{fig:user_willingness}
+\end{figure}
+
 
 \subsubsection{Energy overhead}
 \begin{table}[t]
