@@ -92,47 +92,4 @@ In general, most of users are willing to take \sysname as an alternative measure
 \end{figure}
 
 
-\subsubsection{Energy overhead}
-\begin{table}[t]
-\centering
-\caption{Profiles of smartphone }
-\label{tab:smartphone_profiles}
-\begin{tabular}{|l|l|l|l|l|l|}
-\hline
-\textbf{Type} & \textbf{CPU}    & \textbf{RAM} & \textbf{ROM} & \textbf{Power Capacity} & \textbf{Operation System} \\ \hline
-Galaxy S6     & 8-cores 2.1 GHz & 3 GB         & 32 GB        & 2550m Ah                & Android 5.0               \\ \hline
-HTC Desire A6 & 8-cores 1.7 GHz & 2 GB         & 16 GB        & 2600m Ah                & Android 5.0               \\ \hline
-HUAWEI 4C     & 8-cores 1.2 GHz & 2 GB         & 8 GB         & 3100m Ah                & Android 4.4               \\ \hline
-LenovoK80M    & 4-cores 1.8 GHz & 4 GB         & 64 GB        & 4000m Ah                & Android 4.4               \\ \hline
-\end{tabular}
-\end{table}
-
-
-
-
-
-
-Let us recall the system workflow from the energy overhead perspective.  \sysname triggers the microphone, the accelerometer and the light sensor after the user choosing the sleeping mode, which is utilized to track the sleep quality of users. After the user waking up, \sysname shuts down the microphone and light sensor, only leaving an accelerometer to record the user's activities. Thus, \sysname conserves energy from two aspects: first, it keeps the sensors activated only around the right time; second, it adopts low-power sensors to reduce energy consumption.
-
-To evaluate the battery conditions, \sysname are tested on four popular types of commercial phones (listed in Table \ref{tab:smartphone_profiles}) by volunteers. All of the smartphones are charged full of power (100\% percentage). Since \sysname is a service that could run in backstage, we lock the screen during this process and shut down all the applications except \sysname and a battery tracing application \cite{bib:PowerTutor}, which is installed in each smartphone to record the rest battery storage every two hours.  Fig.\ref{fig:battery_lifetime} illustrates the phone¡¯s left battery as a function of execution time of \sysname.
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.5\columnwidth]{./img/battery_trace.pdf}
-  \caption{Battery lifetime trace}
-  \label{fig:battery_lifetime}
-\end{figure}
-
-As it indicates, the energy consumption presents a similar trend yet differs in amount for all of these four phones. Specifically, \sysname consumes energy around 10\% on average every two hours. With time passing by, the cumulative energy consumption increases
-gradually, and finally ends up with about 50\% $\sim$ 60\%.
-
-Fig.\ref{fig:battery_consumption} details the distribution of battery consumption in the experiments. \sysname only consumes less than 40\% of the whole energy, most power is costed by Android OS. That is to say, \sysname only costs less than 4\% battery every two hours, which is negligible and
-affords for the daily use.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.7\columnwidth]{./img/energy_overhead.pdf}
-  \caption{Battery consumption distribution}
-  \label{fig:battery_consumption}
-\end{figure}
-
 }

@@ -115,7 +115,8 @@ In brief, we collect the following categories of data:
 \end{table}
 
 \textbf{Ground Truth.}
-We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. \textcolor[rgb]{1.00,0.00,0.00}{In real world deployment, users are only required to wear the CGM in a calibration period for labeled examples, but do not need to wear CGM for the whole process of the blood glucose measurement.}
+We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. 
+\rev{In real world deployment, users are only required to wear the CGM in a calibration period for labeled examples, but do not need to wear CGM for the whole process of the blood glucose measurement.}
 
 \textbf{Metrics.}
 We mainly adopt precision, recall and accuracy~\cite{prf1} to quantify the performance of \sysname.
@@ -128,7 +129,10 @@ All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
 In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up around 10\% and 20\% of the entire training set.
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
-Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels. \textcolor[rgb]{1.00,0.00,0.00}{As a supplement of the professional blood glucose measurements, it is a screening tool for users to acknowledge their blood glucose while users cannot measure blood glucose by CGM or finger sticker. Moreover, since \sysname holds the high recall in Level 1 and Level 4 detection, it is sensitive to detect the abnormal cases. When SugarMate detects the abnormal cases, it will ask the users to have a double-check by CGM or finger stickers and take corresponding treatment.}
+Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels. 
+\rev{As a supplement of the professional blood glucose measurements, it is a screening tool for users to acknowledge their blood glucose while users cannot measure blood glucose by CGM or finger sticker. 
+Moreover, since \sysname holds the high recall in Level 1 and Level 4 detection, it is sensitive to detect the abnormal cases. 
+When SugarMate detects the abnormal cases, it will ask the users to have a double-check by CGM or finger stickers and take corresponding treatment.}
 
 \begin{table}[h]
   \centering
@@ -136,20 +140,20 @@ Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance t
   \label{tab:confusion_matrix}
   \begin{tabular}{|c|c|c|c|c|l|l|}
   \hline
-  \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Ground\\ Truth\end{tabular}}} & \multicolumn{4}{c|}{\textbf{Inference}}                                                                                 & \multicolumn{2}{l|}{\multirow{2}{*}{}}\\ 
+  \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Ground\\ Truth\end{tabular}}} & \multicolumn{4}{c|}{\textbf{Inference}}                                                                                 & \multicolumn{2}{l|}{\multirow{2}{*}{}}\\
   \cline{2-5} & Level 1 & Level 2 & Level 3 & Level 4 & \multicolumn{2}{l|}{}
   \\ \hline
-  Level 1 & \cellcolor[gray]{0.8}62657 & 5521 & 3672 & 3519 & 83.13\% & \multirow{4}{*}{\rotatebox{90}{\textbf{Recall}} } \\ 
+  Level 1 & \cellcolor[gray]{0.8}62657 & 5521 & 3672 & 3519 & 83.13\% & \multirow{4}{*}{\rotatebox{90}{\textbf{Recall}} } \\
   \cline{1-6}
-  Level 2 & 16346 &  \cellcolor[gray]{0.8}240584 & 27563 & 9037 & 81.96\% & \\ 
+  Level 2 & 16346 &  \cellcolor[gray]{0.8}240584 & 27563 & 9037 & 81.96\% & \\
   \cline{1-6}
-  Level 3 & 2660 & 30905 & \cellcolor[gray]{0.8}188472 & 13649 & 79.97\% & \\ 
+  Level 3 & 2660 & 30905 & \cellcolor[gray]{0.8}188472 & 13649 & 79.97\% & \\
   \cline{1-6}
-  Level 4 & 3443 & 5620 & 14278 & \cellcolor[gray]{0.8}134713 & 85.23\% & \\ 
+  Level 4 & 3443 & 5620 & 14278 & \cellcolor[gray]{0.8}134713 & 85.23\% & \\
   \hline
-  \multicolumn{1}{|l|}{\multirow{2}{*}{}} & \multicolumn{1}{l|}{73.62\%} & \multicolumn{1}{l|}{85.12\%} & \multicolumn{1}{l|}{80.55\%} & \multicolumn{1}{l|}{83.72\%} & \multicolumn{2}{l|}{\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Accuracy:\\ 82.14\%\end{tabular}}} \\ 
+  \multicolumn{1}{|l|}{\multirow{2}{*}{}} & \multicolumn{1}{l|}{73.62\%} & \multicolumn{1}{l|}{85.12\%} & \multicolumn{1}{l|}{80.55\%} & \multicolumn{1}{l|}{83.72\%} & \multicolumn{2}{l|}{\multirow{2}{*}{\begin{tabular}[c]{@{}l@{}}Accuracy:\\ 82.14\%\end{tabular}}} \\
   \cline{2-5}
-  \multicolumn{1}{|l|}{} & \multicolumn{4}{c|}{\textbf{Precision}} & \multicolumn{2}{l|}{} \\ 
+  \multicolumn{1}{|l|}{} & \multicolumn{4}{c|}{\textbf{Precision}} & \multicolumn{2}{l|}{} \\
   \hline
 \end{tabular}
 \end{table}
@@ -174,7 +178,7 @@ However, we do not recommend \sysname for extended duration of usage for patient
   \label{predict_results}
   \begin{tabular}{|c|l|c|}
   \hline
-  \textbf{Type of Result} & \multicolumn{1}{c|}{\textbf{Explanation of Result}} & \textbf{Percentage} \\ 
+  \textbf{Type of Result} & \multicolumn{1}{c|}{\textbf{Explanation of Result}} & \textbf{Percentage} \\
   \hline
   Type A & \begin{tabular}[c]{@{}l@{}}The inference value is consistent with the true value.\\ (\ie the inference blood glucose level is correct.)\end{tabular}                                                                                             & 82.14\% \\ \hline
   Type B & \begin{tabular}[c]{@{}l@{}}The inference result would not lead to inappropriate treatment. \\ (\ie Level 2 is predicted as Level 3, or vice-versa.)\end{tabular} & 7.67\% \\ \hline
@@ -201,7 +205,7 @@ Nevertheless, these errors belong to the Type B errors in \secref{subsec:predict
   \label{tab:fpfn}
   \begin{tabular}{|l|c|c|c|c|c|c|}
   \hline
-  \textbf{Level} & \multicolumn{1}{l|}{\textbf{FP (Day)}} & \multicolumn{1}{l|}{\textbf{FP (Hour)}} & \multicolumn{1}{l|}{\textbf{FPR}} & \multicolumn{1}{l|}{\textbf{FN (Day)}} & \multicolumn{1}{l|}{\textbf{FN (Hour)}} & \multicolumn{1}{l|}{\textbf{FNR}} 
+  \textbf{Level} & \multicolumn{1}{l|}{\textbf{FP (Day)}} & \multicolumn{1}{l|}{\textbf{FP (Hour)}} & \multicolumn{1}{l|}{\textbf{FPR}} & \multicolumn{1}{l|}{\textbf{FN (Day)}} & \multicolumn{1}{l|}{\textbf{FN (Hour)}} & \multicolumn{1}{l|}{\textbf{FNR}}
   \\ \hline
   Level 1 & 14.12 & 0.59 & 2.94\% & 8.00 & 0.33 & 1.67\% \\ \hline
   Level 2 & 26.46 & 1.10 & 5.51\% & 33.32 & 1.39 & 6.94\% \\ \hline
@@ -228,7 +232,7 @@ This mechanism is acceptable because (a) most errors occur during transition of 
 \subsection{Model Comparison}
 
 \subsubsection{Effectiveness of \modelname Framework}
-\rev{To demonstrate the effectiveness of the multi-division framework in making full use of the dataset, we evaluate \modelname by 10-fold cross-validation \cite{bib:refaeilzadeh2009cross} from two perspectives.}
+\rev{To demonstrate the effectiveness of the multi-division framework in making full use of the dataset, we evaluate \modelname by 10-fold cross validation from two perspectives.}
 
 \fakeparagraph{Layer contribution analysis}
 To evaluate the effect of different layers, we conduct blood glucose level inference with three combinations of layers.
@@ -314,7 +318,7 @@ The typical classifiers that do not share features from users:  1) Support vecto
  \item
  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
   Gaussian process is a particular kind of statistical model where observations occur in a continuous domain, \eg time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
-  
+
   \item
   \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
   A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
@@ -322,8 +326,8 @@ The typical classifiers that do not share features from users:  1) Support vecto
 \end{itemize}
 
 \rev{
-The typical classifiers that share features from users. We use multiple task framework to share the information among users. 
-Each task indicates an user. 
+The typical classifiers that share features from users. We use multiple task framework to share the information among users.
+Each task indicates an user.
 1) Multiple task Support Vector Machine (mSVM) 2) Multiple task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multiple task Random Forest (RF) 5) Multiple task neural network (ANN) 6) Multiple task Gradient Boosting (GB).
 
 
@@ -332,22 +336,22 @@ Each task indicates an user.
   \textbf{Multiple task Support Vector Machine (mSVM).}
   SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
   Due to this construction, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels.
-  We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function. 
+  We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
   \item
   \textbf{Multiple task Gaussian Processes (mGP).}
   Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
-  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. 
+  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
   The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
   \item
   \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}.  
+  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}.
   To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
 \end{itemize}
 
-\figref{fig:cmp_models} illustrates the results. 
+\figref{fig:cmp_models} illustrates the results.
 Apparently, \modelname achieves best performance on both precisions and recalls.
 More specifically, it outperforms the runner-up by at least 20\% in terms of average precision, and yields much better recalls for the categories of interest, \ie Level 1 and Level 4.
 Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score.
@@ -381,13 +385,13 @@ The necessity to include historical trends indicates the need for re-calibration
   \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
   \hline
   & \multicolumn{2}{c|}{\textbf{Level 1}} & \multicolumn{2}{c|}{\textbf{Level 2}} & \multicolumn{2}{c|}{\textbf{Level 3}} & \multicolumn{2}{c|}{\textbf{Level 4}}                     \\ \hline
-  \textbf{Features} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} &\textbf{Recall} 
+  \textbf{Features} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} & \textbf{Recall} & \textbf{Precision} &\textbf{Recall}
   \\ \hline
-  $X_{P}$ & 43.37$\%$ & 32.82$\%$ & 46.03$\%$ & 39.10$\%$ & 51.79$\%$ & 48.95$\%$ & 56.30$\%$ & 43.49$\%$ 
+  $X_{P}$ & 43.37$\%$ & 32.82$\%$ & 46.03$\%$ & 39.10$\%$ & 51.79$\%$ & 48.95$\%$ & 56.30$\%$ & 43.49$\%$
   \\ \hline
   $X_{P}$+$X_{T_1}$ & 58.29$\%$ & 63.60$\%$ & 72.15$\%$ & 60.17$\%$ & 68.84$\%$ & 61.49$\%$ & 73.23$\%$ & 66.74$\%$
   \\ \hline
-  \rev{$X_{P}$+$X_{T_2}$} & \rev{54.48$\%$} & \rev{49.11$\%$} & \rev{50.81$\%$} & \rev{69.43$\%$} & \rev{67.21$\%$} & \rev{70.20$\%$} & \rev{61.24$\%$} & \rev{64.10$\%$} 
+  \rev{$X_{P}$+$X_{T_2}$} & \rev{54.48$\%$} & \rev{49.11$\%$} & \rev{50.81$\%$} & \rev{69.43$\%$} & \rev{67.21$\%$} & \rev{70.20$\%$} & \rev{61.24$\%$} & \rev{64.10$\%$}
   \\ \hline
   $X_{P}$+$X_{T_1}$+$X_{T_2}$ & 73.62$\%$ & 83.13$\%$ & 85.12$\%$ & 81.96$\%$ & 80.55$\%$ & 79.97$\%$ & 83.72$\%$ & 85.23$\%$
   \\ \hline
@@ -422,7 +426,8 @@ Therefore we envision the training dataset will grow gradually after wearing the
 \label{subsubsec:gaps}
 
 The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
-Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated). \textcolor[rgb]{1.00,0.00,0.00}{To demonstrate this point, we adopt the first 5 days of measurements as training set, and increase the testing measurement gap  by 5 days gradually.}
+Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated). 
+\rev{To demonstrate this point, we adopt the first 5 days of measurements as training set, and increase the testing measurement gap  by 5 days gradually.}
 
 \begin{figure}[h]
   \centering
@@ -433,7 +438,61 @@ Since \sysname does not rely on the previous blood glucose value measured by CGM
 
 \figref{fig:per_under_various_pred_days} plots the overall performance of training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
-\rev{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather an ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear. 
-From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays. 
-The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance. 
+\rev{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather an ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
+From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays.
+The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance.
 The current system, therefore, requires training from a CGM (like many previous works) and also requires periodic retraining to remain effective.}
+
+\rev{
+\subsubsection{Energy overhead}
+\begin{table}[t]
+  \centering
+  \caption{Profiles of smartphone }
+  \label{tab:smartphone_profiles}
+  \begin{tabular}{|l|l|l|l|l|l|}
+  \hline
+  \textbf{Type} & \textbf{CPU}    & \textbf{RAM} & \textbf{ROM} & \textbf{Power Capacity} & \textbf{Operation System} \\ \hline
+  Galaxy S6     & 8-cores 2.1 GHz & 3 GB         & 32 GB        & 2550m Ah                & Android 5.0               \\ \hline
+  HTC Desire A6 & 8-cores 1.7 GHz & 2 GB         & 16 GB        & 2600m Ah                & Android 5.0               \\ \hline
+  HUAWEI 4C     & 8-cores 1.2 GHz & 2 GB         & 8 GB         & 3100m Ah                & Android 4.4               \\ \hline
+  LenovoK80M    & 4-cores 1.8 GHz & 4 GB         & 64 GB        & 4000m Ah                & Android 4.4               \\ \hline
+\end{tabular}
+\end{table}
+
+Let us recall the system workflow from the energy overhead perspective.  
+\sysname triggers the microphone, the accelerometer and the light sensor after the user choosing the sleeping mode, which is utilized to track the sleep quality of users. 
+After the user waking up, \sysname shuts down the microphone and light sensor, only leaving an accelerometer to record the user's activities. 
+Thus, \sysname conserves energy from two aspects: first, it keeps the sensors activated only around the right time; second, it adopts low-power sensors to reduce energy consumption.
+
+To evaluate the battery conditions, \sysname are tested on four popular types of commercial phones (listed in \tabref{tab:smartphone_profiles}) by volunteers. 
+All of the smartphones are charged full of power (100\% percentage). 
+Since \sysname is a service that could run in backstage, we lock the screen during this process and shut down all the applications except \sysname and a battery tracing application \cite{bib:PowerTutor}, which is installed in each smartphone to record the rest battery storage every two hours.  
+\figref{fig:battery_lifetime} illustrates the phone¡¯s left battery as a function of execution time of \sysname.
+
+\begin{figure*}[h]
+  \centering
+  \begin{minipage}{0.35\columnwidth}
+  \centering
+  \includegraphics[width=1\columnwidth]{./img/battery_trace.pdf}
+  \caption{Battery lifetime trace}
+  \label{fig:battery_lifetime}
+  \end{minipage}
+  \hspace{0.05\columnwidth}
+  \begin{minipage}{0.5\columnwidth}
+  \centering
+  \includegraphics[width=1\columnwidth]{./img/energy_overhead.pdf}
+  \caption{Battery consumption distribution}
+  \label{fig:battery_consumption}
+  \end{minipage}%
+\end{figure*}
+
+As it indicates, the energy consumption presents a similar trend yet differs in amount for all of these four phones. 
+Specifically, \sysname consumes energy around 10\% on average every two hours. With time passing by, the cumulative energy consumption increases
+gradually, and finally ends up with about 50\% $\sim$ 60\%.
+
+\figref{fig:battery_consumption} details the distribution of battery consumption in the experiments. 
+\sysname only consumes less than 40\% of the whole energy, most power is costed by Android OS.
+That is to say, \sysname only costs less than 4\% battery every two hours, which is negligible and
+affords for the daily use.
+
+}

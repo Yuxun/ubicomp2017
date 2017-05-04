@@ -1,40 +1,64 @@
 % !TEX root = paper.tex
 \section{Related Work}
 \label{sec:relwork}
-Research on inferring blood glucose concentrations or abnormal events dates back to the 1960s and continues to attract extensive research interest~\cite{bib:IJNMBE16:Oviedo}.
-Physiological models~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka} mathematically formulate the whole process of glucose metabolism and are widely used for simulations and studies involving glucose regulation.
-One major drawback of physiological models is the requirement for prior knowledge to adjust the physiological parameters.
-Alternatively, researchers propose to combine machine learning techniques with a non-specific physiological model or directly correlating blood glucose levels with insulin, food intake and other inputs without physiological parameters.
-For instance, Plis~\etal~\cite{bib:MAIHA14:Plis} apply a generic physiological model of blood glucose dynamics to extract features for support vector regression to infer blood glucose levels.
-Reymann~\etal~\cite{bib:EMBC16:Reymann} replace the physiological model by an online simulator and bring blood glucose tracking on mobile platforms.
+\sysname is related to the following categories of research.
 
-While physiological models and the underlying glucose metabolism dominate the dynamics of blood glucose, the impact of seemingly ``secondary'' factors, such as those related with individual's lifestyle, can be quite significant.
-Variations of the personalized external lifestyle factors such as meals, insulin or drug intake, exercises, and sleep quality, \etc, can also lead to blood glucose changes, which are not captured by a universal physiological model~\cite{bib:DRCP15:Iwasaki}.
-Consequently, it is crucial to monitor these external lifestyle factors as inputs to improve the performance of blood glucose concentration inference.
+\subsection{Physiological Models and Blood Glucose Prediction}
+Physiological models~\cite{bib:TBE07:Dalla} \cite{bib:PE04:Hovorka} mathematically formulate the whole process of glucose metabolism and are widely used for simulations and studies for blood glucose prediction.
+\rev{Research on blood glucose prediction often feeds the current CGM readings and other factors into the physiological models to predict the short-term blood glucose levels (\eg in 30 minutes) to allow for precaution measures.}
+One major drawback of physiological models is the requirement for prior knowledge to adjust the physiological parameters.
+To eliminate the need for acquiring physiological parameters, Plis~\etal~\cite{bib:MAIHA14:Plis} apply a generic physiological model of blood glucose dynamics to extract features and adopt support vector regression to directly predict blood glucose levels.
+Reymann~\etal~\cite{bib:EMBC16:Reymann} replace the physiological model by an online simulator to pre-calculate and validate the parameters for blood glucose prediction on mobile platforms.
+
+In addition to the generic physiological models, various personalized external factors such as meals, insulin intake, exercises, and sleep quality, \etc, can also lead to blood glucose changes~\cite{bib:DRCP15:Iwasaki}.
 METABO~\cite{bib:EMBC09:Georga} is a client-server architecture based system that records dietary, physical activity, medication and medical information for hypoglycaemic and hyperglycaemic event prediction.
 Marling~\etal~\cite{bib:KDHealth16:Marling} improve hypoglycemia detection by combining CGM data with heart rate, galvanic skin response and skin temperature collected from a fitness band.
-However, these works all require CGM data as input, making them invasive and inconvenient for both patients and non-diabetic people.
-\textcolor[rgb]{1.00,0.00,0.00}{Compared with previous works, our system requires less calibration of CGM. It only necessitates per user calibration data from a CGM at the training period, but does not rely on CGM input at the testing period.}
 
-Alternatively, there has been attempt at non-invasive blood glucose monitoring with pervasive wearable and mobile devices.
-Nguyen~\etal~\cite{bib:EMBC12:Nguyen} observe distinct patterns in ECG signals during hypoglycemia and hyperglycemia in type I diabetic patients.
-Sobel~\etal~\cite{bib:JDST14:Sobel} integrate five types of sensory data from two accelerometers, a heat-flux sensor, a thermistor, two ECG electrodes and a galvanic skin response sensor to predict blood glucose concentration.
+\rev{The feature engineering of \sysname is built upon the general physiological models and the user-specific external factors. 
+However, instead of feeding CGM measurements as input for \textit{every prediction}, \sysname explores to infer the \textit{current} blood glucose level using \textit{historical} blood glucose records and the \textit{current} external factors.
+\sysname offers the opportunity for users to \textit{temporally} take off the CGM devices and only rely on smartphones for blood glucose level monitoring.}
+
+
+\subsection{Blood Glucose Monitoring with Alternative Sensors}
+As most CGM devices are inconvenient to wear for an extended duration of time and require complicated maintenance, there has been attempt at non-invasive blood glucose monitoring with pervasive wearable and mobile devices.
+Nguyen~\etal~\cite{bib:EMBC12:Nguyen} observe distinct patterns in ECG signals during hypoglycemia and hyperglycemia in Type I diabetic patients.
 Ranvier~\etal~\cite{bib:SEMPER16:Ranvier} leverage ECG signals, and energy expenditure (estimated by an accelerometer and a breathing sensor) to detect hypoglycemic events.
-Our work is inspired by this body of research. We propose a smartphone-based non-invasive blood glucose monitoring system that jointly considers meals, drugs and insulin intake, physical activity and sleep quality without CGM data as inputs. \textcolor[rgb]{1.00,0.00,0.00}{The main usability advantage lies in the less CGM calibration as input. }
-Practically, physical activity level and sleep quality are automatically tracked without manual input, which notably improves the useability of our system.
+Sobel~\etal~\cite{bib:JDST14:Sobel} integrate five types of sensory data from two accelerometers, a heat-flux sensor, a thermistor, two ECG electrodes and a galvanic skin response sensor to predict blood glucose concentration.
+
+Our work is inspired by this body of research. 
+\rev{\sysname takes one step further by using smartphones rather than complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen} \cite{bib:JDST14:Sobel} and conducts evaluations with both diabetic and non-diabetic participants.
+In addition, \sysname investigates the feasibility of blood glucose monitoring without CGM devices for a longer time (\eg re-calibration per month), while previous work only shows the possibility for 3 hours~\cite{bib:JDST14:Sobel}.
+}
+
+\subsection{Machine Learning for Blood Glucose Monitoring}
+Despite extensive research on mobile sensing~\cite{bib:COMMAG10:Lane10}, most works on blood glucose monitoring leverage simple machine learning techniques such as Support Vector Machines (SVMs)~\cite{bib:MAIHA14:Plis}.
+\rev{In \sysname, we apply Recurrent Neural Networks (RNN)~\cite{bib:pearlmutter1989learning}, which are effective for sequential inference.
+RNNs have been widely adopted in applications such as handwriting recognition~\cite{bib:graves2008unconstrained} and speech recognition~\cite{bib:graves2013speech}.}
+Another crucial factor in blood glucose monitoring is the need of personalized learning, so as to reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
+Nevertheless, a primary impediment to build up such models is the lack of sufficient personalized blood glucose data~\cite{bib:KDHealth16:Marling}.
+In this work, we propose \modelname, a multi-division RNN framework for blood glucose level monitoring.
+It shares blood glucose information among groups of users, but preserves user-specific blood glucose characteristics via personalized learning.
+\rev{Although many successful RNN architectures have utilized a shared feature extraction method (\eg auto encoding) as input to a personalized output \cite{bib:lane2015deepear}, \modelname not only shares personalities, but also encodes grouped and embedded features into a share layer, which comprehensively captures the characteristics of different diabetic types.}
 
 
-Moreover, personalized blood glucose models are also important. It is because those models with generic parameters may not reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
-Both the physiological parameters and the impact of life events on blood glucose need to be trained on user-specific data to account for inter-person differences~\cite{bib:ICMLA13:Bunescu}.  Several classic statistic models can be used to train these parameters by the machine learning algorithms.
-\textcolor[rgb]{1.00,0.00,0.00}{Support Vector Machines (SVMs)~\cite{bib:wang2005support} are the basic classification model.  They bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes). Due to this construction, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels.
-Gaussian Process~\cite{bib:rasmussen2006gaussian} is a particular kind of statistical model where observations occur in a continuous domain, e.g., time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable.
-Gradient Boosting~\cite{bib:friedman2002stochastic} generates a prediction model by combining many weak classifiers into a stronger classification committee.
-It is an accurate and effective off-the-shelf procedure, so it is often used in a variety of areas such as web search ranking and click through rate prediction. However, these methods have no sequential structure, difficulty in capturing the temporal dependency of the blood glucose data.
-Hidden Markov Models (HMMs)~\cite{bib:rabiner1986introduction} are statistical Markov models where the system being modeled are assumed to be a Markov process with unobserved states. It has been widely used in signal processing and time series analysis due to its interpretability and tractability, such as the application in speech recognition~\cite{bib:gales2008application}.
-Recurrent Neural Network (RNN)~\cite{bib:pearlmutter1989learning} is an effective approach to sequential prediction. Distinguished with the feedforward neural network, RNN can use their memory information to process sequences of inputs. It brings much improvement in a wide variety tasks such as handwriting recognition~\cite{bib:graves2008unconstrained} and speech recognition~\cite{bib:graves2013speech}.}
-Nevertheless, a primary impediment to build up such models is lacking of sufficient personalized blood glucose data ~\cite{bib:KDHealth16:Marling}, easily resulting in frustrated classification results.
 
-\textcolor[rgb]{1.00,0.00,0.00}{In this paper, we advance previous works by carefully designing a multi-division RNN framework. It shares blood glucose information among groups of users, but preserves user-specific blood glucose characteristics via personalized learning, thus making full use of the limited, sometimes incomplete user-specific data, and achieving higher prediction accuracy than both generic learning and personalized learning. Shared inputs are a hallmark of deep learning architectures. Many successful RNN architectures use a shared feature extraction method (\eg, auto encoding) as input to a personalized output \cite{bib:lane2015deepear}. Compared with these works, \modelname not only shares personalities, but also encodes grouped and embedded features into a share layer, comprehensively modelling the characteristics of different diabetic types.  }
+%Moreover, personalized blood glucose models are also important.
+%It is because those models with generic parameters may not reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
+%Both the physiological parameters and the impact of life events on blood glucose need to be trained on user-specific data to account for inter-person differences~\cite{bib:ICMLA13:Bunescu}.
+%Several classic statistic models can be used to train these parameters by the machine learning algorithms.
+%\textcolor[rgb]{1.00,0.00,0.00}{Support Vector Machines (SVMs)~\cite{bib:wang2005support} are the basic classification model.
+%They bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes). Due to this construction, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels.
+%Gaussian Process~\cite{bib:rasmussen2006gaussian} is a particular kind of statistical model where observations occur in a continuous domain, e.g., time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable.
+%Gradient Boosting~\cite{bib:friedman2002stochastic} generates a prediction model by combining many weak classifiers into a stronger classification committee.
+%It is an accurate and effective off-the-shelf procedure, so it is often used in a variety of areas such as web search ranking and click through rate prediction. However, these methods have no sequential structure, difficulty in capturing the temporal dependency of the blood glucose data.
+%Hidden Markov Models (HMMs)~\cite{bib:rabiner1986introduction} are statistical Markov models where the system being modeled are assumed to be a Markov process with unobserved states. It has been widely used in signal processing and time series analysis due to its interpretability and tractability, such as the application in speech recognition~\cite{bib:gales2008application}.
+%Recurrent Neural Network (RNN)~\cite{bib:pearlmutter1989learning} is an effective approach to sequential prediction. Distinguished with the feedforward neural network, RNN can use their memory information to process sequences of inputs. It brings much improvement in a wide variety tasks such as handwriting recognition~\cite{bib:graves2008unconstrained} and speech recognition~\cite{bib:graves2013speech}.}
+%Nevertheless, a primary impediment to build up such models is lacking of sufficient personalized blood glucose data ~\cite{bib:KDHealth16:Marling}, easily resulting in frustrated classification results.
+%
+%\textcolor[rgb]{1.00,0.00,0.00}{In this paper, we advance previous works by carefully designing a multi-division RNN framework.
+%It shares blood glucose information among groups of users, but preserves user-specific blood glucose characteristics via personalized learning, thus making full use of the limited, sometimes incomplete user-specific data, and achieving higher prediction accuracy than both generic learning and personalized learning.
+%Shared inputs are a hallmark of deep learning architectures.
+%Many successful RNN architectures use a shared feature extraction method (\eg, auto encoding) as input to a personalized output \cite{bib:lane2015deepear}. Compared with these works, \modelname not only shares personalities, but also encodes grouped and embedded features into a share layer, comprehensively modelling the characteristics of different diabetic types.  }
 
 
 %Useful:
