@@ -8,12 +8,20 @@
   \caption{An illustration of the equipments for data collection. Each participant wears a CGM device to record blood glucose concentration and uses a smartphone to collect external factors. }
   \label{fig:experiment_case}
 \end{figure}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{./img/usibility_UI.pdf}
+  \caption{\rev{User interfaces for food, drug and insulin intake recording.}}
+  \label{fig:usibility_UI}
+\end{figure}
+
 
 \textbf{Datasets.}
 We validate \sysname on a dataset of $112$ participants ($35$ non-diabetes, $38$ type I diabetic patients and $39$ type II diabetic patients) collected from July 2016 to January 2017.
 Each participant is equipped with (1) a WAVEGUIDER \emph{U-Tang} CGM device~\cite{bib:CGM_wave} to record blood glucose concentration every $3$ minutes and (2) a smartphone with \sysname installed to collect external factors either automatically (activities and sleep quality) or manually (food, drug, and insulin intake).
 All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, which is a normal disposable usage duration of the enzyme in the sensor of the CGM.
 \figref{fig:experiment_case} illustrates an example of data collection from a user.
+\rev{\figref{fig:usibility_UI} shows the user interfaces for manual recording of food, drug and insulin intake.}
 In total we obtain 762639 samples of blood glucose concentration and the corresponding external factors covering around 38132 hours.
 In brief, we collect the following categories of data:
 \begin{itemize}
@@ -115,7 +123,7 @@ In brief, we collect the following categories of data:
 \end{table}
 
 \textbf{Ground Truth.}
-We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. 
+We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation.
 \rev{In real world deployment, users are only required to wear the CGM in a calibration period for labeled examples, but do not need to wear CGM for the whole process of the blood glucose measurement.}
 
 \textbf{Metrics.}
@@ -129,9 +137,9 @@ All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
 In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up around 10\% and 20\% of the entire training set.
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
-Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels. 
-\rev{As a supplement of the professional blood glucose measurements, it is a screening tool for users to acknowledge their blood glucose while users cannot measure blood glucose by CGM or finger sticker. 
-Moreover, since \sysname holds the high recall in Level 1 and Level 4 detection, it is sensitive to detect the abnormal cases. 
+Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels.
+\rev{As a supplement of the professional blood glucose measurements, it is a screening tool for users to acknowledge their blood glucose while users cannot measure blood glucose by CGM or finger sticker.
+Moreover, since \sysname holds the high recall in Level 1 and Level 4 detection, it is sensitive to detect the abnormal cases.
 When SugarMate detects the abnormal cases, it will ask the users to have a double-check by CGM or finger stickers and take corresponding treatment.}
 
 \begin{table}[h]
@@ -313,13 +321,13 @@ The typical classifiers that do not share features from users:  1) Support vecto
 
   \item
   \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
-  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis. 
+  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
   The idea is to construct optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
   Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
 
  \item
  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
-  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor. 
+  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor.
   The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
 
   \item
@@ -425,7 +433,7 @@ Therefore we envision the training dataset will grow gradually after wearing the
 \label{subsubsec:gaps}
 
 The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
-Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated). 
+Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated).
 \rev{To demonstrate this point, we adopt the first 5 days of measurements as training set, and increase the testing measurement gap  by 5 days gradually.}
 
 \begin{figure}[h]
@@ -458,14 +466,14 @@ The current system, therefore, requires training from a CGM (like many previous 
 \end{tabular}
 \end{table}
 
-Let us recall the system workflow from the energy overhead perspective.  
-\sysname triggers the microphone, the accelerometer and the light sensor after the user choosing the sleeping mode, which is utilized to track the sleep quality of users. 
-After the user waking up, \sysname shuts down the microphone and light sensor, only leaving an accelerometer to record the user's activities. 
+Let us recall the system workflow from the energy overhead perspective.
+\sysname triggers the microphone, the accelerometer and the light sensor after the user choosing the sleeping mode, which is utilized to track the sleep quality of users.
+After the user waking up, \sysname shuts down the microphone and light sensor, only leaving an accelerometer to record the user's activities.
 Thus, \sysname conserves energy from two aspects: first, it keeps the sensors activated only around the right time; second, it adopts low-power sensors to reduce energy consumption.
 
-To evaluate the battery conditions, \sysname are tested on four popular types of commercial phones (listed in \tabref{tab:smartphone_profiles}) by volunteers. 
-All of the smartphones are charged full of power (100\% percentage). 
-Since \sysname is a service that could run in backstage, we lock the screen during this process and shut down all the applications except \sysname and a battery tracing application \cite{bib:PowerTutor}, which is installed in each smartphone to record the rest battery storage every two hours.  
+To evaluate the battery conditions, \sysname are tested on four popular types of commercial phones (listed in \tabref{tab:smartphone_profiles}) by volunteers.
+All of the smartphones are charged full of power (100\% percentage).
+Since \sysname is a service that could run in backstage, we lock the screen during this process and shut down all the applications except \sysname and a battery tracing application \cite{bib:PowerTutor}, which is installed in each smartphone to record the rest battery storage every two hours.
 \figref{fig:battery_lifetime} illustrates the phone¡¯s left battery as a function of execution time of \sysname.
 
 \begin{figure*}[h]
@@ -485,11 +493,11 @@ Since \sysname is a service that could run in backstage, we lock the screen duri
   \end{minipage}%
 \end{figure*}
 
-As it indicates, the energy consumption presents a similar trend yet differs in amount for all of these four phones. 
+As it indicates, the energy consumption presents a similar trend yet differs in amount for all of these four phones.
 Specifically, \sysname consumes energy around 10\% on average every two hours. With time passing by, the cumulative energy consumption increases
 gradually, and finally ends up with about 50\% $\sim$ 60\%.
 
-\figref{fig:battery_consumption} details the distribution of battery consumption in the experiments. 
+\figref{fig:battery_consumption} details the distribution of battery consumption in the experiments.
 \sysname only consumes less than 40\% of the whole energy, most power is costed by Android OS.
 That is to say, \sysname only costs less than 4\% battery every two hours, which is negligible and
 affords for the daily use.

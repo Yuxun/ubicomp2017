@@ -19,6 +19,13 @@ In addition to the glucose metabolism that is difficult to measure directly, blo
 Pioneer works~\cite{bib:EMBC12:Nguyen} \cite{bib:SEMPER16:Ranvier} \cite{bib:JDST14:Sobel} have proposed preliminary systems adopting commodity bio-sensors (\eg ECG electrodes) and fitness wearables (\eg accelerometer and galvanic skin response sensors) to predict blood glucose concentrations and alarm abnormal blood glucose evnts.
 Nevertheless, they are validated with limited number of measurements~\cite{bib:SEMPER16:Ranvier} \cite{bib:JDST14:Sobel} or still require complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen} \cite{bib:JDST14:Sobel}.
 
+The target users includes both non-diabetes individuals and type I and type II diabetic patients, which are two main types of diabetes mellitus \cite{bib:Diabetes_mellitus}.
+\sysname monitors the blood glucose every 3 minutes, which is a fine-grained interval to track the blood glucose dynamics.
+When it detects an abnormal blood glucose event, the user will be reminded to take corresponding treatment (\eg, double-check by finger pricking or using CGM devices).
+Note that \sysname is not an alternative of CGMs or the finger sticker, but is a supplement while it is inconvenient for users to take clinic measurement.
+For example, assuming an user measuring blood glucose by finger-stick at 9 a.m. and 8 p.m., he can wear \sysname to monitor his blood glucose dynamic in other time.
+The blood glucose data predicted by \sysname helps users ameliorate their daily activities (\eg food intakes and exercise), and also assists doctors to make more efficient and comprehensive treatment on patients.
+
 In this work, we design \sysname, the first personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking meal, drug and insulin intake, physical activity and sleep quality.
 \rev{The target users of current prototype includes both non-diabetes individuals and type I and type II diabetic patients, which are two main types of diabetes mellitus~\cite{bib:Diabetes_mellitus}.
 \sysname monitors the blood glucose every 3 min, which is a fine-grained interval to track the blood glucose dynamics.
