@@ -313,11 +313,14 @@ The typical classifiers that do not share features from users:  1) Support vecto
 
   \item
   \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
-  Support vector machines (SVM)s are supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis.  The core idea is to represent of the examples as points in space, mapped so that the examples of the separate categories are divided by a clear gap that is as wide as possible. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
+  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis. 
+  The idea is to construct optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
+  Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
 
  \item
  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
-  Gaussian process is a particular kind of statistical model where observations occur in a continuous domain, \eg time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
+  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor. 
+  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
 
   \item
   \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
@@ -333,22 +336,18 @@ Each task indicates an user.
 
 \begin{itemize}
   \item
-  \textbf{Multiple task Support Vector Machine (mSVM).}
-  SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
-  Due to this construction, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels.
+  \textbf{Support Vector Machine (mSVM) that allows information sharing.}
+
   We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
   \item
-  \textbf{Multiple task Gaussian Processes (mGP).}
-  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
-  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
+  \textbf{Gaussian Processes (mGP) that allows information sharing.}
   The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
   \item
-  \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}.
-  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
+  \textbf{Multiple Hidden Markov model that allows information sharing.}
+  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed the so-called Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) based on a non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
 \end{itemize}
 
 \figref{fig:cmp_models} illustrates the results.
