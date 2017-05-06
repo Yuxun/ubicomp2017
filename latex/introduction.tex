@@ -34,7 +34,7 @@ A disposable enzyme of glucose sensor embedded in the CGM device is only capable
 \emph{(ii)}
 Despite their importance, measurements of hyper- and hypoglycemia events are rare compared with normal blood glucose concentrations, making it difficult to accurately detect abnormal blood glucose events.
 
-To take full advantages of the \textit{sparse}, \textit{imbalanced} measurements to build \textit{personalized} blood glucose level models, we first conduct feature extraction from both physiological and temporal perspectives. 
+To take full advantages of the \textit{sparse}, \textit{imbalanced} measurements to build \textit{personalized} blood glucose level models, we first conduct feature extraction from both physiological and temporal perspectives.
 We propose \modelname (multi-division deep dynamic recurrent neural network), an efficient learning paradigm that extracts general blood glucose level relevant features and preserves user-specific characteristics.
 \modelname advances previous personalized recurrent neural network (RNN) structures via a group-shared input layer to extract distinctive feature representations within the same group (\ie non-diabetic, type I and type II diabetic).
 In short, \modelname can be regarded as both a deep hierarchical RNN architectures, \rev{which is a combination of single user division and grouped user division learning}.
@@ -50,7 +50,7 @@ The key contributions of this work are summarized as follows.
   \rev{The newly designed grouped input layers, together with the adoption of a deep RNN model,} offer an opportunity to build blood glucose models for the general public based on limited personal measurements from single-user and grouped-users views.
   \item
   We conduct extensive evaluations on both diabetic patients and non-diabetic people.
-  \rev{Experimental results from a dataset of 35 non-diabetic people, 38 type I and 39 type II diabetic patients collected for at least 6 days demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall.}
+  \rev{Experimental results from a dataset of 35 non-diabetic people, 38 type I and 39 type II diabetic patients collected for at least 6 days per person demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall.}
 \end{itemize}
 
 In the rest of this paper, we review related works in \secref{sec:relwork} and present an overview of \sysname in \secref{sec:overview}.
