@@ -4,6 +4,12 @@
 \subsection{Experimental Settings}
 \begin{figure}[h]
   \centering
+  \includegraphics[width=0.9\columnwidth]{./img/usibility_UI.pdf}
+  \caption{\rev{User interfaces for food, drug and insulin intake recording.}}
+  \label{fig:usibility_UI}
+\end{figure}
+\begin{figure}[h]
+  \centering
   \includegraphics[width=0.7\columnwidth]{./img/UI1.pdf}
   \caption{An illustration of the equipments for data collection. Each participant wears a CGM device to record blood glucose concentration and uses a smartphone to collect external factors. }
   \label{fig:experiment_case}
@@ -12,8 +18,10 @@
 \textbf{Datasets.}
 We validate \sysname on a dataset of $112$ participants ($35$ non-diabetes, $38$ type I diabetic patients and $39$ type II diabetic patients) collected from July 2016 to January 2017.
 Each participant is equipped with (1) a WAVEGUIDER \emph{U-Tang} CGM device~\cite{bib:CGM_wave} to record blood glucose concentration every $3$ minutes and (2) a smartphone with \sysname installed to collect external factors either automatically (activities and sleep quality) or manually (food, drug, and insulin intake).
-All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) for at least $6$ days, which is a normal disposable usage duration of the enzyme in the sensor of the CGM.
+\rev{\figref{fig:usibility_UI} shows the user interfaces for manual recording of food, drug and insulin intake.}
+All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) at least $6$ days, which is a normal disposable usage duration of the enzyme in the sensor of the CGM.
 \figref{fig:experiment_case} illustrates an example of data collection from a user.
+\rev{We record measurements for each participant for $6$ to $30$ days.}
 In total we obtain 762639 samples of blood glucose concentration and the corresponding external factors covering around 38132 hours.
 In brief, we collect the following categories of data:
 \begin{itemize}
@@ -23,7 +31,7 @@ In brief, we collect the following categories of data:
   \tabref{tab:parcitipant} summarizes the basic information of the participants.
   \item
   \textbf{Blood glucose measurements.}
-  We collect blood glucose measurements using commercial CGM devices for 6 to 30 days as labeled data.
+  We collect blood glucose measurements using commercial CGM devices for $6$ to $30$ days as labeled data.
   \tabref{tab:bgdata} summarizes the blood glucose measurements in our evaluation.
   \item
   \textbf{External factor measurements.}
@@ -52,7 +60,7 @@ In brief, we collect the following categories of data:
   \subfloat[]{%
   \begin{tabular}{ccc}
   \toprule
-  \textbf{Weight} &\textbf{BMI ($kg/m^2$)}\cite{bib:world2013bmi} &\textbf{\# User} \\
+  \textbf{Weight} &\textbf{BMI ($kg/m^2$)} &\textbf{\# User} \\
   \midrule
   Underweight & (0,  18.5) & 18 \\
   Normal weight & [18.5,  25) & 31 \\
@@ -115,11 +123,10 @@ In brief, we collect the following categories of data:
 \end{table}
 
 \textbf{Ground Truth.}
-We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:MEP08:Do, bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}. Note that the ground truth is required for the purpose of system evaluation. 
-\rev{In real world deployment, users are only required to wear the CGM in a calibration period for labeled examples, but do not need to wear CGM for the whole process of the blood glucose measurement.}
+We use the blood glucose concentrations collected by the CGM device as ground truth \footnote{While clinical studies report that the precision and accuracy of commercial CGM devices still need improving~\cite{bib:JDST10:Vaddiraju}, they are sufficient as ground truth for the four normal and abnormal blood glucose levels.}.
 
 \textbf{Metrics.}
-We mainly adopt precision, recall and accuracy~\cite{prf1} to quantify the performance of \sysname.
+We mainly adopt precision, recall and accuracy to quantify the performance of \sysname.
 
 \subsection{Inference Accuracy}
 \subsubsection{Overall Inference Accuracy}
@@ -129,10 +136,9 @@ All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
 In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up around 10\% and 20\% of the entire training set.
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
-Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels. 
-\rev{As a supplement of the professional blood glucose measurements, it is a screening tool for users to acknowledge their blood glucose while users cannot measure blood glucose by CGM or finger sticker. 
-Moreover, since \sysname holds the high recall in Level 1 and Level 4 detection, it is sensitive to detect the abnormal cases. 
-When SugarMate detects the abnormal cases, it will ask the users to have a double-check by CGM or finger stickers and take corresponding treatment.}
+Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels.
+\rev{Note that \sysname is not designed to substitute CGM devices or medical measurements (\eg direct finger sticker).
+However, the precisions and recalls in low and high blood glucose level inference make \sysname suitable to remind users of abnormal blood glucose levels so that they can double-check by CGM devices or finger stickers and take the corresponding treatments.}
 
 \begin{table}[h]
   \centering
@@ -195,7 +201,7 @@ However, we do not recommend \sysname for extended duration of usage for patient
 The errors are depicted at the bottom of each figure.
 As shown, the true blood glucose levels vary during the day after important daily activities such as food intake (5:50, 11:20 and 19:00 for the non-diabetic user; 6:00 and 16:50 for the Type I diabetic user; 6:00, 12:50 and 17:45 for the Type II user), insulin injection (7:40 for the Type I diabetic user), drug intake (15:10 for the Type II user) and exercises (15:30 for the Type II user), indicating the importance of external factors.
 The blood glucose levels inferred by \sysname match the true blood glucose levels most of the time.
-\rev{Most errors mistake level 2 and level 3, and the errors often occur during the transition of two levels (\eg from 6:10 to 6:30 for the Type II diabetic user), or in case of sudden change of blood glucose concentration (\eg at 2:30 for the non-diabetic user and at 0:30 for the Type I diabetic user).
+\rev{Most errors mistake Level 2 and Level 3, and the errors often occur during the transition of two levels (\eg from 6:10 to 6:30 for the Type II diabetic user), or in case of sudden change of blood glucose concentration (\eg at 2:30 for the non-diabetic user and at 0:30 for the Type I diabetic user).
 Nevertheless, these errors belong to the Type B errors in \secref{subsec:predict_result_analysis}, which will not lead to inappropriate treatment.}
 
 \begin{table}[h]
@@ -280,7 +286,9 @@ It also yields the lowest standard deviations (17.18\% of average precision and 
 The results show that \modelname is both effective and stable in blood glucose level inference.
 
 General learning treats each sample of training data equally, and ignores the individual differences, so it performs poorly in most cases.
-\rev{Conversely, single learning approach encodes the individual characteristics but suffers from lacking of user-specific training dataset. It may require a very large learning personalized data to achieve an effective result.} Even though group learning learns the similarities of users within the same group, it ignores inter-person physiological differences.
+\rev{Conversely, single learning encodes the individual characteristics but suffers from the lack of user-specific training data. 
+It may require a very large personalized training set to achieve satisfactory performance.} 
+Even though group learning learns the similarities of users within the same group, it ignores inter-person physiological differences.
 \modelname combines the advantages of these three learning approaches, which makes better use of the limited individual training data by sharing measurements among users and preserves user-specific characteristics via the personal learning layer.
 
 \begin{figure}[h]
@@ -292,19 +300,22 @@ General learning treats each sample of training data equally, and ignores the in
 
 
 \subsubsection{Effectiveness of \modelname Learning Algorithm}
-To demonstrate the effectiveness of adopting \modelname learning algorithms over other classifiers, we compare it with several typical algorithms from following  two aspects.
+To demonstrate the effectiveness of the \modelname learning algorithm, we compare it with several typical algorithms from following two aspects.
 
-The typical classifiers that do not share features from users:  1) Support vector machine 2) Gaussian Process 3) Hidden Markov Model 4) Random Forest (RF) 5) Artificial neural network (ANN) 6) Gradient Boosting (GB).
+\fakeparagraph{Typical classifiers without sharing features among users}
+(1) Random Forest, (2) Artificial neural network, (3) Gradient Boosting, (4) Support vector machine, (5) Gaussian Process, (6) Hidden Markov Model.
 
 \begin{itemize}
   \item
   \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
-  As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
+  As an ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
   To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
 
   \item
   \textbf{Artificial neural network (ANN)~\cite{bib:wang2003artificial}.}
-  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
+  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. 
+  The ANN under comparison contains a single input layer, three hidden layers, and an output layer. 
+  The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
 
   \item
   \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
@@ -312,43 +323,46 @@ The typical classifiers that do not share features from users:  1) Support vecto
   We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
 
   \item
-  \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
-  Support vector machines (SVM)s are supervised learning models with associated learning algorithms that analyze data used for classification and regression analysis.  The core idea is to represent of the examples as points in space, mapped so that the examples of the separate categories are divided by a clear gap that is as wide as possible. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
+  \textbf{Support Vector Machines (SVMs)~\cite{bib:wang2005support}.}
+  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
+  The idea is to construct optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
+  Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. 
+  We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
 
- \item
- \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
-  Gaussian process is a particular kind of statistical model where observations occur in a continuous domain, \eg time or space. In a Gaussian process, every point in some continuous input space is associated with a normally distributed random variable. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
+  \item
+  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
+  Instead of directly parameterizing a latent function for classification, GP models it with a generic Gaussian process, \ie a distribution over the functional space of the classifier or regressor.
+  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. 
+  The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. 
+  The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
 
   \item
   \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
-  A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
-
+  A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. 
+  Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
 \end{itemize}
 
-\rev{
-The typical classifiers that share features from users. We use multiple task framework to share the information among users.
-Each task indicates an user.
-1) Multiple task Support Vector Machine (mSVM) 2) Multiple task Gaussian Processes (mGP) 3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) 4) Multiple task Random Forest (RF) 5) Multiple task neural network (ANN) 6) Multiple task Gradient Boosting (GB).
+\TODO{results}
 
+\rev{
+\fakeparagraph{Typical classifiers that share features from users}
+(1) Multiple task Support Vector Machine (mSVM), (2) Multiple task Gaussian Processes (mGP) (3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM), (4) Multiple task Random Forest (RF), (5) Multiple task neural network (ANN), (6) Multiple task Gradient Boosting (GB).
+We apply multi-task frameworks to share the information among users.
+Each task indicates an user.
 
 \begin{itemize}
   \item
-  \textbf{Multiple task Support Vector Machine (mSVM).}
-  SVM \cite{bib:wang2005support} bases on the idea of optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
-  Due to this construction, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels.
+  \textbf{Support Vector Machine (mSVM) that allows information sharing.}
   We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
   To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
 
   \item
-  \textbf{Multiple task Gaussian Processes (mGP).}
-  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process.
-  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
+  \textbf{Gaussian Processes (mGP) that allows information sharing.}
   The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
   \item
-  \textbf{Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM).}
-  Being a classical example of dynamic Bayesian networks, HMM assumes that the observed process is driven by a hidden (unobserved) Markovian process \cite{bib:rabiner1986introduction}.
-  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed using the non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
+  \textbf{Multiple Hidden Markov model that allows information sharing.}
+  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed the so-called Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) based on a non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
 \end{itemize}
 
 \figref{fig:cmp_models} illustrates the results.
@@ -426,9 +440,7 @@ Therefore we envision the training dataset will grow gradually after wearing the
 \label{subsubsec:gaps}
 
 The blood glucose concentration is correlated with the previous blood glucose levels because of the control loop of the glucose metabolism~\cite{bib:TBE07:Dalla, bib:PE04:Hovorka, bib:IJNMBE16:Oviedo}.
-Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets (\ie the training dataset can be outdated). 
-\rev{To demonstrate this point, we adopt the first 5 days of measurements as training set, and increase the testing measurement gap  by 5 days gradually.}
-
+Since \sysname does not rely on the previous blood glucose value measured by CGM as an input, it is natural that the accuracy of \sysname will degrade if there is a long gap between the training and the testing datasets.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\columnwidth]{./img/Performance_gap2.pdf}
@@ -436,15 +448,15 @@ Since \sysname does not rely on the previous blood glucose value measured by CGM
   \label{fig:per_under_various_pred_days}
 \end{figure}
 
-\figref{fig:per_under_various_pred_days} plots the overall performance of training using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.
+\figref{fig:per_under_various_pred_days} plots the overall performance of training \rev{using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.}
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
-\rev{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather an ubiquitous temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
-From the results, we suggest users to have a double-check while they receive a warning by \sysname, and recommend users to put on the CGM device to monitor the blood glucose at least every three weeks. For practice usage, users can observe their blood glucose dynamics by \sysname in business days, and wear CGM at leisure time \eg weekends or holidays.
-The data sampled by the CGM will automatically feed into \sysname for a model retraining, guaranteeing the inference performance.
-The current system, therefore, requires training from a CGM (like many previous works) and also requires periodic retraining to remain effective.}
+\rev{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather a temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
+From the results, we recommend users to put on the CGM devices to monitor the blood glucose at least every three weeks.
+The data sampled by the CGM devices will automatically feed into \sysname for model retraining.
+Although \sysname still requires periodic re-calibration, it does not require users to continuously wear CGM devices.}
 
 \rev{
-\subsubsection{Energy overhead}
+\subsubsection{Energy Overhead}
 \begin{table}[t]
   \centering
   \caption{Profiles of smartphone }
@@ -459,40 +471,28 @@ The current system, therefore, requires training from a CGM (like many previous 
 \end{tabular}
 \end{table}
 
-Let us recall the system workflow from the energy overhead perspective.  
-\sysname triggers the microphone, the accelerometer and the light sensor after the user choosing the sleeping mode, which is utilized to track the sleep quality of users. 
-After the user waking up, \sysname shuts down the microphone and light sensor, only leaving an accelerometer to record the user's activities. 
-Thus, \sysname conserves energy from two aspects: first, it keeps the sensors activated only around the right time; second, it adopts low-power sensors to reduce energy consumption.
-
-To evaluate the battery conditions, \sysname are tested on four popular types of commercial phones (listed in \tabref{tab:smartphone_profiles}) by volunteers. 
-All of the smartphones are charged full of power (100\% percentage). 
-Since \sysname is a service that could run in backstage, we lock the screen during this process and shut down all the applications except \sysname and a battery tracing application \cite{bib:PowerTutor}, which is installed in each smartphone to record the rest battery storage every two hours.  
-\figref{fig:battery_lifetime} illustrates the phone¡¯s left battery as a function of execution time of \sysname.
+We evaluate the energy consumption of \sysname on four popular types of smartphones used among our participants. 
+\tabref{tab:smartphone_profiles} summarizes the smartphones used for evaluating the power consumption.
+Since \sysname is a background service, we lock the screen and only leave \sysname and a battery tracing application~\cite{bib:PowerTutor} running during the evaluation.
+The tracing application records the rest battery storage every two hours.
+We run \sysname on fully charged smartphones and plot the remaining power over time in \figref{fig:battery_lifetime}.
+In total, \sysname and the Android OS consume about 10\% energy of the battery every two hours, where roughly 40\% of the power is consumed by \sysname (see \figref{fig:battery_consumption}).
+Therefore, \sysname takes about 4\% of the total battery power every two hours given an inference rate of every 3 minutes.}
 
 \begin{figure*}[h]
   \centering
   \begin{minipage}{0.35\columnwidth}
   \centering
   \includegraphics[width=1\columnwidth]{./img/battery_trace.pdf}
-  \caption{Battery lifetime trace}
+  \caption{\rev{Traces of remaining battery storage.}}
   \label{fig:battery_lifetime}
   \end{minipage}
   \hspace{0.05\columnwidth}
-  \begin{minipage}{0.5\columnwidth}
+  \begin{minipage}{0.55\columnwidth}
   \centering
   \includegraphics[width=1\columnwidth]{./img/energy_overhead.pdf}
-  \caption{Battery consumption distribution}
+  \caption{\rev{Distribution of cattery consumption.}}
   \label{fig:battery_consumption}
   \end{minipage}%
 \end{figure*}
 
-As it indicates, the energy consumption presents a similar trend yet differs in amount for all of these four phones. 
-Specifically, \sysname consumes energy around 10\% on average every two hours. With time passing by, the cumulative energy consumption increases
-gradually, and finally ends up with about 50\% $\sim$ 60\%.
-
-\figref{fig:battery_consumption} details the distribution of battery consumption in the experiments. 
-\sysname only consumes less than 40\% of the whole energy, most power is costed by Android OS.
-That is to say, \sysname only costs less than 4\% battery every two hours, which is negligible and
-affords for the daily use.
-
-}

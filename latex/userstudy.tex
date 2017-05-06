@@ -1,93 +1,114 @@
-\rev{\section{User study}
+\rev{\section{Preliminary User study}
 \label{sec:user_study}
-To investigate the user experience of \sysname, we also conduct an usability evaluation on the 112 participants in Section~\ref{sec:eval}.  The aim of this part is to demonstrate that \sysname is operable in practice and can guide the user for blood glucose control. The target users includes both non-diabetes individuals and type I and type II diabetic patients, which are two main types of diabetes mellitus \cite{bib:Diabetes_mellitus}. \sysname monitors the blood glucose every 3 minutes, which is a fine-grained interval to track the blood glucose dynamics. When it detects an abnormal blood glucose event, the user will be reminded to take corresponding treatment (\eg, double-check by finger pricking or using CGM devices).
-Note that \sysname is not an alternative of CGMs or the finger sticker, but is a supplement while it is inconvenient for users to take clinic measurement. For example, assuming an user measuring blood glucose by finger-stick at 9 a.m. and 8 p.m., he can wear \sysname to monitor his blood glucose dynamic in other time.  The blood glucose data predicted by \sysname helps users ameliorate their daily activities ( \eg food intakes and exercise), and also assists doctors to make more efficient and comprehensive treatment on patients.
+In addition to validating the effectiveness of \modelname, this section presents the feedbacks of users on the design and user experience of \sysname.
 
 \subsection{Procedure}
-We designed a semi-structured questionnaire to collect the qualitative and quantitative feedbacks from 112 participants about their usage of \sysname. The contents of questionnaire are mainly about two aspects of \sysname: 1) the usability of system in daily life and 2) the instructions to blood glucose control.
-Since most of the participants are not proficient in English, the questionnaire was written as their native language, and we translated their response to English as consistently as possible for the report in this paper.
-All the participants were asked to answer the questions seriously and were compensated about \$20 in a local currency at the end of this study.
+We distributed a semi-structured questionnaire to the 112 participants in \secref{sec:eval}.
+All the participants were paid about 20 USD (in the local currency) after the survey.
+We present the main results as follows\footnote{Not that most participants are not proficient in English. The original questionnaire was in the mouth tongue of the participants. The responses were carefully translated into English and presented in the results.}.
 
 \subsection{Results}
 
-\subsubsection{The usability of \sysname}
-\sysname provides the scroll menus as the application program interfaces on the selections of food, drug and insulin injection (as shown in Fig.\ref{fig:usibility_UI}). A camera button is also provided for users to take pictures of their food, which can be extended to recognize food items automatically by computer vision techniques \cite{bib:yang2010food, bib:kawano2013real}.
-Moreover, the users can also set specific time points on \sysname for recording reminders.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\columnwidth]{./img/usibility_UI.pdf}
-  \caption{User interfaces of food, drug and insulin recording menus}
-  \label{fig:usibility_UI}
-\end{figure}
+\subsubsection{Operability of \sysname}
+In this part of the survey, the participants were asked to rate the overall operability of \sysname as well as the three manual operations (food, drug and insulin intake) in three levels (\textit{Inconvenient}, \textit{Normal} and \textit{Convenient}).
+They were also required to express their opinions on the overall operability.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.8\columnwidth]{./img/user_cases.pdf}
-  \caption{Distributions of  user comments on the operability of food, drug and insulin injection interfaces}
+  \caption{\rev{Distributions of user rating on the operability of food, drug and insulin intake recording interfaces.}}
   \label{fig:user_cases}
 \end{figure}
 
+\figref{fig:user_cases} illustrates the distributions of the user ratings on the operability of food, drug and insulin intake recording interfaces.
+Overall, 78\%, 18\% and 4\% of the participants rate \sysname as \textit{Convenient}, \textit{Normal} and \textit{Inconvenient}, respectively.
+The lowest rates are seen for manual recording of food intake (74\% as \textit{Convenient}).
+The ratings for manual recording of drug and insulin intake are slightly better. 
+\TODO{present the results for the three groups of users separately, because non-diabetic users may not need to record drug and insulin intake, which leads them to give a higher rank.}
 
-%\begin{figure}[h]
-%  \centering
-%  \includegraphics[width=0.3\columnwidth]{./img/usibility_levels.pdf}
-%  \caption{Distributions of general comments of users}
-%  \label{fig:usibility_levels}
-%\end{figure}
-
-In the questionnaire, we classify the system operability into three levels (\emph{i.e.}, \emph{Inconvenient}, \emph{Normal} and \emph{Convenient}).
-Users are required to make comments on the operability of food input, drug input and insulin injection separately, as well as the final idea
-on the whole system operability after their usage.
-Fig.\ref{fig:user_cases} illustrates the  distributions of user comments on the operability of food, drug and insulin injection interfaces.
-As for the food intake, 74\% users agree with the operability of \sysname is convenient, 18\% users hold the recoding process is normal, and the rest 8\% users maintain that \sysname is inconvenient. The comments of drug and insulin injection interfaces are slight better. The proportions of \emph{Convenient} at both cases are over 80\%, and those of \emph{Inconvenient} are less than 5\%. It is mainly due to the food intake is inconsistent and users need to input repeatedly during one day.
-
-In final, the proportions of users who selected \emph{Inconvenient}, \emph{Normal} and \emph{Convenient} are 78\%, 18\% and 4\%. We select a representative comment of each level from users as follows:
+We select one representative comment for each level as follows:
 \begin{itemize}
-  \item  This app is easy to learn and quick to use. The database of foods, drugs and insulin is more extensive then I expected. I especially love the reminders that you can set now. Just a great app. [\emph{Convenient, type II user}]
-  \item  I've some good experiences with this app. What I would like to see is a way to fill in the daily inputs by taking photo and speech. It would be more convenient to operate. Hoping to see these features in an upd
-      ated version. [\emph{Normal, type I user}]
-  \item The design of user interface still has room to improve. I expect more personalization in the app such as search hints or automate records based on my input history. If this comes true, my rating would go to 'Convenient'. [\emph{Inconvenient, health user}]
+  \item 
+  \textit{``This App is easy to learn and quick to use. 
+  The database of food, drugs and insulin is very comprehensive.''}
+  [Convenient, Type II diabetic user]
+  \item 
+  \textit{``What I would like to see is a way to fill in the daily inputs by taking photos and speech. 
+  It would be more convenient to operate.''}
+  [Normal, Type I diabetic user]  
+  \item 
+  \textit{``I don't have much time to record what I had for each meal using a scrolling menu.
+  The App should be more personalized. 
+  For example, it should learn from my input history and provide search hints or automatic records.''}
+  [Inconvenient, non-diabetic user]
 \end{itemize}
 
-Based on our analysis, most comments from \emph{Normal} and \emph{Inconvenient} are about the manual records of drag, insulin and daily food. We also admit this limitation of human-computer interaction (HCI) on current prototype, and believe it can be well solved by many research works. Specifically, the suggestion mentioned by type I user can be coped with the current technologies such as computer vision \cite{bib:kawano2015foodcam} and speech recognition \cite{bib:hinton2012deep}.
-The intelligent search hints and automatical item inputs suggested by type II user can also be learnt by the personal history data by recommendation algorithms \cite{bib:fu2000mining, bib:sarwar2001item}.
-We are now working towards update our current version on these aspects.
+As expected, the manual recording of food, drug and insulin intake tends to be a burden for \sysname as an intriguing application.
+Nevertheless, we have collected some constructive suggestions from the users. 
+For instance, speech input instead of a scrolling menu might be a more welcome input mechanism.
+Intelligent search hints based on personal input history using recommendation algorithms~\cite{bib:fu2000mining} may help to improve the user experience when recording food intake, which is highly diversified and challenging to record automatically.
 
+\subsubsection{Benefits of \sysname}
+In this part of the survey, each participant is asked to comment whether \sysname is useful by rating \sysname in three levels (\textit{Instructive}, \textit{Normal} and \textit{Non-instructive}) and commenting in detail.
 
-\subsubsection{The instructions of \sysname}
-We also ask whether users get instructions on the blood glucose control from \sysname. Each user first reports a general feedback from three
-levels (\ie instructive, normal and non-instructive), and then gives comments in detail.
-In general, 94\% participants are satisfied with the guidance of \sysname and report 'Instructive', 6\% users report 'Normal', and nobody gives
-'non-instructive'.
-We also listed two representative comments from two users (a 'Instructive' and a 'Normal'):
-
+94\% of the participants report \sysname as \textit{Instructive} and 6\% report \textit{Normal}.
+No participant rates \sysname as \textit{Non-instructive}.
+We also list two representative comments below.
 \begin{itemize}
-  \item  \sysname guides me a lot on the blood glucose control, and literally changes my lifestyle. For instance, I always observe the blood glucose dynamics after meals, and figure out it rises significantly after I eat the noodle, bread and dumplings, but keeps a relative stable level after only eating meats and vegetables. I can also learn the impact of drugs on my blood glucose.
-      It is not that the devices doing anything physically to change you life, but makes you more conscious of the way you are living your life. It presents a different perspective in front of you that allows you to make timely adjustment, and  help you avoid abnormal blood glucose level. I have recommended this products to six people who care about their glucose. Very  helpful, I like it.  [\emph{Instructive, type II user}]
-  \item  I start to track my blood glucose. This app has made it easy but still has room to improve.
-        It presents me a short-term impact of food intake.  However, I still care about how to maintain a long-term health status. Specifically,
-        how to do exercise is health and how long we should do exercises to maintain a good blood glucose level. In this way, I can know how to prevent diabetes. [\emph{Normal, health user}]
+  \item  
+  \textit{``\sysname guides me to control my blood glucose and helps to live a healthier lifestyle.
+  For instance, I always observe the blood glucose dynamics after meals. 
+  \sysname helps to to figure out that my blood glucose rises a lot after I eat noodles, breads and dumplings, but keeps relatively stable after eating meat and vegetables.
+  Also I can learn the impact of the drugs on my blood glucose.
+  I'm happy to understand how my lifestyle affects my blood glucose and learn to make some adjustment in time.
+  I have recommended \sysname to six friends.
+  They also care about their blood glucose levels.''}
+  [Instructive, Type II diabetic user]
+  \item  
+  \textit{``I'm not diabetic but I feel I need to start tracking my blood glucose occasionally.
+  This app has made it easy but still has room to improve.
+  It presents me a short-term impact of food intake.  
+  However, I still care about how to maintain a long-term health status. 
+  Specifically, it should provide some suggestions to help me prevent developing into diabetes.''} 
+  [Normal, non-diabetic user]
 \end{itemize}
+In summary, users expect more functionalities of \sysname such as recommending intensity and time of exercises and recommending food plans. 
+In this regard, the personalized blood glucose dynamic records collected by \sysname can be sent to the experts to recommend personalized precaution measures.
 
-In summary, \sysname gives suggestions on their meals, drugs and exercises \etc The users from \emph{'Normal'} level (most of whom are health) care about how to prevent diabetes or abnormal blood glucose cases. For this requirement, the personalized blood glucose dynamic records collected by \sysname can be synced to the experts communities, which can help the experts design a personalized precaution measurement.
+\subsubsection{Willingness to use \sysname}
+Finally, we are interested in whether the participants are willing to use \sysname for blood glucose tracking despite the manual input of food, drug and insulin intake.
+In the questionnaire, we ask the following question:
+\textit{``Are you willing to use \sysname instead of the CGM device if you need manual records of daily food, drug and insulin intake as well as wearing CGM for periodic re-calibration per month?''}
+We also collect free-response comments as before.
 
-\subsubsection{The usage willingness of system}
-We have also conducted an investigation on the usage willingness of \sysname. It indicates the willingness of people to use \sysname, which requires the manual records and the CGM periodic calibrations.
-Users are asked "\emph{Are you willing to use \sysname instead of the CGM to monitor blood glucose if you need manual records of daily food, drug and insulin intake as well as wear CGM to conduct a periodic calibration per month}". Users report "Willingness" or "Unwillingness" in the  questionnaire, and Fig.\ref{fig:user_willingness} illustrates the corresponding results. As shown,  above 90\% diabetes patients of Type I and Type II shows willingness to use \sysname. While the percentage of non-diabetes users choosing willingness is little less, but still above than 85\%. It meets our intuition that the diabetes patients care more about their blood glucose than that of non-diabetes users.
-We also select two representative comments from two choices of users.
-
+\figref{fig:user_willingness} illustrates the results.
+Over 90\% diabetic users (both Type I and Type II) are willing to use \sysname while non-diabetic users show a slightly lower willingness (85\%).
+We also select two representative comments.
 \begin{itemize}
-  \item I like this app.  Manual records seem much more convenience compared with that of wearing CGM, which is painful and uncomfortable. A CGM calibration per month is not a big deal and I can accept it. I am so happy because it can save money. More importantly, I no longer need to bear the pains of CGM everyday. [\emph{Willingness, Type II diabetes patient}]
-  \item I am OK with the periodic CGM calibration, but the daily food record is a trouble for me. I always eat outside and easily forget what I have eat after the meal. \sysname provides the camera functions, but it cannot transfer the food in picture to words now. It will be much convenient if the automatic conversion realized (from picture to words). [\emph{Unwillingness, Non-diabetes user}]
+  \item 
+  \textit{``
+  Manual records seem much more convenience compared with wearing the CGM.
+  I feel very uncomfortable when wearing the CGM.
+  It reminds me that I am a patient all the time.
+  Wearing the CGM device for calibration once a month is acceptable. 
+  At least 3/4 of the time I am free from the CGM device.''}
+  [Willing, Type II diabetic user]
+  \item 
+  \textit{``
+  I am OK with the periodic CGM calibration, but the daily food record is a trouble for me. 
+  I always eat outside and easily forget what I have had after the meal. 
+  I'm not a patient.
+  I don't like to record everything I did simply to track my blood glucose.''}
+  [Unwilling, non-diabetic user]
 \end{itemize}
-
-In general, most of users are willing to take \sysname as an alternative measurement of the CGM. The principal negative factors on the usage willingness is daily food intake, which is often required to record more than three times per day. We are now implementing the functions of image identification and the speech recognition, and believe these functions can reduce the burden of users.
+From the feedbacks, it seems that most participants feel that continuous wearing of CGM devices is more uncomfortable.
+Even if periodic re-calibration is required, many diabetic users think it is acceptable.
+The manual recording of food intake is again the major concern, especially among non-diabetic participants.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.5\columnwidth]{./img/willingness.pdf}
-  \caption{The usage willingness of \sysname}
+  \includegraphics[width=0.4\columnwidth]{./img/willingness.pdf}
+  \caption{\rev{Willingness to use \sysname.}}
   \label{fig:user_willingness}
 \end{figure}
 
