@@ -30,7 +30,7 @@ In \sysname, we adopt an efficient activity recognition scheme~\cite{bib:KDDEN11
 \begin{equation}\label{eq:calorie_burn}
   Calorie Burn = (BMR/24)\times MET \times T,
 \end{equation}
-where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate. 
+where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate.
 T is the activity duration time (in hours).
 \sysname leverages the calorie expenditure $U_E$ as input for physiological feature extraction.
 
@@ -92,7 +92,7 @@ C_{g2}(k+1)=C_{g2}(k)+\alpha_{1}^c \times C_{g1}(k)-\alpha_{2}^c \times C_{g2}(k
 \end{equation}
 We choose carbohydrate consumption $C_{g_1}$ and carbohydrate digestion $C_{g_2}$ as part of the feature vector.
 
-\textit{Insulin dynamics}: 
+\textit{Insulin dynamics}:
 Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$, the insulin secretion by pancreas $I_{s}$, the insulin mass $I_{m}$, and the level of active plasma insulin $I$ (see \equref{Eq:Ia}, \equref{Eq:Is}, \equref{Eq:Im} and \equref{Eq:I}).
 $U_{I}$ is the amount of insulin injected or simulated by the diabetes drugs, and $S^I$ and $bm$ refer to the insulin sensitive and body mass.
 \begin{equation}\label{Eq:Ia}
@@ -113,19 +113,19 @@ I(k)=(I_{m}(k)\times S^I)/(142 \times bm)
 \end{equation}
 We choose subcutaneous insulin absorption $I_{a}$, insulin secretion by pancreas $I_{s}$, insulin mass $I_{m}$ and active plasma insulin level $I$ as part of the feature vector.
 
-\textit{Exercise dynamics}: 
+\textit{Exercise dynamics}:
 Exercise dynamics $E$ denotes the exercise effect on insulin over the past time window.
 This long-term influence can be expressed by a cumulative moving average as \equref{Eq:E}.
 \begin{equation}\label{Eq:E}
 E(k-k_0+1)=(k-k_0) \times E(k-k_0)+U_{e}(k-k_0)
 \end{equation}
-where $k$ and $k_0$ are the current and beginning time point in the past time window. 
+where $k$ and $k_0$ are the current and beginning time point in the past time window.
 In \sysname, the window size of exercise is set to 24 hours, which optimizes the experimental results.
 We choose the long-term effect of exercises on insulin $E$ as part of the feature vector.
 
-\textit{Sleep dynamics}: 
-Sleep dynamics $S$ represents the sleeping quality effect on insulin. 
-Sleep has a constant effect on blood glucose for each day. 
+\textit{Sleep dynamics}:
+Sleep dynamics $S$ represents the sleeping quality effect on insulin.
+Sleep has a constant effect on blood glucose for each day.
 \equref{Eq:S} shows its transition.
 \begin{equation}\label{Eq:S}
 S(k-k_0+1)=(k-k_0) \times S(k-k_0)+U_{s}(k-k_0)
@@ -134,7 +134,7 @@ where $k$ and $k_0$ are the current and beginning time point in the past time wi
 In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion of clinical studies.
 We choose the long-term effect of sleep quality on insulin $S$ as part of the feature vector.
 
-\textit{Glucose dynamics}: 
+\textit{Glucose dynamics}:
 Blood glucose dynamic refers to the fluctuation of glucose mass $G_m$ in \equref{Eq:Gm} and glucose concentration $G(t)$ in \equref{Eq:G}.
 \begin{equation}\label{Eq:Gm}
 G_m(k+1)=G_m(k)+\delta_{abs}+\delta_{egp}-\delta_{ind}-\delta_{dep}-\delta_{clr}
@@ -142,8 +142,8 @@ G_m(k+1)=G_m(k)+\delta_{abs}+\delta_{egp}-\delta_{ind}-\delta_{dep}-\delta_{clr}
 \begin{equation}\label{Eq:G}
 G(k)=G_m(k)/(2.2 \times bm)
 \end{equation}
-where $\delta_{abs}$ in \equref{Eq:abs} refers to the impact results of carbohydrate absorption, and $\delta_{egp}$ in \equref{Eq:egp} is the hepatic glucose production from the liver. 
-Additionally, 
+where $\delta_{abs}$ in \equref{Eq:abs} refers to the impact results of carbohydrate absorption, and $\delta_{egp}$ in \equref{Eq:egp} is the hepatic glucose production from the liver.
+Additionally,
 \begin{equation}\label{Eq:abs}
   \delta_{abs}=\alpha_3^c \times \alpha_2^c \times C_{g2}
 \end{equation}
@@ -151,9 +151,9 @@ Additionally,
   \delta_{egp}=\alpha_2^{egp} \times exp(-I(t)/\alpha_3^{egp})-\alpha_1^{egp} \times G(t)
 \end{equation}
 where $\delta_{ind}$ in \equref{Eq:ind} describes results of insulin independent uptake, which is consumed by the central nervous system and the red blood cells.
-$\delta_{dep}$ in \equref{Eq:dep} indicates the impact results of insulin dependent uptake. 
+$\delta_{dep}$ in \equref{Eq:dep} indicates the impact results of insulin dependent uptake.
 It reflects the effects of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
-$\delta_{clr}$ in \equref{Eq:clr} stands for the influence of renal clearance on blood glucose. 
+$\delta_{clr}$ in \equref{Eq:clr} stands for the influence of renal clearance on blood glucose.
 
 Once blood glucose concentrations exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
 The three factors decrease the blood glucose level.
@@ -263,8 +263,8 @@ In summary, we extract a 10-dimension physiological feature vector $X_P$.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=1\columnwidth]{./img/historical_trend1.pdf}
-  \caption{Daily blood glucose traces of a volunteer. \rev{We only plot XXX measurements per hour for ease of illustration.}\TODO{down-sample each trace, \eg keep only 1/6 or 1/8 of the points in each trace. Also enlarge the marker size, and use more marker shapes (there are more). Maybe also need to add the unit for the blood glucose?}}
+  \includegraphics[width=1\columnwidth]{./img/historical_trend2.pdf}
+  \caption{Daily blood glucose traces of a volunteer. We only plot 10 measurements every 3 hours for ease of illustration.}
   \label{fig:historical_traces}
 \end{figure}
 
@@ -321,7 +321,7 @@ Traditionally, various sequential methods, \eg hidden Markov model (HMM), recurr
 \rev{The inter process correlations are often times incorporated with the approaches~\cite{evgeniou2004regularized}, which learns processes in parallel to improve classification or to reduce the data sample requirement.}
 
 In this paper, a novel machine learning paradigm, namely Multi-division deep-dynamic RNN (\modelname), is proposed.
-To include the the aforementioned information sources in an unified framework, we develop two key ideas that extend the classical RNN. 
+To include the the aforementioned information sources in an unified framework, we develop two key ideas that extend the classical RNN.
 Firstly, the single hidden layer in RNN is replaced with several deep stacked layers.
 The deep structure in the new model is able to describe complex, multi-scale dynamics that would otherwise be ignored (or averaged out) by prior ``shallow'' models.
 Secondly, the correlations among users, being quite significant within user groups (divisions), are encoded by group-shared input layer and common hidden layers, whereas the distinct characteristics of individual users are modeled with different output layers for personalized prediction.
