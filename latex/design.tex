@@ -325,8 +325,8 @@ To include the the aforementioned information sources in an unified framework, w
 Firstly, the single hidden layer in RNN is replaced with several deep stacked layers.
 The deep structure in the new model is able to describe complex, multi-scale dynamics that would otherwise be ignored (or averaged out) by prior ``shallow'' models.
 Secondly, the correlations among users, being quite significant within user groups (divisions), are encoded by group-shared input layer and common hidden layers, whereas the distinct characteristics of individual users are modeled with different output layers for personalized prediction.
-Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancement of deep learning and multi-division learning, to model group-interacted time series data having complex temporal dynamics.
-It can be viewed as both a deep extension of RNN, and an intermediate between single-division learning and multi-division learning, hence the name.
+Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancement of deep learning and structured representation learning, to model group-interacted time series data having complex temporal dynamics.
+It can be viewed as both a deep extension of RNN, and an imporved version of generic learning method for data with a multi-division structure, hence the name.
 Although we develop \modelname for the specific use case of \sysname, it is worth pointing out that it can be readily applied to many other applications dealing with grouped dynamic data.
 The overall configuration of the proposed model is summarized in \figref{fig:rnn}.
 Detailed construction of each component is given in the sequel.
@@ -347,7 +347,7 @@ We also adopt an index set convention, that $(x_A^{B},y_A^B)$ represents the dat
 In the context of blood glucose prediction, available inputs are naturally divided into three groups according to the health condition of the participant from whom the data was generated.
 Notation-wise, we utilize $H$, $I$ and $II$ to indicate the the group of non-diabetic user (healthy), user with type I diabetes and those having type II diabetes, respectively.
 Since the extracted features are essentially physiological indexes and temporally correlated variables, they must go though different transformations to represent useful information of three distinct groups.
-This consideration motivate the design of the input layer (bottom of \figref{fig:rnn}) - it is divided into three units that performs different linear and non-linear transformation according to user groups.
+This consideration motivates the design of the input layer (bottom of \figref{fig:rnn}) - it is divided into three units that performs different linear and non-linear transformation according to user groups.
 For instance, a data sample $x_t^{I_j}$, generated at time $t$ from the $j^{th}$ user of type I, undergoes the following processing:
 \begin{align}
 \tilde{x}_t^{I_j} = \sigma \left( W^Ix_t^{I_j} \right)
@@ -398,13 +398,13 @@ Instead of directly minimizing a surrogate of error rate, we propose to optimize
 More specifically, the following total loss function is considered:
 \begin{equation}
 \label{eq:obj}
-L = \sum_{t} \sum_{y_t \in \mathcal{Y}} l(y_t,\hat{y}_t)C_{y_t} + \lambda^T\phi (W^H,W^I,W^{II},W_z,W_r,W_h,W_o)
+\sum_{j=1}^l\sum_{t=1}^T \sum_{y_t \in \mathcal{Y}} l(y_t,\hat{y}_t)C_{y_t} + \lambda^H \Vert W^H\Vert_{2,1} + \lambda^I \Vert W^I\Vert_{2,1} + \lambda^{II} \Vert W^{II}\Vert_{2,1} + \lambda^d (\Vert W_z\Vert_{F}+\Vert W_r\Vert_F+\Vert W_h\Vert_F) +\lambda^o \Vert W_o\Vert_F
 \end{equation}
-where $\mathcal{Y}$ is the label set, and $\hat{y}_t$s are prediction output from \modelname.
-Our implementation uses cross entropy for $l(y_t,\hat{y}_t)$, but generally the ``base'' lost function $l(y_t,\hat{y}_t)$ can be any surrogate of the error function.
-The additional coefficient $C_{y_t}$ weights the misclassification error for category $y_t$.
+where $\mathcal{Y}$ is the label set, and $\hat{y}_t^j$s are prediction outputs.
+Our implementation uses cross entropy as individual loss function $l(y_t^j,\hat{y}_t^j)$, but generally the ``base'' lost can be any surrogate of the error function.
+The additional coefficient $C_{y}$ weights the misclassification error for category $y$.
 In the current application, $\mathcal{Y} = \{1,2,3,4\}$, associated with four coefficients $C_1$ to $C_4$.
-Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance. The second term in~Eq.\ref{eq:obj} is a regularization for model parameters, which in the current implementation is substantiated with a frobenius norm for each matrix. The penalty coefficient $\lambda$s are left as model hyper-parameters, whose selection procedure will be discussed later.
+Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance. The other terms in~Eq.\ref{eq:obj} are regularizations for model parameters, which in the current implementation is substantiated with the $L_{2,1}$ norm on the parameters of the input layer for better information extraction \cite{nie2010efficient}, and the frobenius norm on the parameters of the dynamic and output layer to penalize model complexity. The coefficients $\lambda$s are left as model hyper-parameters, whose selection procedure will be discussed later.
 
 With the technique of back-propagating, computing the gradient of \modelname is not so different from the gradient calculation of classical RNN.
 In this work, we accomplish those computation using Tensorflow \cite{bib:Tensorflow}, and proceed to learn \modelname model by stochastic gradient descent for overall loss minimization.
