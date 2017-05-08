@@ -5,16 +5,16 @@
 
 \subsection{Physiological Models and Blood Glucose Prediction}
 Physiological models~\cite{bib:TBE07:Dalla} \cite{bib:PE04:Hovorka} mathematically formulate the whole process of glucose metabolism and are widely used for simulations and studies for blood glucose prediction.
-\rev{Research on blood glucose prediction often feeds the current CGM readings and other factors into the physiological models to predict the short-term blood glucose levels (\eg in 30 minutes) to allow for precaution measures.}
+\rev{Research on blood glucose prediction often feeds the current CGM readings and other factors into the physiological models to predict the short-term blood glucose levels (\eg in 30 minutes) to allow for precautionary measures.}
 One major drawback of physiological models is the requirement for prior knowledge to adjust the physiological parameters.
 To eliminate the need for acquiring physiological parameters, Plis~\etal~\cite{bib:MAIHA14:Plis} apply a generic physiological model of blood glucose dynamics to extract features and adopt support vector regression to directly predict blood glucose levels.
 Reymann~\etal~\cite{bib:EMBC16:Reymann} replace the physiological model by an online simulator to pre-calculate and validate the parameters for blood glucose prediction on mobile platforms.
 
 In addition to the generic physiological models, various personalized external factors such as meals, insulin intake, exercises, and sleep quality, \etc, can also lead to blood glucose changes~\cite{bib:DRCP15:Iwasaki}.
-METABO~\cite{bib:EMBC09:Georga} is a client-server architecture based system that records dietary, physical activity, medication and medical information for hypoglycaemic and hyperglycaemic event prediction.
+METABO~\cite{bib:EMBC09:Georga} is a client-server architecture based system that records dietary, physical activity, medication and medical information for hypoglycemic and hyperglycemic event prediction.
 Marling~\etal~\cite{bib:KDHealth16:Marling} improve hypoglycemia detection by combining CGM data with heart rate, galvanic skin response and skin temperature collected from a fitness band.
 
-\rev{The feature engineering of \sysname is built upon the general physiological models and the user-specific external factors. 
+\rev{The feature engineering of \sysname is built upon the general physiological models and the user-specific external factors.
 However, instead of feeding CGM measurements as input for \textit{every prediction}, \sysname explores to infer the \textit{current} blood glucose level using \textit{historical} blood glucose records and the \textit{current} external factors.
 \sysname offers the opportunity for users to \textit{temporally} take off the CGM devices and only rely on smartphones for blood glucose level monitoring.}
 
@@ -25,16 +25,16 @@ Nguyen~\etal~\cite{bib:EMBC12:Nguyen} observe distinct patterns in ECG signals d
 Ranvier~\etal~\cite{bib:SEMPER16:Ranvier} leverage ECG signals, and energy expenditure (estimated by an accelerometer and a breathing sensor) to detect hypoglycemic events.
 Sobel~\etal~\cite{bib:JDST14:Sobel} integrate five types of sensory data from two accelerometers, a heat-flux sensor, a thermistor, two ECG electrodes and a galvanic skin response sensor to predict blood glucose concentration.
 
-Our work is inspired by this body of research. 
-\rev{\sysname takes one step further by using smartphones rather than complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen} \cite{bib:JDST14:Sobel} and conducts evaluations with both diabetic and non-diabetic participants.
-In addition, \sysname investigates the feasibility of blood glucose monitoring without CGM devices for a longer time (\eg re-calibration per month), while previous work only shows the possibility for 3 hours~\cite{bib:JDST14:Sobel}.
+Our work is inspired by this body of research.
+\rev{\sysname takes this one step further by using smartphones rather than complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen} \cite{bib:JDST14:Sobel} and conducts evaluations with both diabetic and non-diabetic participants.
+In addition, \sysname investigates the feasibility of blood glucose monitoring without CGM devices for a longer time (\eg re-calibration per month), while previous works only show the possibility for 3 hours~\cite{bib:JDST14:Sobel}.
 }
 
 \subsection{Machine Learning for Blood Glucose Monitoring}
 Despite extensive research on mobile sensing~\cite{bib:COMMAG10:Lane10}, most works on blood glucose monitoring leverage simple machine learning techniques such as Support Vector Machines (SVMs)~\cite{bib:MAIHA14:Plis}.
 \rev{In \sysname, we apply Recurrent Neural Networks (RNN)~\cite{bib:pearlmutter1989learning}, which are effective for sequential inference.
 RNNs have been widely adopted in applications such as handwriting recognition~\cite{bib:graves2008unconstrained} and speech recognition~\cite{bib:graves2013speech}.}
-Another crucial factor in blood glucose monitoring is the need of personalized learning, so as to reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
+Another crucial factor in blood glucose monitoring is the need for personalized learning, so as to reflect user-specific factors, such as age, weight and insulin-to-carbohydrates ratio~\cite{bib:IJNMBE16:Oviedo}.
 Nevertheless, a primary impediment to build up such models is the lack of sufficient personalized blood glucose data~\cite{bib:KDHealth16:Marling}.
 In this work, we propose \modelname, a multi-division RNN framework for blood glucose level monitoring.
 It shares blood glucose information among groups of users, but preserves user-specific blood glucose characteristics via personalized learning.
