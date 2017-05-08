@@ -30,16 +30,16 @@ In \sysname, we adopt an efficient activity recognition scheme~\cite{bib:KDDEN11
 \begin{equation}\label{eq:calorie_burn}
   Calorie Burn = (BMR/24)\times MET \times T,
 \end{equation}
-where BMR (Basal Methobolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate.
+where BMR (Basal Metabolic Rate) is the amount of energy required to simply sit or lie quietly, and MET (Metabolic Equivalent) is the ratio of the work metabolic rate to the resting metabolic rate.
 T is the activity duration time (in hours).
 \sysname leverages the calorie expenditure $U_E$ as input for physiological feature extraction.
 
 \fakeparagraph{Sleep Quality}
 Sleep quality has a long-term influence on the blood glucose level~\cite{bib:DRCP15:Iwasaki}.
-\sysname automatically measures sleep quality using~\cite{bib:UbiComp14:Gu}, which invokes accelerometer, microphone and light sensor for sleep quality inference.
+\sysname automatically measures sleep quality using~\cite{bib:UbiComp14:Gu}, which invokes the accelerometer, microphone and light sensor for sleep quality inference.
 The output sleep quality score $U_S$ is used for physiological feature extraction.
 
-In summary, the five external factors are transformed into four categories of measurements including the carbohydrate of a meal ($U_C$), the amount of acting insulin ($U_I$), calorie expenditure ($U_E$) and sleep quality score ($U_S$), which are then used as input to extract important features for blood glucose level inference.
+In summary, the five external factors are transformed into four categories of measurements including the carbohydrate of a meal ($U_C$), the amount of acting insulin ($U_I$), calorie expenditure ($U_E$) and sleep quality score ($U_S$), which are then used as inputs to extract important features for blood glucose level inference.
 
 \subsection{Feature Engineering}
 \label{subsec:features}
@@ -82,7 +82,7 @@ The features are inter-dependent and are also related to the external factors.
 \rev{
 \textit{Carbohydrate dynamics}:
 Carbohydrate dynamics refer to the transitions of carbohydrate consumption $C_{g_1}$ and the carbohydrate digestion $C_{g_2}$ (see \equref{Eq:Cg1} and \equref{Eq:Cg2}).
-$U_{c}$ stands for the carbohydrate proportion of meals.
+$U_{c}$ stands for the carbohydrate of meals.
 \begin{equation}\label{Eq:Cg1}
 C_{g1}(k+1)=C_{g1}(t)-\alpha_{1}^c \times C_{g1}(k)+U_{c}(k)
 \end{equation}
@@ -94,7 +94,7 @@ We choose carbohydrate consumption $C_{g_1}$ and carbohydrate digestion $C_{g_2}
 
 \textit{Insulin dynamics}:
 Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$, the insulin secretion by pancreas $I_{s}$, the insulin mass $I_{m}$, and the level of active plasma insulin $I$ (see \equref{Eq:Ia}, \equref{Eq:Is}, \equref{Eq:Im} and \equref{Eq:I}).
-$U_{I}$ is the amount of insulin injected or simulated by the diabetes drugs, and $S^I$ and $bm$ refer to the insulin sensitive and body mass.
+$U_{I}$ is the amount of insulin injected or simulated by the diabetes drugs, and $S^I$ and $bm$ refer to the insulin sensitivity and body mass.
 \begin{equation}\label{Eq:Ia}
 I_{a}(k+1)=I_{a}(k)-\alpha_{f,r,m}^I \times I_{a}(k)+U_{i}(k)
 \end{equation}
@@ -119,7 +119,7 @@ This long-term influence can be expressed by a cumulative moving average as \equ
 \begin{equation}\label{Eq:E}
 E(k-k_0+1)=(k-k_0) \times E(k-k_0)+U_{e}(k-k_0)
 \end{equation}
-where $k$ and $k_0$ are the current and beginning time point in the past time window.
+where $k$ and $k_0$ are the current and beginning time points in the past time window.
 In \sysname, the window size of exercise is set to 24 hours, which optimizes the experimental results.
 We choose the long-term effect of exercises on insulin $E$ as part of the feature vector.
 
@@ -130,7 +130,7 @@ Sleep has a constant effect on blood glucose for each day.
 \begin{equation}\label{Eq:S}
 S(k-k_0+1)=(k-k_0) \times S(k-k_0)+U_{s}(k-k_0)
 \end{equation}
-where $k$ and $k_0$ are the current and beginning time point in the past time window.
+where $k$ and $k_0$ are the current and beginning time points in the past time window.
 In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion of clinical studies.
 We choose the long-term effect of sleep quality on insulin $S$ as part of the feature vector.
 
@@ -155,7 +155,7 @@ $\delta_{dep}$ in \equref{Eq:dep} indicates the impact results of insulin depend
 It reflects the effects of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
 $\delta_{clr}$ in \equref{Eq:clr} stands for the influence of renal clearance on blood glucose.
 
-Once blood glucose concentrations exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
+Once blood glucose concentration exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
 The three factors decrease the blood glucose level.
 \begin{equation}\label{Eq:ind}
   \delta_{ind}=\alpha_1^{ind}/\sqrt{G(t)}
@@ -275,16 +275,16 @@ As blood glucose level naturally varies over time, we extract two temporal featu
   \item
   Historical blood glucose concentration $X_{T_1}$ at time $k$:
   Since people usually tend to lead a regular lifestyle, \eg having meals in the morning, at noon and in the evening and taking drugs at certain times, the blood glucose concentration also exhibits rough daily cycles.
-  \figref{fig:historical_traces} plots the daily blood glucose traces of a volunteer for five successive days measured by a CGM device. As shown, the blood glucose trances always grow up significantly
+  \figref{fig:historical_traces} plots the daily blood glucose traces of a volunteer for five successive days measured by a CGM device. As shown, the blood glucose traces always grow up significantly
   in the durations of 8:40 to 9:40, 12:30 to 14:00 due to the breakfast and lunch, but increase moderately from 18:00 to 20:00 because of taking the drugs before the dinner.
   This motivates us to adopt the historical blood glucose concentrations at time stamp $k$ (averaged over $D$ days) as one temporal feature to infer the blood glucose level at time $k$.
-  In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3min, which is in accordance with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
+  In \sysname, we set $D=5$ and infer blood glucose level at a time resolution of 3 minutes, which is in accordance with the time resolution of commercial CGM devices~\cite{bib:CGM_wave}.
   \item
   Most recent physiological features $X_{T_2}$:
   As shown in the physiological models, the current blood glucose concentration is relevant to the recent blood glucose concentration and physiological features.
   However, in the physiological features $X_P$, only the physiological features at the last time stamp are considered.
   To account for more short-term temporal dependencies, we propose to include the $l$ most recent physiological features $X_{T_2}(k) = \{X_P(k), X_P(k-1), \ldots, X_P(k-l+1)\}$, where $l=5$ in our implementation.
-  That is, instead of considering the physiological features in the last 3min, we infer the current blood glucose level leveraging features in the last 15min.
+  That is, instead of considering the physiological features in the last 3 minutes, we infer the current blood glucose level by leveraging features in the last 15 minutes.
 \end{itemize}
 
 In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $X_T$.
@@ -317,7 +317,7 @@ In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $
 \subsection{Blood Glucose Level Inference}
 Given the features extracted based on the physiological process, it seems plausible to perform any classification algorithm for blood glucose level inference.
 Nonetheless, this plug-and-play approach will neglect important information from (1) dynamics of the process, and (2) inter-user similarity among the same group of participants.
-Traditionally, various sequential methods, \eg hidden Markov model (HMM), recurrent neural networks (RNN) and time series models, are used to capture the temporal correlation of the input feature.
+Traditionally, various sequential methods, \eg hidden Markov models (HMM), recurrent neural networks (RNN) and time series models, are used to capture the temporal correlation of the input feature.
 \rev{The inter process correlations are often times incorporated with the approaches~\cite{evgeniou2004regularized}, which learns processes in parallel to improve classification or to reduce the data sample requirement.}
 
 In this paper, a novel machine learning paradigm, namely Multi-division deep-dynamic RNN (\modelname), is proposed.
@@ -325,7 +325,7 @@ To include the the aforementioned information sources in an unified framework, w
 Firstly, the single hidden layer in RNN is replaced with several deep stacked layers.
 The deep structure in the new model is able to describe complex, multi-scale dynamics that would otherwise be ignored (or averaged out) by prior ``shallow'' models.
 Secondly, the correlations among users, being quite significant within user groups (divisions), are encoded by group-shared input layer and common hidden layers, whereas the distinct characteristics of individual users are modeled with different output layers for personalized prediction.
-Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancement of deep learning and structured representation learning, to model group-interacted time series data having complex temporal dynamics.
+Within a larger scope of machine learning, the proposed \modelname aims to leverage recent advancements of deep learning and structured representation learning, to model group-interacted time series data having complex temporal dynamics.
 It can be viewed as both a deep extension of RNN, and an imporved version of generic learning method for data with a multi-division structure, hence the name.
 Although we develop \modelname for the specific use case of \sysname, it is worth pointing out that it can be readily applied to many other applications dealing with grouped dynamic data.
 The overall configuration of the proposed model is summarized in \figref{fig:rnn}.
@@ -347,7 +347,7 @@ We also adopt an index set convention, that $(x_A^{B},y_A^B)$ represents the dat
 In the context of blood glucose prediction, available inputs are naturally divided into three groups according to the health condition of the participant from whom the data was generated.
 Notation-wise, we utilize $H$, $I$ and $II$ to indicate the the group of non-diabetic user (healthy), user with type I diabetes and those having type II diabetes, respectively.
 Since the extracted features are essentially physiological indexes and temporally correlated variables, they must go though different transformations to represent useful information of three distinct groups.
-This consideration motivates the design of the input layer (bottom of \figref{fig:rnn}) - it is divided into three units that performs different linear and non-linear transformation according to user groups.
+This consideration motivates the design of the input layer (bottom of \figref{fig:rnn}) - it is divided into three units that performs different linear and non-linear transformations according to user groups.
 For instance, a data sample $x_t^{I_j}$, generated at time $t$ from the $j^{th}$ user of type I, undergoes the following processing:
 \begin{align}
 \tilde{x}_t^{I_j} = \sigma \left( W^Ix_t^{I_j} \right)
@@ -359,13 +359,13 @@ Also, the transformation can be stacked into several (say $P$) layers, for bette
 
 \fakeparagraph{Deep Dynamic Layer}
 A common hidden layer is designated to capture the dynamics of the blood glucose evolution process.
-The underlying assumption is that, the physiological reactions governing blood glucose variation are similar for all people, despite of grouped behaviors in the representation of physiological indexes (input layer), or individual characteristics in exhibited glucose level.
+The underlying assumption is that, the physiological reactions governing blood glucose variation are similar for all people, despite grouped behaviors in the representation of physiological indexes (input layer), or individual characteristics in exhibited glucose level.
 This assumption could be justified by a series of medical related research~\cite{bib:lehmann1992physiological} \cite{bib:TBE07:Dalla} \cite{bib:PE04:Hovorka} \cite{bib:duke2010intelligent}.
 Moreover, since all users share the same hidden layer, all collected data samples are eventually helping the estimation of its parameters.
 The availability of rich information for the hidden layer makes the learning of a deep structure possible.
 In \sysname, a number of Long Short Term Memory (LSTM) networks are stacked together (middle of \figref{fig:rnn}), to increase the overall model flexibility.
 It has been justified in both theory and practice that stacked LSTMs are able to capture dynamics occurring at different time scales~\cite{dyer2015transition}, which in the current application would enable the modeling of both slow and rapid biological/chemical reactions.
-Although a wide variety of LSTM configuration exist in literature, in this work we adopt the one recently proposed by~\cite{koutnik2014clockwork}, which combines the forget/input gate and merges cell/hidden state for simplicity and better generalization performance.
+Although a wide variety of LSTM configurations exist in literature, in this work we adopt the one recently proposed by~\cite{koutnik2014clockwork}, which combines the forget/input gate and merges cell/hidden state for simplicity and better generalization performance.
 Mathematically, given the output from the grouped input layer, the deep dynamic layer performs
 \begin{equation}
 \begin{aligned}
@@ -380,7 +380,7 @@ for hidden layer numbered $d = 1,2,\cdots,D$. At the first dynamic layer with $d
 \fakeparagraph{Personalized Output Layer}
 Finally, each user is assigned a personalized output layer, parameterized by $W_o^j, j=1,\cdots,l$, which performs a single linear and softmax transformation on the results of the deep dynamic layer.
 The particular configuration of the output layer compensates for the individual characteristics in the exhibited blood glucose (\ie measured blood glucose level).
-Because only data generated by a specific participant $j$ will have an effect on the its parameters $W_o^j$, the personalized output layer is set to have a ``shallow structure'', \ie it only performs the transformation once.
+Because only data generated by a specific participant $j$ will have an effect on the parameters $W_o^j$, the personalized output layer is set to have a ``shallow structure'', \ie it only performs the transformation once.
 More specifically, given $h^D_t$ from user $j$, it computes
 \begin{equation}
 \hat{y}_t^j = \text{softmax} \left( W_o^j h^D_t \right)
@@ -389,9 +389,9 @@ More specifically, given $h^D_t$ from user $j$, it computes
 \subsubsection{Cost Sensitive Learning and Hyperparamter (Model) Selection}
 Similar to other deep neural network learning, \modelname is trained by minimizing the sum of losses over all the time steps.
 The definition of the loss function has much bearing on the generalization performance of the method.
-In particular for the current application, simply minimizing a general error rate seems inappropriate, because the costs of different types of misclassifiction errors can differ a lot.
+In particular, for the current application, simply minimizing a general error rate seems inappropriate, because the costs of different types of misclassification errors can differ a lot.
 For example, missing the detection of high blood glucose (type I or II) is more costly than misclassifying normal condition to an alarm for high glucose.
-Moreover, in the collected data set from real people, the training data is inherently imbalanced - the available samples labeled Level 1 and Level 4 are much fewer (only 30.6\% in training dateset) compared to samples in the other categories (Level 2 and Level 3).
+Moreover, in the collected data set from real people, the training data is inherently imbalanced - the available samples labeled Level 1 and Level 4 are much fewer (only 30.6\% in training dataset) compared to samples in the other categories (Level 2 and Level 3).
 
 The above concerns motivate the cost sensitive learning of \modelname.
 Instead of directly minimizing a surrogate of error rate, we propose to optimize over a weighted version of classification losses.
@@ -401,12 +401,12 @@ More specifically, the following total loss function is considered:
 \sum_{j=1}^l\sum_{t=1}^T \sum_{y_t \in \mathcal{Y}} l(y_t,\hat{y}_t)C_{y_t} + \lambda^H \Vert W^H\Vert_{2,1} + \lambda^I \Vert W^I\Vert_{2,1} + \lambda^{II} \Vert W^{II}\Vert_{2,1} + \lambda^d (\Vert W_z\Vert_{F}+\Vert W_r\Vert_F+\Vert W_h\Vert_F) +\lambda^o \Vert W_o\Vert_F
 \end{equation}
 where $\mathcal{Y}$ is the label set, and $\hat{y}_t^j$s are prediction outputs.
-Our implementation uses cross entropy as individual loss function $l(y_t^j,\hat{y}_t^j)$, but generally the ``base'' lost can be any surrogate of the error function.
+Our implementation uses cross entropy as individual loss function $l(y_t^j,\hat{y}_t^j)$, but generally the ``base'' loss can be any surrogate of the error function.
 The additional coefficient $C_{y}$ weights the misclassification error for category $y$.
 In the current application, $\mathcal{Y} = \{1,2,3,4\}$, associated with four coefficients $C_1$ to $C_4$.
 Those cost weighting coefficients are treated as hyperparameters of the proposed model, but in other applications of \modelname, they can also be determined with prior knowledge about the misclassification cost and the class imbalance. The other terms in~Eq.\ref{eq:obj} are regularizations for model parameters, which in the current implementation is substantiated with the $L_{2,1}$ norm on the parameters of the input layer for better information extraction \cite{nie2010efficient}, and the frobenius norm on the parameters of the dynamic and output layer to penalize model complexity. The coefficients $\lambda$s are left as model hyper-parameters, whose selection procedure will be discussed later.
 
-With the technique of back-propagating, computing the gradient of \modelname is not so different from the gradient calculation of classical RNN.
+With the technique of back-propagation, computing the gradient of \modelname is not so different from the gradient calculation of classical RNN.
 In this work, we accomplish those computation using Tensorflow \cite{bib:Tensorflow}, and proceed to learn \modelname model by stochastic gradient descent for overall loss minimization.
 
 Last but not least, the construction of the \modelname model involves choosing 15 hyperparameters, \eg cost coefficients $C_{y}$, depth $D$ of the stacked dynamic layer, learning rate, number of hidden unit in the input layer, \etc
