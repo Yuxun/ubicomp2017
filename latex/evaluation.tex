@@ -303,20 +303,18 @@ Even though group learning learns the similarities of users within the same grou
 \label{subsec:model_compare}
 To demonstrate the effectiveness of the \modelname learning algorithm, we compare it with several typical algorithms from following two aspects.
 
-\fakeparagraph{Typical classifiers without sharing features among users}
-(1) Random Forest, (2) Artificial neural network, (3) Gradient Boosting, (4) Support vector machine, (5) Gaussian Process, (6) Hidden Markov Model.
+\fakeparagraph{Typical classifiers that do not share features from users}
+This group contains classical machine learning method that are commonly used for standard learning applications. Note that in these traditional frameworks, the learning of each user's model is treated independently and the transferable similarities among users are simply ignored. The following baselines, each with a very different modeling assumption, are included to justify the effort of information sharing proposed in our method. 
 
 \begin{itemize}
   \item
   \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
-  As an ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
+  As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
   To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
 
   \item
   \textbf{Artificial neural network (ANN)~\cite{bib:wang2003artificial}.}
-  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname.
-  The ANN under comparison contains a single input layer, three hidden layers, and an output layer.
-  The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
+  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
 
   \item
   \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
@@ -324,46 +322,41 @@ To demonstrate the effectiveness of the \modelname learning algorithm, we compar
   We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
 
   \item
-  \textbf{Support Vector Machines (SVMs)~\cite{bib:wang2005support}.}
-  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
+  \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
+  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis. 
   The idea is to construct optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
-  Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation.
-  We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
+  Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
 
-  \item
-  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
-  Instead of directly parameterizing a latent function for classification, GP models it with a generic Gaussian process, \ie a distribution over the functional space of the classifier or regressor.
-  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification.
-  The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space.
-  The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
+ \item
+ \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
+  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor. 
+  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
 
   \item
   \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
-  A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network.
-  Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
+  A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
+
 \end{itemize}
 
 \TODO{results}
 
 \rev{
-\fakeparagraph{Typical classifiers that share features from users}
-(1) Multiple task Support Vector Machine (mSVM), (2) Multiple task Gaussian Processes (mGP) (3) Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM), (4) Multiple task Random Forest (RF), (5) Multiple task neural network (ANN), (6) Multiple task Gradient Boosting (GB).
-We apply multi-task frameworks to share the information among users.
-Each task indicates an user.
+\fakeparagraph{Typical classifiers that allow sharing features among users.}
+To compare the proposed \modelname with the status quo, we include into our experiment several advanced machine learning frameworks, known as transfer or multi-task learning methods, that allow information sharing among multiple data sources or learning tasks. In the current scenario, a ``learning task'' refers to the blood glucose modeling of a particular user. The learning methods in this group attempt to improve the classification performance by incorporating similarities among users' models. Specially, we consider the following: 
 
 \begin{itemize}
   \item
-  \textbf{Support Vector Machine (mSVM) that allows information sharing.}
-  We use a multiple task version of the SVM classifier proposed in~\cite{evgeniou2004regularized}, which incorporate the relation between tasks through a task-coupled kernel function.
-  To eliminate scale/location discrepancies among input variables, all features are normalized before being used in the training phase.
+  \textbf{Co-regularized Support Vector Machine (mSVM) }
+
+  As a modified version of the classical SVM classifier, the authors of \cite{evgeniou2004regularized} proposed to incorporate the relation among tasks through a task-coupled kernel function. This consideration was then translated into a large margin learning framework with an additional co-regularization. Fortunately, the learning problem is still convex and the dual form still allows the the usage of kernels. We include this method also because its idea of co-regularization is the foundation of many other transfer learning or muti-task learning methods.   
 
   \item
-  \textbf{Gaussian Processes (mGP) that allows information sharing.}
-  The multi-task version of GP can be achieved by redefining the kernel matrix to include task similarities. We adopt the multi-task GP proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
+  \textbf{Hierarchical Gaussian Processes (mGP)}
+  The information sharing of GP can be achieved by augmenting the kernel matrix to include side information among similar learning procedures. Since the augmentation step amounts to creating another layer of ``similarity metric'', this approach is referred to as the hierarchical Gaussian Processes. In this exmperimetn, we adopt the version proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
   \item
-  \textbf{Multiple Hidden Markov model that allows information sharing.}
-  To further improve the model flexibility, the authors of \cite{ni2007multi} proposed the so-called Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) based on a non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
+  \textbf{Nested Hidden Markov model (nDP-iHMM)}
+  Classical HMM focus on the modeling of a signle random process. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed the so-called Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) based on a non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
 \end{itemize}
 
 \figref{fig:cmp_models} illustrates the results.
