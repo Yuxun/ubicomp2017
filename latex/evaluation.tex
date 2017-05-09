@@ -304,73 +304,81 @@ Even though group learning learns the similarities of users within the same grou
 To demonstrate the effectiveness of the \modelname learning algorithm, we compare it with several typical algorithms from following two aspects.
 
 \fakeparagraph{Typical classifiers that do not share features from users}
-This group contains classical machine learning method that are commonly used for standard learning applications. Note that in these traditional frameworks, the learning of each user's model is treated independently and the transferable similarities among users are simply ignored. The following baselines, each with a very different modeling assumption, are included to justify the effort of information sharing proposed in our method. 
+This group contains classical machine learning methods that are commonly used for standard learning applications. Note that in these traditional frameworks, the learning of each user's model is treated independently and the transferable similarities among users are simply ignored. The following baselines, each with a very different modeling assumption, are included to justify the effort of information sharing proposed in our method.
 
 \begin{itemize}
-  \item
-  \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
-  As another ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
-  To avoid correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
-
-  \item
-  \textbf{Artificial neural network (ANN)~\cite{bib:wang2003artificial}.}
-  We also included the classical ANN as a baseline, simply to justify the benefit of ``structure engineering'' from \modelname. The ANN under comparison contains a single input layer, three hidden layers, and an output layer. The training of ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
-
-  \item
-  \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
-  GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
-  We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
-
-  \item
+ \item
   \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
-  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis. 
+  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
   The idea is to construct optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
   Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
 
  \item
  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
-  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor. 
+  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor.
   The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
 
   \item
   \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
   A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
 
+  \item
+  \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
+  As an ensemble method, RF combines many simple decision trees together and output the mode of classes for prediction.
+  To avoid the correlation among base trees, random set of features are selected in the splitting process when constructing each decision tree.
+
+  \item
+  \textbf{Gradient Boosting (GB)~\cite{bib:friedman2002stochastic}.}
+  GB generates a prediction model by combining many weak classifiers into a stronger classification committee.
+  We use the implementation of the fastAdaboost \cite{bib:fastAdaboost} to combine basic tree classifiers for ensemble learning.
+
+
 \end{itemize}
 
 \TODO{results}
 
 \rev{
-\fakeparagraph{Typical classifiers that allow sharing features among users.}
-To compare the proposed \modelname with the status quo, we include into our experiment several advanced machine learning frameworks, known as transfer or multi-task learning methods, that allow information sharing among multiple data sources or learning tasks. In the current scenario, a ``learning task'' refers to the blood glucose modeling of a particular user. The learning methods in this group attempt to improve the classification performance by incorporating similarities among users' models. Specially, we consider the following: 
+\fakeparagraph{Typical classifiers that allow sharing features among users}
+To evaluate the effectiveness of sharing features of \modelname, we compared it with several common and advanced machine learning frameworks, known as transfer or multi-task learning methods, that allow information sharing among multiple data sources or learning tasks. In the current scenario, a ``learning task'' refers to the blood glucose modeling of a particular user. The learning methods in this group attempt to improve the classification performance by incorporating similarities among users' models. Specially, we consider the following:
 
 \begin{itemize}
   \item
-  \textbf{Co-regularized Support Vector Machine (mSVM) }
+  \textbf{Co-regularized Support Vector Machine (mSVM).}
+As a modified version of the classical SVM classifier, the authors of \cite{evgeniou2004regularized} proposed to incorporate the relation among tasks through a task-coupled kernel function. This consideration was then translated into a large margin learning framework with an additional co-regularization. Fortunately, the learning problem is still convex and the dual form still allows the the usage of kernels. We include this method also because its idea of co-regularization is the foundation of many other transfer learning or muti-task learning methods.
 
-  As a modified version of the classical SVM classifier, the authors of \cite{evgeniou2004regularized} proposed to incorporate the relation among tasks through a task-coupled kernel function. This consideration was then translated into a large margin learning framework with an additional co-regularization. Fortunately, the learning problem is still convex and the dual form still allows the the usage of kernels. We include this method also because its idea of co-regularization is the foundation of many other transfer learning or muti-task learning methods.   
-
-  \item
-  \textbf{Hierarchical Gaussian Processes (mGP)}
+\item
+  \textbf{Hierarchical Gaussian Processes (mGP).}
   The information sharing of GP can be achieved by augmenting the kernel matrix to include side information among similar learning procedures. Since the augmentation step amounts to creating another layer of ``similarity metric'', this approach is referred to as the hierarchical Gaussian Processes. In this exmperimetn, we adopt the version proposed in \cite{bonilla2007multi}, and also implement several approximation algorithms for acceleration \cite{bib:chalupka2013framework}.
 
   \item
-  \textbf{Nested Hidden Markov model (nDP-iHMM)}
+  \textbf{Nested Hidden Markov model (nDP-iHMM).}
   Classical HMM focus on the modeling of a signle random process. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed the so-called Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) based on a non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
+
+  \item
+  \textbf{Hierarchical artificial neural network (hANN).}
+  We also implement a hierarchical ANN based on classic ANN~\cite{bib:wang2003artificial} as a baseline, simply to justify the benefit of ``temporal structure engineering'' of RNNs in \modelname. The ANN under comparison also contains "three divisions": a grouped input layer, three stacked temporal-independent hidden layers, and an output personal layer. The training of the hierarchical ANN is done by using the stochastic gradient descend algorithm implemented in Tensorflow \cite{bib:Tensorflow}.
+
+
 \end{itemize}
 
 \figref{fig:cmp_models} illustrates the results.
+%Apparently, \modelname achieves best performance on both precisions and recalls.
+%More specifically, it outperforms the runner-up by at least 20\% in terms of average precision, and yields much better recalls for the categories of interest, \ie Level 1 and Level 4.
+%Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score.
+%This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks.
+%However, compared to \modelname, which is able to describe multi-scale dynamics, nDP-iHMM is still worse in general.
+%The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or can not allow information sharing among available data from users.
+%The above observation further justifies the efforts of designing the new machine learning paradigm for \sysname, which efficiently transfers valuable knowledge between individuals.
 Apparently, \modelname achieves best performance on both precisions and recalls.
-More specifically, it outperforms the runner-up by at least 20\% in terms of average precision, and yields much better recalls for the categories of interest, \ie Level 1 and Level 4.
-Among those baselines, it appears that no method could dominate the others, except that nDP-iHMM performs slightly better in terms of recall score.
-This is mainly because nDP-iHMM is the only method among baselines that allows both temporal correlation and information sharing among tasks.
-However, compared to \modelname, which is able to describe multi-scale dynamics, nDP-iHMM is still worse in general.
+More specifically,  the models that share features yield better performance than their corresponding models that do not share features (\ie mSVM \emph{vs.} SVMs; mGP \emph{vs.} GP; HMM \emph{vs.} nDP-iHMM ), which demonstrates the effectiveness of the methods that allow information sharing among tasks.
+Among those baselines, it appears that no method could dominate the others, except that hANN performs slightly better in terms of recall score.
+However, compared to \modelname, which is able to describe temporal dynamics by RNN, hANN is still worse in general.
 The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or can not allow information sharing among available data from users.
-The above observation further justifies the efforts of designing the new machine learning paradigm for \sysname, which efficiently transfers valuable knowledge between individuals.
+The above observation further justifies the efforts of designing the multi-division deep dynamic RNN for \sysname, which efficiently transfers valuable knowledge between groups and individuals.
 }
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\columnwidth]{./img/Model_CMP1.pdf}
+  \includegraphics[width=1\columnwidth]{./img/Model_CMP2.pdf}
   \caption{Performance comparison with the different learning algorithms.}
   \label{fig:cmp_models}
 \end{figure}
@@ -450,19 +458,20 @@ The data sampled by the CGM devices will automatically feed into \sysname for mo
 Although \sysname still requires periodic re-calibration, it does not require users to continuously wear CGM devices.}
 
 \rev{
-\subsubsection{Model Cost}
+\subsubsection{Costs of Training Models}
 The resource cost of model learning in the learning phase is another important factor. We measure the CPU and memory costs of \modelname on our server ( Inter(R) Core(TM) i7$-$4510U CPU $@$ 2.00 GHZ 2.60 GHZ; RAM: 8GB) and compare it with other baseline models in \ref{subsec:model_compare}. Table \ref{model_cost} illustrates the results of 1000 iterative training.
 
 
 \begin{table}[h]
+\small
 \centering
-\caption{Resource cost of training the models}
+\caption{Resource costs of training  models}
 \label{model_cost}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-\textbf{Method} & \textbf{RF}               & \textbf{ANN}             & \textbf{GB}              & \textbf{SVM}              & \textbf{GP}               & \textbf{HMM}              & \textbf{mSVM} & \textbf{mGP} & \textbf{nDPHMM} & \textbf{\modelname} \\ \hline
-CPU(s)          & \multicolumn{1}{c|}{19.5} & \multicolumn{1}{c|}{8.6} & \multicolumn{1}{c|}{9.5} & \multicolumn{1}{c|}{20.1} & \multicolumn{1}{c|}{26.4} & \multicolumn{1}{c|}{29.5} & 165.8         & 216.2        & 319.1           & 259.9           \\ \hline
-RAM(MB)         & 84.2                      & 81.4                     & 84.0                     & 188.4                     & 213.9                     & 112.1                     & 1033.8        & 1428.5       & 1263.0          & 1235.2          \\ \hline
+\textbf{Method} & \textbf{RF}    & \textbf{GB}  & \textbf{SVM} & \textbf{GP}   & \textbf{HMM}  & \textbf{mSVM} & \textbf{mGP}  & \textbf{nDP-iHMM}& \textbf{hANN} & \textbf{\modelname} \\ \hline
+CPU(s)          & \multicolumn{1}{c|}{19.5}  & \multicolumn{1}{c|}{9.5} & \multicolumn{1}{c|}{20.1} & \multicolumn{1}{c|}{26.4} & \multicolumn{1}{c|}{29.5} & 165.8         & 216.2        & 319.1       & \multicolumn{1}{c|}{208.6}    & 259.9           \\ \hline
+RAM(MB)         & 84.2      & 84.0                     & 188.4                     & 213.9                     & 112.1                     & 1033.8        & 1428.5       & 1263.0      & 1181.4        & 1235.2          \\ \hline
 \end{tabular}
 \end{table}
 As is shown, the CPU and memory costs of share schemes are larger than those of the single learning algorithms. It meets our intuition that the share schemes are trained on the data from all users, while the single learning methods are only trained on the data of single person.
