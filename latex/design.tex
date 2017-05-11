@@ -142,21 +142,20 @@ G_m(k+1)=G_m(k)+\delta_{abs}+\delta_{egp}-\delta_{ind}-\delta_{dep}-\delta_{clr}
 \begin{equation}\label{Eq:G}
 G(k)=G_m(k)/(2.2 \times bm)
 \end{equation}
-where $\delta_{abs}$ in \equref{Eq:abs} refers to the impact results of carbohydrate absorption, and $\delta_{egp}$ in \equref{Eq:egp} is the hepatic glucose production from the liver.
-Additionally,
+$\delta_{abs}$ in \equref{Eq:abs} refers to the impact results of carbohydrate absorption, and $\delta_{egp}$ in \equref{Eq:egp} is the hepatic glucose production from the liver.
+
 \begin{equation}\label{Eq:abs}
   \delta_{abs}=\alpha_3^c \times \alpha_2^c \times C_{g2}
 \end{equation}
 \begin{equation}\label{Eq:egp}
   \delta_{egp}=\alpha_2^{egp} \times exp(-I(t)/\alpha_3^{egp})-\alpha_1^{egp} \times G(t)
 \end{equation}
-where $\delta_{ind}$ in \equref{Eq:ind} describes results of insulin independent uptake, which is consumed by the central nervous system and the red blood cells.
+
+$\delta_{ind}$ in \equref{Eq:ind} describes results of insulin independent uptake, which is consumed by the central nervous system and the red blood cells.
 $\delta_{dep}$ in \equref{Eq:dep} indicates the impact results of insulin dependent uptake.
 It reflects the effects of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
 $\delta_{clr}$ in \equref{Eq:clr} stands for the influence of renal clearance on blood glucose.
 
-Once blood glucose concentration exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
-The three factors decrease the blood glucose level.
 \begin{equation}\label{Eq:ind}
   \delta_{ind}=\alpha_1^{ind}/\sqrt{G(t)}
 \end{equation}
@@ -168,6 +167,9 @@ The three factors decrease the blood glucose level.
 \begin{equation}\label{Eq:clr}
   \delta_{clr}=\alpha_1^{clr} \times (G(t)-\tau)
 \end{equation}
+
+Once blood glucose concentration exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
+The three factors decrease the blood glucose level.
 }
 
 %\tabref{tab:phyeq} summarizes the transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and historical physiological features at time $k$.
