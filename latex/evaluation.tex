@@ -21,7 +21,7 @@ Each participant is equipped with (1) a WAVEGUIDER \emph{U-Tang} CGM device~\cit
 \rev{\figref{fig:usibility_UI} shows the user interfaces for manual recording of food, drug and insulin intake.}
 All participants agree to take measurements (\ie wear the CGM device and use \sysname to record external factors) at least $6$ days, which is a normal disposable usage duration of the enzyme in the sensor of the CGM.
 \figref{fig:experiment_case} illustrates an example of data collection from a user.
-\rev{We record measurements for each participant for $6$ to $30$ days.}
+\rev{We record measurements for each participant from $6$ to $30$ days.}
 In total we obtain 762639 samples of blood glucose concentration and the corresponding external factors covering around 38132 hours.
 In brief, we collect the following categories of data:
 \begin{itemize}
@@ -335,7 +335,7 @@ This group contains classical machine learning methods that are commonly used fo
 
 \end{itemize}
 
-\TODO{results}
+%\TODO{results}
 
 \rev{
 \fakeparagraph{Typical classifiers that allow sharing features among users}
@@ -379,7 +379,7 @@ The above observation further justifies the efforts of designing the multi-divis
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\columnwidth]{./img/Model_CMP2.pdf}
-  \caption{Performance comparison with the different learning algorithms.}
+  \caption{\rev{Performance comparison with the different learning algorithms.}}
   \label{fig:cmp_models}
 \end{figure}
 
@@ -433,7 +433,7 @@ However, when evaluating the performance with 10 days of training data, we only 
 The results are averaged over all testing samples as in previous evaluations.
 As expected, the precisions and recalls for all the 4 blood glucose levels improve smoothly with the increase of training samples.
 The results verify that the challenge (and our motivation to adopt a multi-division deep learning framework) is the lack of training data.
-Note that \sysname is not a replacement of the current CGM devices, but rather, a complement when CGM devices are uncomfortable or inconvenient to wear.
+Note that \sysname is not a replacement to the current CGM devices, but rather, a complement when CGM devices are uncomfortable or inconvenient to wear.
 Therefore we envision the training dataset will grow gradually after wearing the CGM device multiple times (at least for diabetes patients), and the overall accuracy will also improve over time as a result.
 
 
@@ -452,7 +452,7 @@ Since \sysname does not rely on the previous blood glucose value measured by CGM
 
 \figref{fig:per_under_various_pred_days} plots the overall performance of training \rev{using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.}
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
-\rev{Note that \sysname is not designed as a replacement of the commercial CGM devices, but rather a temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
+\rev{Note that \sysname is not designed as a replacement to the commercial CGM devices, but rather a temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
 From the results, we recommend users to put on the CGM devices to monitor the blood glucose at least every three weeks.
 The data sampled by the CGM devices will automatically feed into \sysname for model retraining.
 Although \sysname still requires periodic re-calibration, it does not require users to continuously wear CGM devices.}
@@ -501,7 +501,7 @@ Since \sysname is a background service, we lock the screen and only leave \sysna
 The tracing application records the rest battery storage every two hours.
 We run \sysname on fully charged smartphones and plot the remaining power over time in \figref{fig:battery_lifetime}.
 In total, \sysname and the Android OS consume about 10\% energy of the battery every two hours, where roughly 40\% of the power is consumed by \sysname (see \figref{fig:battery_consumption}).
-Therefore, \sysname takes about 4\% of the total battery power every two hours given an inference rate of every 3 minutes. It is negligible and affords for the daily use.} 
+Therefore, \sysname takes about 4\% of the total battery power every two hours given an inference rate of every 3 minutes. It is negligible and affordable for the daily usage.}
 
 \begin{figure*}[h]
   \centering

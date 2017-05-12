@@ -21,7 +21,7 @@ Nevertheless, they are validated with a limited number of measurements~\cite{bib
 
 In this work, we design \sysname, a personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking meal, drug and insulin intake, as well as physical activity and sleep quality.
 \rev{\sysname is designed as a \textit{temporal} alternative for CGM devices when they are uncomfortable or inconvenient to wear.
-It monitors blood glucose levels every 3 minutes and can be used for two to three weeks before re-calibration by the CGM devices.
+It monitors blood glucose level every 3 minutes and can be used for two to three weeks before re-calibration by the CGM devices.
 The blood glucose levels tracked by \sysname help both diabetic patients and non-diabetic people who want to track their blood glucose to adjust their lifestyle as needed (\eg exercise more and take less carbohydrate) and take other precaution measures when an abnormal blood glucose level is detected.}
 \sysname comprehensively considers \textit{generic}, \textit{grouped} and \textit{user-specific} correlations between blood glucose levels and the measurable external factors, which are largely overlooked in previous works.
 
@@ -38,7 +38,7 @@ To take full advantages of the \textit{sparse}, \textit{imbalanced} measurements
 We propose \modelname (multi-division deep dynamic recurrent neural network), an efficient learning paradigm that extracts general blood glucose level relevant features and preserves user-specific characteristics.
 \modelname advances previous personalized recurrent neural network (RNN) structures via a group-shared input layer to extract distinctive feature representations within the same group (\ie non-diabetic, type I and type II diabetic).
 In short, \modelname can be regarded as a deep hierarchical RNN architecture, \rev{which is a combination of single user division and grouped user division learning}.
-Evaluations on the blood glucose dataset composed of 112 users \rev{collected for $6$ to $30$ days} show that \modelname outperforms both generic learning (\ie ignoring inter-user differences) and personalized learning (due to lack of measurements), and also achieves notably higher inference accuracy than conventional shallow learning algorithms. \yxz{Note that the evaluation part has been revised...}
+Evaluations on the blood glucose dataset composed of 112 users \rev{collected for $6$ to $30$ days} show that \modelname outperforms both generic learning (\ie ignoring inter-user differences) and personalized learning (due to lack of measurements), and also achieves notably higher inference accuracy than conventional shallow learning algorithms.
 
 The key contributions of this work are summarized as follows.
 \begin{itemize}
