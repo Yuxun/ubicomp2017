@@ -12,7 +12,7 @@ While non-diabetic people normally have adequate self-regulation of blood glucos
 Although continuous blood glucose monitoring is crucial for blood glucose management and beneficial for hyper- and hypoglycemia warnings, it can be invasive and inconvenient, especially during daily life.
 A standard blood glucose measurement is to collect and analyze a drop of blood by finger pricking, which requires a new prick on the finger for every observation.
 Alternatively, non-invasive (without penetrating the skin) continuous glucose monitoring (CGM) has attracted extensive research leveraging techniques such as thermal infrared spectroscopy, Raman spectroscopy and impedance spectroscopy~\cite{bib:JDST10:Vaddiraju}.
-However, most CGM devices are expensive, cumbersome to wear for extended time, complicated in terms of operation/maintenance, making them unattractive for both diabetic patients and non-diabetic people.
+However, most CGM devices are expensive, cumbersome to wear for extended time, and complicated in terms of operation/maintenance, making them unattractive for both diabetic patients and non-diabetic people.
 
 Towards more ubiquitous blood glucose monitoring when traditional CGM devices are unavailable or inconvenient to wear, researchers have proposed exploring the increasingly rich sensors embedded in commercial fitness wearables and smartphones as a complement.
 In addition to the inherent glucose metabolism, blood glucose also correlates to easily measurable physiological activities such as food and drug intake, energy expenditure, sleep quality and emotional states~\cite{bib:DRCP15:Iwasaki}.
@@ -44,13 +44,13 @@ The key contributions of this work are summarized as follows.
 \begin{itemize}
   \item
   To the best of our knowledge, \sysname is the first smartphone-based personalized blood glucose monitor that works without CGM devices \rev{for an extended duration of time.}
-  It automatically collects daily exercise and sleep quality, and infers the current blood glucose level of users, together with manual records of food, drug and insulin intake.\rev{ It only needs re-calibration using CGM devices every two or three weeks.}
+  It automatically collects daily exercise and sleep quality, and infers the current blood glucose level of users, together with manual records of food, drug and insulin intake. \rev{It only needs re-calibration using CGM devices every two or three weeks.}
   \item
   We propose \modelname, an efficient multi-division deep dynamic RNN framework for blood glucose level inference.
   \rev{The newly designed grouped input layers, together with the adoption of a deep RNN model,} offer an opportunity to build blood glucose models for the general public based on limited personal measurements from single-user and grouped-users views.
   \item
   We conduct extensive evaluations and user studies on both diabetic patients and non-diabetic people.
-  \rev{Experimental results from a dataset of 35 non-diabetic people, and 38 type I and 39 type II diabetic patients collected for at least 6 days per person demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall. The user study conducted on these 112 participants shows that most participants are willing to adopt \sysname as a temporary alternative to CGM for the blood glucose monitoring, and they can also get instructions on their blood glucose control.}
+  \rev{Experimental results from a dataset of 35 non-diabetic people, and 38 type I and 39 type II diabetic patients collected for at least 6 days per person demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall. The user study conducted with these 112 participants shows that most participants are willing to adopt \sysname as a temporary alternative to CGM for the blood glucose monitoring, and they can also get instructions on their blood glucose control.}
 \end{itemize}
 
 In the rest of this paper, we review related works in \secref{sec:relwork} and present an overview of \sysname in \secref{sec:overview}.

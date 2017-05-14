@@ -136,7 +136,7 @@ All results are averaged over the testing data.
 As shown, the recalls and the precisions for all the 4 blood glucose levels are above 79\% and 73\%, respectively.
 In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blood glucose) are 83.13\% and 85.23\%, even though the training data for Level 1 and Level 4 only take up around 10\% and 20\% of the entire training set.
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
-Overall, \sysname yields an accuracy of 82.14\%, shows a promising performance to track blood glucose levels.
+Overall, \sysname yields an accuracy of 82.14\%, showing a promising performance to track blood glucose levels.
 \rev{Note that \sysname is not designed to substitute CGM devices or medical measurements (\eg direct finger sticker).
 However, the precisions and recalls in low and high blood glucose level inference make \sysname suitable to remind users of abnormal blood glucose levels so that they can double-check by CGM devices or finger stickers and take the corresponding treatments.}
 
@@ -307,20 +307,21 @@ To demonstrate the effectiveness of the \modelname learning algorithm, we compar
 This group contains classical machine learning methods that are commonly used for standard learning applications. Note that in these traditional frameworks, the learning of each user's model is treated independently and the transferable similarities among users are simply ignored. The following baselines, each with a very different modeling assumption, are included to justify the effort of information sharing proposed in our method.
 
 \begin{itemize}
- \item
+\rev{ 
+\item
   \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
-  \rev{Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
+  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
   The idea is to construct optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
   Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.}
-
+\rev{
  \item
  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
-  \rev{Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor.
+  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor.
   The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.}
-
+\rev{
   \item
   \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
-  \rev{ A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.}
+   A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.}
 
   \item
   \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
@@ -352,7 +353,7 @@ As a modified version of the classical SVM classifier, the authors of \cite{evge
 
   \item
   \textbf{Nested Hidden Markov model (nDP-iHMM).}
-  Classical HMM focus on the modeling of a signle random process. To further improve the model flexibility, the authors of \cite{ni2007multi} proposed the so-called Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) based on a non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
+  Classical HMM focus on the modeling of a signal random process. To further improve the flexibility of the model, the authors of \cite{ni2007multi} proposed the so-called Nested Dirichlet Process infinite Hidden Markov model (nDP-iHMM) based on a non-parametric method for possibly undetermined state space, and imposing a nested Dirichlet process prior to share information among tasks.
 
   \item
   \textbf{Hierarchical artificial neural network (hANN).}
@@ -429,12 +430,12 @@ However, when evaluating the performance with 10 days of training data, we only 
   \label{fig:per_under_train_days}
 \end{figure}
 
-\figref{fig:per_under_train_days} illustrates the results for all the 4 blood glucose levels.
+\figref{fig:per_under_train_days} illustrates the results for all 4 blood glucose levels.
 The results are averaged over all testing samples as in previous evaluations.
-As expected, the precisions and recalls for all the 4 blood glucose levels improve smoothly with the increase of training samples.
+As expected, the precisions and recalls of all 4 blood glucose levels improve smoothly with the increase of training samples.
 The results verify that the challenge (and our motivation to adopt a multi-division deep learning framework) is the lack of training data.
-Note that \sysname is not a replacement to the current CGM devices, but rather, a complement when CGM devices are uncomfortable or inconvenient to wear.
-Therefore we envision the training dataset will grow gradually after wearing the CGM device multiple times (at least for diabetes patients), and the overall accuracy will also improve over time as a result.
+Note that \sysname is not a replacement to the current CGM devices, but rather a complement when CGM devices are uncomfortable or inconvenient to wear.
+Therefore,  we envision the training dataset will grow gradually after wearing the CGM device multiple times (at least for diabetes patients), and the overall accuracy will also improve over time as a result.
 
 
 
