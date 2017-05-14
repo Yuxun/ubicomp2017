@@ -20,7 +20,7 @@ Pioneer works~\cite{bib:EMBC12:Nguyen} \cite{bib:SEMPER16:Ranvier} \cite{bib:JDS
 Nevertheless, they are validated with a limited number of measurements~\cite{bib:SEMPER16:Ranvier} \rev{and for short-term (\eg 3 hours without the need of CGM devices~\cite{bib:JDST14:Sobel})} or still require complex multi-sensory platforms~\cite{bib:EMBC12:Nguyen} \cite{bib:JDST14:Sobel}.
 
 In this work, we design \sysname, a personalized smartphone-based non-invasive blood glucose monitoring system that detects abnormal blood glucose events by jointly tracking meal, drug and insulin intake, as well as physical activity and sleep quality.
-\rev{\sysname is designed as a \textit{temporal} alternative for CGM devices when they are uncomfortable or inconvenient to wear.
+\rev{\sysname is designed as a \textit{temporary} alternative for CGM devices when they are uncomfortable or inconvenient to wear.
 It monitors blood glucose level every 3 minutes and can be used for two to three weeks before re-calibration by the CGM devices.
 The blood glucose levels tracked by \sysname help both diabetic patients and non-diabetic people who want to track their blood glucose to adjust their lifestyle as needed (\eg exercise more and take less carbohydrate) and take other precaution measures when an abnormal blood glucose level is detected.}
 \sysname comprehensively considers \textit{generic}, \textit{grouped} and \textit{user-specific} correlations between blood glucose levels and the measurable external factors, which are largely overlooked in previous works.
@@ -49,8 +49,8 @@ The key contributions of this work are summarized as follows.
   We propose \modelname, an efficient multi-division deep dynamic RNN framework for blood glucose level inference.
   \rev{The newly designed grouped input layers, together with the adoption of a deep RNN model,} offer an opportunity to build blood glucose models for the general public based on limited personal measurements from single-user and grouped-users views.
   \item
-  We conduct extensive evaluations on both diabetic patients and non-diabetic people.
-  \rev{Experimental results from a dataset of 35 non-diabetic people, and 38 type I and 39 type II diabetic patients collected for at least 6 days per person demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall.}
+  We conduct extensive evaluations and user studies on both diabetic patients and non-diabetic people.
+  \rev{Experimental results from a dataset of 35 non-diabetic people, and 38 type I and 39 type II diabetic patients collected for at least 6 days per person demonstrate that \sysname yields an average accuracy of 82.14\%, and outperforms traditional general learning, group-level learning, personalized learning and shallow/deep learning algorithms in precision and recall. The user study conducted on these 112 participants shows that most participants are willing to adopt \sysname as a temporary alternative to CGM for the blood glucose monitoring, and they can also get instructions on their blood glucose control.}
 \end{itemize}
 
 In the rest of this paper, we review related works in \secref{sec:relwork} and present an overview of \sysname in \secref{sec:overview}.
