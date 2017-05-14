@@ -398,10 +398,10 @@ Moreover, in the collected data set from real people, the training data is inher
 The above concerns motivate the cost sensitive learning of \modelname.
 Instead of directly minimizing a surrogate of error rate, we propose to optimize over a weighted version of classification losses.
 More specifically, the following total loss function is considered:
-\begin{equation}
+\rev{\begin{equation}
 \label{eq:obj}
 \sum_{j=1}^l\sum_{t=1}^T \sum_{y_t \in \mathcal{Y}} l(y_t,\hat{y}_t)C_{y_t} + \lambda^H \Vert W^H\Vert_{2,1} + \lambda^I \Vert W^I\Vert_{2,1} + \lambda^{II} \Vert W^{II}\Vert_{2,1} + \lambda^d (\Vert W_z\Vert_{F}+\Vert W_r\Vert_F+\Vert W_h\Vert_F) +\lambda^o \Vert W_o\Vert_F
-\end{equation}
+\end{equation}}
 where $\mathcal{Y}$ is the label set, and $\hat{y}_t^j$s are prediction outputs.
 Our implementation uses cross entropy as individual loss function $l(y_t^j,\hat{y}_t^j)$, but generally the ``base'' loss can be any surrogate of the error function.
 The additional coefficient $C_{y}$ weights the misclassification error for category $y$.

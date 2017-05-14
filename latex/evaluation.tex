@@ -309,18 +309,18 @@ This group contains classical machine learning methods that are commonly used fo
 \begin{itemize}
  \item
   \textbf{Support Vector Machines  (SVMs)~\cite{bib:wang2005support} .}
-  Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
+  \rev{Support vector machines (SVM)s are supervised learning models with efficient convex learning algorithms that are widely used for classification and regression analysis.
   The idea is to construct optimal separating hyperplane that maximizes the separation margin of two data groups (classes).
-  Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.
+  Due to this geometric property, it usually generalizes well, and its dual form is a quadratic programming that can be easily incorporated with kernels, which allows an implicit transformation of the examples from the original space to a non-linear high dimensional Hilbert space for better separation. We adopt the implementation of SVM in \cite{bib:scikit-learn} for classification.}
 
  \item
  \textbf{Gaussian Processes (GP)~\cite{bib:rasmussen2006gaussian}.}
-  Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor.
-  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.
+  \rev{Instead of directly parameterizing a latent function for classification, GP~\cite{bib:rasmussen2006gaussian} models it with a generic Gaussian process, i.e., a distribution over the functional space of the classifier or regressor.
+  The posterior of the process is updated with training data set, and is ``squashed'' through a logistic function for classification. The covariance matrix used in GP also allows the utilization of the "kernel trick" to capture similarities in some nonlinear space. The Gaussian process classifier utilized in this paper is provided by \cite{bib:scikit-learn}.}
 
   \item
   \textbf{Hidden Markov model (HMM)~\cite{bib:rabiner1986introduction}.}
-  A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.
+  \rev{ A hidden Markov model (HMM) is a statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved (hidden) states. It can be presented as the simplest dynamic Bayesian network. Simple as it is, HMM has been widely used in signal processing and time series analysis due to its interpretability and tractability.}
 
   \item
   \textbf{Random Forest (RF)~\cite{bib:liaw2002classification}.}
@@ -461,11 +461,11 @@ Although \sysname still requires periodic re-calibration, it does not require us
 \subsubsection{Costs of Training Models}
 The resource cost of model learning in the learning phase is another important factor. We measure the CPU and memory costs of \modelname on our server ( Inter(R) Core(TM) i7$-$4510U CPU $@$ 2.00 GHZ 2.60 GHZ; RAM: 8GB) and compare it with other baseline models in \ref{subsec:model_compare}. Table \ref{model_cost} illustrates the results of 1000 iterative training.
 
-
+\rev{
 \begin{table}[h]
 \small
 \centering
-\caption{Resource costs of training  models}
+\caption{\rev{Resource costs of training  models}}
 \label{model_cost}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -474,16 +474,17 @@ CPU(s)          & \multicolumn{1}{c|}{19.5}  & \multicolumn{1}{c|}{9.5} & \multi
 RAM(MB)         & 84.2      & 84.0                     & 188.4                     & 213.9                     & 112.1                     & 1033.8        & 1428.5       & 1263.0      & 1181.4        & 1235.2          \\ \hline
 \end{tabular}
 \end{table}
+}
 As is shown, the CPU and memory costs of share schemes are larger than those of the single learning algorithms. It meets our intuition that the share schemes are trained on the data from all users, while the single learning methods are only trained on the data of single person.
 
-Since the personal blood glucose data is limited, the size of learning data used of \modelname is not large. The training time of \modelname and the RAM cost are acceptable in practical usage, and its performance can be further optimized by the GPU version of Tensorflow.
+Since the personal blood glucose data is limited, the size of the learning data used by \modelname is not large. The training time of \modelname and the RAM cost are acceptable in practical usage, and its performance can be further optimized by the GPU version of Tensorflow.
 }
 
-\rev{
-\subsubsection{Energy Overhead}
+
+\subsubsection{\rev{Energy Overhead}}
 \begin{table}[t]
   \centering
-  \caption{Profiles of smartphone }
+  \caption{\rev{Profiles of smartphone} }
   \label{tab:smartphone_profiles}
   \begin{tabular}{|l|l|l|l|l|l|}
   \hline
@@ -494,7 +495,7 @@ Since the personal blood glucose data is limited, the size of learning data used
   LenovoK80M    & 4-cores 1.8 GHz & 4 GB         & 64 GB        & 4000m Ah                & Android 4.4               \\ \hline
 \end{tabular}
 \end{table}
-
+\rev{
 We evaluate the energy consumption of \sysname on four popular types of smartphones used among our participants.
 \tabref{tab:smartphone_profiles} summarizes the smartphones used for evaluating the power consumption.
 Since \sysname is a background service, we lock the screen and only leave \sysname and a battery tracing application~\cite{bib:PowerTutor} running during the evaluation.
