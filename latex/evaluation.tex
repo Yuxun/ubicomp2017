@@ -370,7 +370,7 @@ As a modified version of the classical SVM classifier, the authors of \cite{evge
 %The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or can not allow information sharing among available data from users.
 %The above observation further justifies the efforts of designing the new machine learning paradigm for \sysname, which efficiently transfers valuable knowledge between individuals.
 Apparently, \modelname achieves best performance on both precisions and recalls.
-More specifically,  the models that share features yield better performance than their corresponding models that do not share features (\ie mSVM \emph{vs.} SVMs; mGP \emph{vs.} GP; HMM \emph{vs.} nDP-iHMM ), which demonstrates the effectiveness of the methods that allow information sharing among tasks.
+More specifically,  the models that share features yield better performance than their corresponding models that do not share features (\ie mSVM \emph{vs.} SVMs; mGP \emph{vs.} GP; nDP-iHMM \emph{vs.} HMM ), which demonstrates the effectiveness of the methods that allow information sharing among tasks.
 Among those baselines, it appears that no method could dominate the others, except that hANN performs slightly better in terms of recall score.
 However, compared to \modelname, which is able to describe temporal dynamics by RNN, hANN is still worse in general.
 The dominating performance of \modelname is somewhat expected, as those baselines either ignore the multi-scale dynamics of the observed data, or can not allow information sharing among available data from users.
@@ -482,7 +482,7 @@ Since the personal blood glucose data is limited, the size of the learning data 
 
 
 \subsubsection{\rev{Energy Overhead}}
-\begin{table}[t]
+\begin{table}[h]
   \centering
   \caption{\rev{Profiles of smartphone} }
   \label{tab:smartphone_profiles}
