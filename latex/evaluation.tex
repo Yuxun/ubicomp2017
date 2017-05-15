@@ -138,7 +138,7 @@ In particular, the recalls for Level 1 (low blood glucose) and Level 4 (high blo
 This result shows that \sysname can accurately infer low/high blood levels even with an imbalanced training dataset.
 Overall, \sysname yields an accuracy of 82.14\%, showing a promising performance to track blood glucose levels.
 \rev{Note that \sysname is not designed to substitute CGM devices or medical measurements (\eg direct finger sticker).
-However, the precisions and recalls in low and high blood glucose level inference make \sysname suitable to remind users of abnormal blood glucose levels so that they can double-check by CGM devices or finger stickers and take the corresponding treatments.}
+However, the precisions and recalls in low and high blood glucose level inference make \sysname suitable to remind users of abnormal blood glucose levels so that they can double-check by finger stickers and take the corresponding treatments.}
 
 \begin{table}[h]
   \centering
@@ -175,7 +175,7 @@ As shown, \sysname will not cause inappropriate treatment (Type A and B) in almo
 It may lead to unnecessary worries or treatment (Type C) in 5.47\% of the cases.
 In fewer than 5\% of the cases, \sysname will miss an abnormal blood glucose event (Type D) or confuse treatment (Type E).
 Therefore, \sysname is suitable as an temporary alternative for CGM devices.
-However, we do not recommend \sysname for extended duration of usage for patients serious diabetics, who need regular blood glucose management.
+However, we do not recommend \sysname to those serious diabetic patients, who need professional clinic blood glucose managements.
 
 \begin{table}[h]
   \centering
@@ -454,7 +454,7 @@ Since \sysname does not rely on the previous blood glucose value measured by CGM
 \figref{fig:per_under_various_pred_days} plots the overall performance of training \rev{using the same 5 days of measurements, and testing on measurements collected on the 6-10th, 11-15th, 16-20th, 21-25th, and 26-30th days, respectively.}
 As expected, both the precisions and recalls drop moderately with the increase of temporal gaps between the training and the testing datasets, with a maximum decrease of 6.73\% and 7.02\% in average precision and recall after 21-25 days.
 \rev{Note that \sysname is not designed as a replacement to the commercial CGM devices, but rather a temporary alternative when CGM devices are uncomfortable or inconvenient to wear.
-From the results, we recommend users to put on the CGM devices to monitor the blood glucose at least every three weeks.
+From the results, we recommend users to put on the CGM devices to monitor the blood glucose at least once every three weeks.
 The data sampled by the CGM devices will automatically feed into \sysname for model retraining.
 Although \sysname still requires periodic re-calibration, it does not require users to continuously wear CGM devices.}
 

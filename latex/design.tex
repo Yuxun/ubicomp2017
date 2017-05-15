@@ -47,12 +47,7 @@ We extract features $X=\{X_P, X_T\}$ from external sensory data $U=\{U_C, U_I, U
 
 \subsubsection{Features from Physiological View $X_P$}
 \label{subsubsec:physiological}
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\columnwidth]{./img/Physiological_correlation2.pdf}
-  \caption{An illustration of dependencies of physiological features $X_P=\{C_{g_1}, C_{g_2}, I_{a}, I_{m}, I_{s}, I, E, S,  G_{m}, G\}$ and of external factors $U=\{U_C, U_I, U_E, U_S\}$.}
-  \label{fig:phymodel}
-\end{figure}
+
 
 Physiological features describe the dynamics of glucose related variables~\cite{bib:duke2010intelligent} \cite{bib:MAIHA14:Plis}.
 We extract physiological features based on the physiological model in~\cite{bib:duke2010intelligent}, which characterizes carbohydrate dynamics, insulin dynamics, exercise dynamics, and glucose dynamics.
@@ -79,12 +74,19 @@ The features are inter-dependent and are also related to the external factors.
 \figref{fig:phymodel} illustrates the dependencies among variables and the corresponding transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and historical physiological features at time $k$.
 \rev{We briefly summarize the transition relationships among these dynamics and refer interested readers to \cite{bib:duke2010intelligent} for detailed derivation of the equations.}
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{./img/Physiological_correlation2.pdf}
+  \caption{An illustration of dependencies of physiological features $X_P=\{C_{g_1}, C_{g_2}, I_{a}, I_{m}, I_{s}, I, E, S,  G_{m}, G\}$ and of external factors $U=\{U_C, U_I, U_E, U_S\}$.}
+  \label{fig:phymodel}
+\end{figure}
+
 \rev{
 \textit{Carbohydrate dynamics}:
 Carbohydrate dynamics refer to the transitions of carbohydrate consumption $C_{g_1}$ and the carbohydrate digestion $C_{g_2}$ (see \equref{Eq:Cg1} and \equref{Eq:Cg2}).
-$U_{c}$ stands for the carbohydrate of meals.
+$U_{C}$ stands for the carbohydrate of meals.
 \begin{equation}\label{Eq:Cg1}
-C_{g1}(k+1)=C_{g1}(t)-\alpha_{1}^c \times C_{g1}(k)+U_{c}(k)
+C_{g1}(k+1)=C_{g1}(k)-\alpha_{1}^c \times C_{g1}(k)+U_{C}(k)
 \end{equation}
 
 \begin{equation}\label{Eq:Cg2}
@@ -96,7 +98,7 @@ We choose carbohydrate consumption $C_{g_1}$ and carbohydrate digestion $C_{g_2}
 Insulin dynamics indicates the transitions of subcutaneous insulin absorption $I_{a}$, the insulin secretion by pancreas $I_{s}$, the insulin mass $I_{m}$, and the level of active plasma insulin $I$ (see \equref{Eq:Ia}, \equref{Eq:Is}, \equref{Eq:Im} and \equref{Eq:I}).
 $U_{I}$ is the amount of insulin injected or simulated by the diabetes drugs, and $S^I$ and $bm$ refer to the insulin sensitivity and body mass.
 \begin{equation}\label{Eq:Ia}
-I_{a}(k+1)=I_{a}(k)-\alpha_{f,r,m}^I \times I_{a}(k)+U_{i}(k)
+I_{a}(k+1)=I_{a}(k)-\alpha_{f,r,m}^I \times I_{a}(k)+U_{I}(k)
 \end{equation}
 \begin{equation}\label{Eq:Is}
     I_{s}(k+1)=
@@ -117,10 +119,10 @@ We choose subcutaneous insulin absorption $I_{a}$, insulin secretion by pancreas
 Exercise dynamics $E$ denotes the exercise effect on insulin over the past time window.
 This long-term influence can be expressed by a cumulative moving average as \equref{Eq:E}.
 \begin{equation}\label{Eq:E}
-E(k-k_0+1)=(k-k_0) \times E(k-k_0)+U_{e}(k-k_0)
+E(k-k_0+1)=(k-k_0) \times E(k-k_0)+U_{E}(k-k_0)
 \end{equation}
 where $k$ and $k_0$ are the current and beginning time points in the past time window.
-In \sysname, the window size of exercise is set to 24 hours, which optimizes the experimental results.
+In \sysname, the window size of exercise is set to 24 hours, which optimizes the experimental results. $U_{E}$ denotes the calories cost of the exercise.
 We choose the long-term effect of exercises on insulin $E$ as part of the feature vector.
 
 \textit{Sleep dynamics}:
@@ -128,48 +130,46 @@ Sleep dynamics $S$ represents the sleeping quality effect on insulin.
 Sleep has a constant effect on blood glucose for each day.
 \equref{Eq:S} shows its transition.
 \begin{equation}\label{Eq:S}
-S(k-k_0+1)=(k-k_0) \times S(k-k_0)+U_{s}(k-k_0)
+S(k-k_0+1)=(k-k_0) \times S(k-k_0)+U_{S}(k-k_0)
 \end{equation}
 where $k$ and $k_0$ are the current and beginning time points in the past time window.
-In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion of clinical studies.
+In \sysname, the window size of sleep lasts for 7 days, which optimizes the experimental results and matches the conclusion of clinical studies. $U_{S}$ is the sleep quality score.
 We choose the long-term effect of sleep quality on insulin $S$ as part of the feature vector.
 
 \textit{Glucose dynamics}:
-Blood glucose dynamic refers to the fluctuation of glucose mass $G_m$ in \equref{Eq:Gm} and glucose concentration $G(t)$ in \equref{Eq:G}.
+Blood glucose dynamic refers to the fluctuation of glucose mass $G_m$ in \equref{Eq:Gm} and glucose concentration $G$ in \equref{Eq:G}.
 \begin{equation}\label{Eq:Gm}
 G_m(k+1)=G_m(k)+\delta_{abs}+\delta_{egp}-\delta_{ind}-\delta_{dep}-\delta_{clr}
 \end{equation}
 \begin{equation}\label{Eq:G}
 G(k)=G_m(k)/(2.2 \times bm)
 \end{equation}
-$\delta_{abs}$ in \equref{Eq:abs} refers to the impact results of carbohydrate absorption, and $\delta_{egp}$ in \equref{Eq:egp} is the hepatic glucose production from the liver.
+$\delta_{abs}$ is the impact of carbohydrate absorption and $\delta_{egp}$ is the hepatic glucose production from the liver. These two factors increase the blood glucose level and their calculation methods are listed in \equref{Eq:abs} and \equref{Eq:egp} 
 
 \begin{equation}\label{Eq:abs}
   \delta_{abs}=\alpha_3^c \times \alpha_2^c \times C_{g2}
 \end{equation}
 \begin{equation}\label{Eq:egp}
-  \delta_{egp}=\alpha_2^{egp} \times exp(-I(t)/\alpha_3^{egp})-\alpha_1^{egp} \times G(t)
+  \delta_{egp}=\alpha_2^{egp} \times exp(-I(k)/\alpha_3^{egp})-\alpha_1^{egp} \times G(k)
 \end{equation}
-
-$\delta_{ind}$ in \equref{Eq:ind} describes results of insulin independent uptake, which is consumed by the central nervous system and the red blood cells.
-$\delta_{dep}$ in \equref{Eq:dep} indicates the impact of insulin dependent uptake.
-It reflects the effects of insulin promoting muscle cells and fat cells to absorb glucose, which combines the influence of sleeping and exercise factors.
-$\delta_{clr}$ in \equref{Eq:clr} stands for the influence of renal clearance on blood glucose.
+$\delta_{ind}$ describes the result of insulin independent uptake, which is consumed by the central nervous system and the red blood cells.
+$\delta_{dep}$ indicates the impact of insulin dependent uptake.
+It reflects the effects of insulin promoting muscle cells and fat cells to absorb glucose, including the influence of sleeping and exercise factors.
+$\delta_{clr}$ stands for the influence of renal clearance on blood glucose. Once the blood glucose concentration exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood. 
+These three factors decrease the blood glucose level, and their
+calculation methods are listed in \equref{Eq:ind}, \equref{Eq:dep} and \equref{Eq:clr}.
 
 \begin{equation}\label{Eq:ind}
-  \delta_{ind}=\alpha_1^{ind}/\sqrt{G(t)}
+  \delta_{ind}=\alpha_1^{ind}/\sqrt{G(k)}
 \end{equation}
 
 \begin{equation}\label{Eq:dep}
-  \delta_{dep}=\alpha_1^{dep} \times  E(t) \times S(t) \times I(t)/(G(t)+\alpha_2^{dep})
+  \delta_{dep}=\alpha_1^{dep} \times  E(k) \times S(k) \times I(k)/(G(k)+\alpha_2^{dep})
 \end{equation}
 
 \begin{equation}\label{Eq:clr}
-  \delta_{clr}=\alpha_1^{clr} \times (G(t)-\tau)
+  \delta_{clr}=\alpha_1^{clr} \times (G(k)-\tau)
 \end{equation}
-
-Once the blood glucose concentration exceeds the renal clearance threshold $\tau$, the kidneys begin to remove excess glucose from the blood.
-The three factors decrease the blood glucose level.
 }
 
 %\tabref{tab:phyeq} summarizes the transition equations to calculate the physiological features at time $k+1$ using external factor measurements at time $k+1$ and historical physiological features at time $k$.
@@ -263,12 +263,7 @@ In summary, we extract a 10-dimension physiological feature vector $X_P$.
 %\sysname computes $X$ at each time step and treats it as 10-dimensional
 %features.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=1\columnwidth]{./img/historical_trend2.pdf}
-  \caption{\rev{Daily blood glucose traces of a volunteer. We only plot 10 measurements every 3 hours for ease of illustration.}}
-  \label{fig:historical_traces}
-\end{figure}
+
 
 
 \subsubsection{Features from Temporal View $X_T$}
@@ -290,6 +285,14 @@ As blood glucose level naturally varies over time, we extract two temporal featu
 \end{itemize}
 
 In summary, we extract a 51-dimension ($1+10\times 5$) temporal feature vector $X_T$.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\columnwidth]{./img/historical_trend2.pdf}
+  \caption{\rev{Daily blood glucose traces of a volunteer. We only plot 10 measurements every 3 hours for ease of illustration.}}
+  \label{fig:historical_traces}
+\end{figure}
+
 %Considering the physiological features may generate the temporal delay effects on the blood glucose, \sysname also takes the physiological factor vectors in the past 15 minutes as recent physiological features to measure their impacts on the current blood glucose concentration.
 
 %\paragraph{Historical Blood glucose trend: $F_{t1}$}
@@ -397,12 +400,17 @@ Moreover, in the collected data set from real people, the training data is inher
 
 The above concerns motivate the cost sensitive learning of \modelname.
 Instead of directly minimizing a surrogate of error rate, we propose to optimize over a weighted version of classification losses.
-More specifically, the following total loss function is considered:
+More specifically, \rev{the following total loss function $L$ is considered:}
+\rev{
 \begin{equation}
 \label{eq:obj}
-\sum_{j=1}^l\sum_{t=1}^T \sum_{y_t \in \mathcal{Y}} l(y_t,\hat{y}_t)C_{y_t} + \lambda^H \Vert W^H\Vert_{2,1} + \lambda^I \Vert W^I\Vert_{2,1} + \lambda^{II} \Vert W^{II}\Vert_{2,1} + \lambda^d (\Vert W_z\Vert_{F}+\Vert W_r\Vert_F+\Vert W_h\Vert_F) +\lambda^o \Vert W_o\Vert_F
+\begin{aligned}
+L=&\sum_{j \in H}\sum_{t=1}^T \sum_{y_t \in \mathcal{Y}} l^H(y_t,\hat{y}_t)C_{y_t} + \sum_{j \in I}\sum_{t=1}^T \sum_{y_t \in \mathcal{Y}} l^{I}(y_t,\hat{y}_t)C_{y_t} + \sum_{j \in II}\sum_{t=1}^T \sum_{y_t \in \mathcal{Y}} l^{II}(y_t,\hat{y}_t)C_{y_t}\\
+&+ \lambda^H \Vert W^H\Vert_{2,1} + \lambda^I \Vert W^I\Vert_{2,1} + \lambda^{II} \Vert W^{II}\Vert_{2,1} + \lambda^d (\Vert W_z\Vert_{F}+\Vert W_r\Vert_F+\Vert W_h\Vert_F) +\lambda^o \Vert W_o\Vert_F
+\end{aligned}
 \end{equation}
-where $\mathcal{Y}$ is the label set, and $\hat{y}_t^j$s are prediction outputs.
+}
+where $\mathcal{Y}$ is the label set, and $\hat{y}_t^j$s are prediction outputs at time stamp $t$.
 Our implementation uses cross entropy as individual loss function $l(y_t^j,\hat{y}_t^j)$, but generally the ``base'' loss can be any surrogate of the error function.
 The additional coefficient $C_{y}$ weights the misclassification error for category $y$.
 In the current application, $\mathcal{Y} = \{1,2,3,4\}$, associated with four coefficients $C_1$ to $C_4$.
